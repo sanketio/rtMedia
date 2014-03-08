@@ -51,10 +51,10 @@ class RTMediaModel extends RTDBModel
 		if ( $count_flag ){
 			$select .= 'count(*) ';
 		} else {
-			$select .= '{$this->table_name}.* ';
+			$select .= "{$this->table_name}.* ";
 		}
 
-		$from  = ' FROM {$this->table_name} ';
+		$from  = " FROM {$this->table_name} ";
 		$join  = '';
 		$where = ' where 2=2 ';
 		if ( is_multisite() ){
@@ -159,11 +159,13 @@ class RTMediaModel extends RTDBModel
 	}
 
 	/**
+	 * Get media
 	 *
-	 * @param type $columns
-	 * @param type $offset
-	 * @param type $per_page
-	 * @param type $order_by
+	 * @param        $columns
+	 * @param bool   $offset
+	 * @param bool   $per_page
+	 * @param string $order_by
+	 * @param bool   $count_flag
 	 *
 	 * @return type
 	 */

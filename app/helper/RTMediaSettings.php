@@ -81,6 +81,10 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 		 * Register Settings
 		 *
 		 * @global string 'rtmedia'
+		 *
+		 * @param $options
+		 *
+		 * @return array
 		 */
 		function sanitize_options( $options ) {
 			$defaults = $this->get_default_options();
@@ -264,7 +268,6 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 		 *
 		 * @global array $rtmedia
 		 *
-		 * @param array  $args
 		 */
 		public function privacy_notice() {
 			if ( current_user_can( 'create_users' ) ){

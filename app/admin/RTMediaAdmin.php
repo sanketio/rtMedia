@@ -224,7 +224,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 			?>
 			<div class='rtmedia-admin-ad'>
 				<a href='http://rtcamp.com/store/rtmedia-pro/' target='_blank' title='rtMedia Pro'>
-					<img src='<?php echo esc_url( $src ); ?>'
+					<img src='<?php echo $src; ?>'
 						 alt="<?php _e( 'rtMedia Pro is released', 'rtmedia' ); ?>"/>
 				</a>
 			</div>
@@ -251,7 +251,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 								if ( defined( strtoupper( 'RTMEDIA_' . $media->media_type . '_PLURAL_LABEL' ) ) ){
 									?>
 									<tr>
-										<td class="b"> <?php echo $media->count; ?> </td>
+										<td class="b"> <?php echo intval( $media->count ); ?> </td>
 										<td class="t"><?php echo constant( strtoupper( 'RTMEDIA_' . $media->media_type . '_PLURAL_LABEL' ) ); ?></td>
 									</tr>
 								<?php
@@ -270,7 +270,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 						$results = $wpdb->get_var( $sql );
 						?>
 						<tr>
-							<td class="b"> <?php echo $results; ?> </td>
+							<td class="b"> <?php echo intval( $results ); ?> </td>
 							<td class="t"><?php _e( 'Total ', 'rtmedia' ) ?></td>
 						</tr>
 						<?php
@@ -278,7 +278,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 						$results = $wpdb->get_var( $sql );
 						?>
 						<tr>
-							<td class="b"> <?php echo $results; ?> </td>
+							<td class="b"> <?php echo intval( $results ); ?> </td>
 							<td class="t"><?php _e( 'With Media', 'rtmedia' ) ?></td>
 						</tr>
 						<?php
@@ -286,7 +286,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 						$results = $wpdb->get_var( $sql );
 						?>
 						<tr>
-							<td class="b"> <?php echo $results; ?> </td>
+							<td class="b"> <?php echo intval( $results ); ?> </td>
 							<td class="t"><?php _e( 'Comments ', 'rtmedia' ) ?></td>
 						</tr>
 						<?php
@@ -294,7 +294,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 						$results = $wpdb->get_var( $sql );
 						?>
 						<tr>
-							<td class="b"> <?php echo $results; ?> </td>
+							<td class="b"> <?php echo intval( $results ); ?> </td>
 							<td class="t"><?php _e( 'Likes', 'rtmedia' ) ?></td>
 						</tr>
 
@@ -501,7 +501,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 					$temp = $prog->progress( $done, $total );
 					$prog->progress_ui( $temp, true );
 					?>
-					<p> <?php _e( 'Total Videos', 'rtmedia' ) ?> : <span class='rt-total'><?php echo $total; ?></span>
+					<p> <?php _e( 'Total Videos', 'rtmedia' ) ?> : <span class='rt-total'><?php echo intval( $total ); ?></span>
 					</p>
 
 					<p> <?php _e( 'Sent of regenerate thumbails', 'rtmedia' ) ?> : <span class='rt-done'>0</span></p>
@@ -516,7 +516,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 
 					var db_done = 0;
 					var db_fail = 0;
-					var db_total = <?php echo $total; ?>;
+					var db_total = <?php echo intval( $total ); ?>;
 					var indx = 0;
 					function db_start_regenrate() {
 						if (indx < db_total) {
@@ -1014,7 +1014,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
                         </div>';
 			//<li><a href="' . sprintf('%s', 'http://www.facebook.com/rtCamp.solutions/') . '"  title="' . __('Become a fan on Facebook', 'rtmedia') . '" class="bp-media-facebook bp-media-social">' . __('Facebook', 'rtmedia') . '</a></li>
 			//<li><a href="' . sprintf('%s', 'https://twitter.com/rtcamp/') . '"  title="' . __('Follow us on Twitter', 'rtmedia') . '" class="bp-media-twitter bp-media-social">' . __('Twitter', 'rtmedia') . '</a></li>  ;
-			new RTMediaAdminWidget( 'spread-the-word', __( 'Spread the Word', 'rtmedia' ), $addons );
+			$rtmediaAdminWidget = new RTMediaAdminWidget( 'spread-the-word', __( 'Spread the Word', 'rtmedia' ), $addons );
 
 			//                        $donate = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 			//                           <!-- Identify your business so that you can collect the payments. -->
@@ -1049,7 +1049,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
                                     <input type="submit" value="' . __( 'Subscribe', 'rtmedia' ) . '" name="subscribe" id="mc-embedded-subscribe" class="button">
                             </div>
                         </form>';
-			new RTMediaAdminWidget( 'branding', __( 'Subscribe', 'rtmedia' ), $branding );
+			$rtmediaAdminWidget = new RTMediaAdminWidget( 'branding', __( 'Subscribe', 'rtmedia' ), $branding );
 
 			$news = '<img src ="' . admin_url( '/images/wpspin_light.gif' ) . '" /> Loading...';
 			//new RTMediaAdminWidget ( 'latest-news', __( 'Latest News', 'rtmedia' ), $news );
