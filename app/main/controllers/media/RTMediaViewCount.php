@@ -15,8 +15,7 @@ class RTMediaViewCount extends RTMediaUserInteraction
 	/**
 	 * Constructor
 	 */
-	function __construct()
-	{
+	function __construct() {
 		$args = array( 'action' => 'view', 'label' => 'view', 'privacy' => 0 );
 		//add_action( 'init', array( $this,'register_session' ) );
 		parent::__construct( $args );
@@ -30,8 +29,7 @@ class RTMediaViewCount extends RTMediaUserInteraction
 	//	}
 	//    }
 
-	function render()
-	{
+	function render() {
 		if ( isset( $_SESSION[ 'rtmedia_media_view' ] ) && $_SESSION[ 'rtmedia_media_view' ] != '' && sizeof( $_SESSION[ 'rtmedia_media_view' ] > 0 ) ){
 			$key = array_search( $this->media->id, $_SESSION[ 'rtmedia_media_view' ] );
 			if ( ! $key ){
@@ -56,8 +54,7 @@ class RTMediaViewCount extends RTMediaUserInteraction
 	 * @param $media_id
 	 * @param $action
 	 */
-	function rtmedia_update_view_meta( $media_id, $action )
-	{
+	function rtmedia_update_view_meta( $media_id, $action ) {
 		$curr_count = get_rtmedia_meta( $media_id, $action );
 		if ( ! $curr_count ){
 			$curr_count = 1;
@@ -67,8 +64,7 @@ class RTMediaViewCount extends RTMediaUserInteraction
 		update_rtmedia_meta( $media_id, $action, $curr_count, false );
 	}
 
-	function process()
-	{
+	function process() {
 		$user_id = $this->interactor;
 		if ( ! $user_id ){
 			$user_id = - 1;
@@ -83,7 +79,7 @@ class RTMediaViewCount extends RTMediaUserInteraction
 			$curr_value    = $row->value;
 			$update_data   = array( 'value' => ++$curr_value );
 			$where_columns = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action );
-			$update = $rtmediainteraction->update( $update_data, $where_columns );
+			$update        = $rtmediainteraction->update( $update_data, $where_columns );
 		} else {
 			$columns   = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action, 'value' => '1' );
 			$insert_id = $rtmediainteraction->insert( $columns );

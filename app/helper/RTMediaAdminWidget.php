@@ -21,8 +21,7 @@ if ( ! class_exists( 'RTMediaAdminWidget' ) ){
 		 * @param type  $title
 		 * @param type  $content
 		 */
-		public function __construct( $id = null, $title = null, $content = null )
-		{
+		public function __construct( $id = null, $title = null, $content = null ) {
 			global $rtmedia;
 			if ( $id ){
 				?>

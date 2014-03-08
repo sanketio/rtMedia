@@ -58,8 +58,7 @@ class RTMediaUserInteraction
 	 * @param string  $label         The label for the button
 	 * @param boolean $increase      Increase or decrease the action count
 	 */
-	function __construct( $args = array() )
-	{
+	function __construct( $args = array() ) {
 		$defaults = array( 'action' => '', 'label' => '', 'plural' => '', 'undo_label' => '', 'privacy' => 60, 'countable' => false, 'single' => false, 'repeatable' => false, 'undoable' => false, 'icon_class' => '' );
 
 		$args = wp_parse_args( $args, $defaults );
@@ -79,8 +78,7 @@ class RTMediaUserInteraction
 	}
 
 
-	function init()
-	{
+	function init() {
 		$this->model = new RTMediaModel();
 		global $rtmedia_query;
 		if ( ! isset( $rtmedia_query->action_query ) ) return;
@@ -96,22 +94,19 @@ class RTMediaUserInteraction
 	/**
 	 * Checks if there's a label, if not creates from the action name
 	 */
-	function set_label()
-	{
+	function set_label() {
 		if ( empty( $this->label ) ){
 			$this->label = ucfirst( $this->action );
 		}
 	}
 
-	function set_plural()
-	{
+	function set_plural() {
 		if ( empty( $this->plural ) ){
 			$this->plural = $this->label . 's';
 		}
 	}
 
-	function set_media()
-	{
+	function set_media() {
 
 		$media_id    = false;
 		$this->media = false;
@@ -131,8 +126,7 @@ class RTMediaUserInteraction
 
 	}
 
-	function set_interactor()
-	{
+	function set_interactor() {
 		$this->interactor = false;
 		if ( is_user_logged_in() ){
 			$this->interactor = get_current_user_id();
@@ -145,8 +139,7 @@ class RTMediaUserInteraction
 	 *
 	 * @return int
 	 */
-	function interactor_privacy()
-	{
+	function interactor_privacy() {
 
 		if ( ! isset( $this->interactor ) ) return 0;
 		if ( $this->interactor === false ) return 0;
@@ -165,8 +158,7 @@ class RTMediaUserInteraction
 	 *
 	 * @return bool
 	 */
-	function is_visible()
-	{
+	function is_visible() {
 		if ( $this->interactor_privacy >= $this->privacy ) return true;
 
 		return false;
@@ -177,8 +169,7 @@ class RTMediaUserInteraction
 	 *
 	 * @return bool
 	 */
-	function is_clickable()
-	{
+	function is_clickable() {
 		$clickable = false;
 		if ( $this->repeatable ){
 			$clickable = true;
@@ -194,8 +185,7 @@ class RTMediaUserInteraction
 		return $clickable;
 	}
 
-	function before_render()
-	{
+	function before_render() {
 
 	}
 
@@ -204,8 +194,7 @@ class RTMediaUserInteraction
 	 *
 	 * @return bool|string
 	 */
-	function render()
-	{
+	function render() {
 		$before_render = $this->before_render();
 		if ( $before_render === false ) return false;
 		$button = $button_start = $button_end = '';
@@ -241,8 +230,7 @@ class RTMediaUserInteraction
 	 *
 	 * @return array
 	 */
-	function button_filter( $buttons )
-	{
+	function button_filter( $buttons ) {
 		if ( empty( $this->media ) ){
 			$this->init();
 		}
@@ -257,8 +245,7 @@ class RTMediaUserInteraction
 	 *
 	 * @return array $actions Filtered actions array
 	 */
-	function register( $actions )
-	{
+	function register( $actions ) {
 		if ( empty( $this->media ) ){
 			$this->init();
 		}
@@ -274,8 +261,7 @@ class RTMediaUserInteraction
 	 * Calls the process
 	 *
 	 */
-	function preprocess()
-	{
+	function preprocess() {
 		global $rtmedia_query;
 		$this->action_query = $rtmedia_query->action_query;
 
@@ -305,8 +291,7 @@ class RTMediaUserInteraction
 	 *
 	 * @return integer New count
 	 */
-	function process()
-	{
+	function process() {
 		return $false;
 	}
 

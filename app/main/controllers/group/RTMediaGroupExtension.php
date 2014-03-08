@@ -15,8 +15,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problem
 		/**
 		 * Constructor
 		 */
-		function __construct()
-		{
+		function __construct() {
 			$this->name                 = RTMEDIA_MEDIA_LABEL;
 			$this->slug                 = RTMEDIA_MEDIA_SLUG . '-setting';
 			$this->create_step_position = 21;
@@ -30,8 +29,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problem
 		 *
 		 * @return bool
 		 */
-		function create_screen( $group_id = null )
-		{
+		function create_screen( $group_id = null ) {
 
 			if ( ! bp_is_group_creation_step( $this->slug ) ) return false;
 			// HOOK to add PER GROUP MEDIA enable/diable option in rtMedia PRO
@@ -77,8 +75,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problem
 		 *
 		 * @param null  $group_id
 		 */
-		function create_screen_save( $group_id = null )
-		{
+		function create_screen_save( $group_id = null ) {
 			global $bp;
 
 			check_admin_referer( 'groups_create_save_' . $this->slug );
@@ -97,8 +94,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problem
 		 *
 		 * @return bool
 		 */
-		function edit_screen( $group_id = null )
-		{
+		function edit_screen( $group_id = null ) {
 			if ( ! bp_is_group_admin_screen( $this->slug ) ) return false;
 			$current_level = groups_get_groupmeta( bp_get_current_group_id(), 'rt_media_group_control_level' );
 			if ( empty ( $current_level ) ){
@@ -112,7 +108,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problem
 
 				<?php global $rtmedia;
 				$options = $rtmedia->options;
-			if ( isset( $options[ 'general_enableAlbums' ] ) && $options[ 'general_enableAlbums' ] == 1 ){ // album is enabled
+				if ( isset( $options[ 'general_enableAlbums' ] ) && $options[ 'general_enableAlbums' ] == 1 ){ // album is enabled
 					?>
 
 					<h4><?php _e( 'Album Creation Control', 'rtmedia' ); ?></h4>
@@ -135,7 +131,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problem
 						</label>
 					</div>
 					<hr>
-			<?php } ?>
+				<?php } ?>
 
 				<?php do_action( 'rtmedia_playlist_creation_settings_groups_edit' ); ?>
 			</div>
@@ -154,8 +150,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problem
 		 *
 		 * @return bool
 		 */
-		function edit_screen_save( $group_id = null )
-		{
+		function edit_screen_save( $group_id = null ) {
 			global $bp;
 
 			if ( ! isset ( $_POST[ 'save' ] ) ) return false;
@@ -186,8 +181,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problem
 		 *
 		 * @global type $bp_media
 		 */
-		function widget_display()
-		{
+		function widget_display() {
 			?>
 			<div class="info-group">
 				<h4><?php echo esc_attr( $this->name ) ?></h4>

@@ -18,10 +18,10 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 
 		/**
 		 * Constructor
+		 *
 		 * @param bool $init
 		 */
-		public function __construct( $init = true )
-		{
+		public function __construct( $init = true ) {
 
 			if ( ! is_admin() ){
 				return;
@@ -43,8 +43,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 			//add_action('admin_init', array($this,'load_service_form'),99);
 		}
 
-		public function get_support_content()
-		{
+		public function get_support_content() {
 			$tabs = array();
 			global $rtmedia_admin;
 			$tabs[ ] = array( 'title' => __( 'Premium Support', 'rtmedia' ), 'name' => __( 'Premium Support', 'rtmedia' ), 'href' => '#support', 'callback' => array( $this, 'call_get_form' ) );
@@ -58,41 +57,41 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 					<dl class='tabs' data-tab>
 						<?php
 						$i = 1;
-			foreach ( $tabs as $tab ) {
-				$active_class = '';
-				if ( $i == 1 ){
-					$active_class = 'active';
-				}
-				$i ++;
-				?>
-				<dd class="<?php echo $active_class ?>">
-					<a id="tab-<?php echo substr( $tab[ 'href' ], 1 ) ?>"
-					   title="<?php echo $tab[ 'title' ] ?>" href="<?php echo $tab[ 'href' ] ?>"
-					   class="rtmedia-tab-title <?php echo sanitize_title( $tab[ 'name' ] ) ?>"><?php echo $tab[ 'name' ] ?></a>
-				</dd>
-			<?php
-			}
-			?>
+						foreach ( $tabs as $tab ) {
+							$active_class = '';
+							if ( $i == 1 ){
+								$active_class = 'active';
+							}
+							$i ++;
+							?>
+							<dd class="<?php echo $active_class ?>">
+								<a id="tab-<?php echo substr( $tab[ 'href' ], 1 ) ?>"
+								   title="<?php echo $tab[ 'title' ] ?>" href="<?php echo $tab[ 'href' ] ?>"
+								   class="rtmedia-tab-title <?php echo sanitize_title( $tab[ 'name' ] ) ?>"><?php echo $tab[ 'name' ] ?></a>
+							</dd>
+						<?php
+						}
+						?>
 					</dl>
 					<?php
 					$k = 1;
 					$active_class = '';
 					echo "<div class='tabs-content'>";
-			foreach ( $tabs as $tab ) {
-				$active_class = '';
-				if ( $k == 1 ){
-					$active_class = ' active';
-				}
-				$k ++;
-				if ( isset ( $tab[ 'icon' ] ) && ! empty ( $tab[ 'icon' ] ) ) $icon = '<i class="' . $tab[ 'icon' ] . '"></i>';
-				$tab_without_hash = explode( '#', $tab[ 'href' ] );
-				$tab_without_hash = $tab_without_hash[ 1 ];
-				echo '<div class="row content' . $active_class . '" id="' . $tab_without_hash . '">';
-				echo '<div class="large-12 columns">';
-				call_user_func( $tab[ 'callback' ] );
-				echo '</div>';
-				echo '</div>';
-			}
+					foreach ( $tabs as $tab ) {
+						$active_class = '';
+						if ( $k == 1 ){
+							$active_class = ' active';
+						}
+						$k ++;
+						if ( isset ( $tab[ 'icon' ] ) && ! empty ( $tab[ 'icon' ] ) ) $icon = '<i class="' . $tab[ 'icon' ] . '"></i>';
+						$tab_without_hash = explode( '#', $tab[ 'href' ] );
+						$tab_without_hash = $tab_without_hash[ 1 ];
+						echo '<div class="row content' . $active_class . '" id="' . $tab_without_hash . '">';
+						echo '<div class="large-12 columns">';
+						call_user_func( $tab[ 'callback' ] );
+						echo '</div>';
+						echo '</div>';
+					}
 					echo '</div>';
 					?>
 				</div>
@@ -106,8 +105,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 		 *
 		 * @param string $page
 		 */
-		public function render_support( $page = '' )
-		{
+		public function render_support( $page = '' ) {
 			global $wp_settings_sections, $wp_settings_fields;
 
 			if ( ! isset( $wp_settings_sections ) || ! isset( $wp_settings_sections[ $page ] ) ) return;
@@ -124,17 +122,19 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 			}
 		}
 
-		public function service_selector()
-		{
+		public function service_selector() {
 			?>
 			<div>
 				<form name="rtmedia_service_select_form" method="post">
 					<p>
 						<label class="bp-media-label" for="select_support"><?php _e( 'Service', 'rtmedia' ); ?>:</label>
 						<select name="rtmedia_service_select">
-							<option value="premium_support" <?php if ( $_POST[ 'form' ] == 'premium_support' ) echo 'selected'; ?>><?php _e( 'Premium Support', 'rtmedia' ); ?></option>
-							<option value="bug_report" <?php if ( $_POST[ 'form' ] == 'bug_report' ) echo 'selected'; ?>><?php _e( 'Bug Report', 'rtmedia' ); ?></option>
-							<option value="new_feature" <?php if ( $_POST[ 'form' ] == 'new_feature' ) echo 'selected'; ?>><?php _e( 'New Feature', 'rtmedia' ); ?></option>
+							<option
+								value="premium_support" <?php if ( $_POST[ 'form' ] == 'premium_support' ) echo 'selected'; ?>><?php _e( 'Premium Support', 'rtmedia' ); ?></option>
+							<option
+								value="bug_report" <?php if ( $_POST[ 'form' ] == 'bug_report' ) echo 'selected'; ?>><?php _e( 'Bug Report', 'rtmedia' ); ?></option>
+							<option
+								value="new_feature" <?php if ( $_POST[ 'form' ] == 'new_feature' ) echo 'selected'; ?>><?php _e( 'New Feature', 'rtmedia' ); ?></option>
 						</select>
 						<input name="support_submit" value="<?php esc_attr_e( 'Submit', 'rtmedia' ); ?>" type="submit"
 							   class="button"/>
@@ -188,8 +188,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 		////            do_action('bp_media_admin_tabs');
 		//        }
 
-		function call_get_form()
-		{
+		function call_get_form() {
 			if ( isset( $_REQUEST[ 'page' ] ) && $_REQUEST[ 'page' ] == 'rtmedia-support' ){
 				//echo "<h2 class='nav-tab-wrapper'>".$this->rtmedia_support_sub_tabs()."</h2>";
 				if ( $this->curr_sub_tab == 'support' ){
@@ -211,8 +210,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 		 *
 		 * @return bool|string
 		 */
-		public function get_plugin_info()
-		{
+		public function get_plugin_info() {
 			$active_plugins = (array)get_option( 'active_plugins', array() );
 			if ( is_multisite() ){
 				$active_plugins = array_merge( $active_plugins, rtmedia_get_site_option( 'active_sitewide_plugins', array() ) );
@@ -239,8 +237,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 		 *
 		 * @return array
 		 */
-		function rtmedia_scan_template_files( $template_path )
-		{
+		function rtmedia_scan_template_files( $template_path ) {
 			$files  = scandir( $template_path );
 			$result = array();
 			if ( $files ){
@@ -262,8 +259,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 			return $result;
 		}
 
-		public function debug_info()
-		{
+		public function debug_info() {
 			global $wpdb, $wp_version, $bp;
 			$debug_info                 = array();
 			$debug_info[ 'Home URL' ]   = home_url();
@@ -309,24 +305,23 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 			$this->debug_info = $debug_info;
 		}
 
-		public function debug_info_html()
-		{
+		public function debug_info_html() {
 			$this->debug_info();
 			?>
 			<div id="debug-info">
 
 			<table class="form-table">
 				<tbody><?php
-			if ( $this->debug_info ){
-				foreach ( $this->debug_info as $configuration => $value ) {
-					?>
-					<tr valign="top">
-					<th scope="row"><?php echo $configuration; ?></th>
-					<td><?php echo $value; ?></td>
-					</tr><?php
+				if ( $this->debug_info ){
+					foreach ( $this->debug_info as $configuration => $value ) {
+						?>
+						<tr valign="top">
+						<th scope="row"><?php echo $configuration; ?></th>
+						<td><?php echo $value; ?></td>
+						</tr><?php
+					}
 				}
-			}
-			?>
+				?>
 				</tbody>
 			</table>
 			</div><?php
@@ -338,8 +333,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 		 *
 		 * @return bool
 		 */
-		public function is_migration_required()
-		{
+		public function is_migration_required() {
 			$pending_rtmedia_migrate = rtmedia_get_site_option( 'rtMigration-pending-count' );
 			if ( ( $pending_rtmedia_migrate === false || $pending_rtmedia_migrate == 0 ) ){
 				return false;
@@ -353,15 +347,14 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 		 *
 		 * @param string $page
 		 */
-		public function migration_html( $page = '' )
-		{
+		public function migration_html( $page = '' ) {
 			$pending_rtmedia_migrate = rtmedia_get_site_option( 'rtMigration-pending-count' );
 
 			$content = ' ';
 			$flag    = true;
 			if ( ( $pending_rtmedia_migrate === false || $pending_rtmedia_migrate == 0 ) ){
 				$content .= __( 'There is no media found to migrate.', 'rtmedia' );
-				$flag     = false;
+				$flag = false;
 			}
 			$content = apply_filters( 'rtmedia_migration_content_filter', $content );
 			if ( $flag ){
@@ -381,8 +374,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 		 *
 		 * @param string $form
 		 */
-		public function get_form( $form = '' )
-		{
+		public function get_form( $form = '' ) {
 			if ( empty( $form ) ) $form = ( isset( $_POST[ 'form' ] ) ) ? $_POST[ 'form' ] : '';
 			if ( $form == '' ){
 				$form = 'premium_support';
@@ -402,7 +394,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 
 			if ( $form == 'premium_support' ){
 				if ( ! defined( 'RTMEDIA_PRO_VERSION' ) ){
-					$content  = '<p>' . __( 'If your site has some issues due to BuddyPress Media and you want one on one support then you can create a support topic on the <a target="_blank" href="http://rtcamp.com/groups/buddypress-media/forum/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media">rtCamp Support Forum</a>.', 'rtmedia' ) . '</p>';
+					$content = '<p>' . __( 'If your site has some issues due to BuddyPress Media and you want one on one support then you can create a support topic on the <a target="_blank" href="http://rtcamp.com/groups/buddypress-media/forum/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media">rtCamp Support Forum</a>.', 'rtmedia' ) . '</p>';
 					$content .= '<p>' . __( 'If you have any suggestions, enhancements or bug reports, then you can open a new issue on <a target="_blank" href="https://github.com/rtCamp/buddypress-media/issues/new">GitHub</a>.', 'rtmedia' ) . '</p>';
 
 					echo $content;
@@ -512,8 +504,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 		 *
 		 * @global type $rtmedia
 		 */
-		public function submit_request()
-		{
+		public function submit_request() {
 			global $rtmedia;
 			$form_data = wp_parse_args( $_POST[ 'form_data' ] );
 			foreach ( $form_data as $key => $formdata ) {

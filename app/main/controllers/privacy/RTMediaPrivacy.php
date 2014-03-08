@@ -20,10 +20,10 @@ class RTMediaPrivacy
 
 	/**
 	 * Constructor
+	 *
 	 * @param bool $flag
 	 */
-	function __construct( $flag = true )
-	{
+	function __construct( $flag = true ) {
 		if ( is_rtmedia_privacy_enable() && $flag ){
 			//add_action ( 'rtmedia_after_file_upload_ui' , array ( $this , 'uploader_privacy_ui' ) ) ;
 			//add_action ( 'rtmedia_add_edit_fields' , array ( $this , 'edit_media_privacy_ui' ),2 ) ;
@@ -40,8 +40,7 @@ class RTMediaPrivacy
 	 *
 	 * @return string
 	 */
-	function edit_media_privacy_ui( $echo = true )
-	{
+	function edit_media_privacy_ui( $echo = true ) {
 		$privacy = '';
 		$privacy = $this->select_privacy_ui( $echo = false );
 		if ( $privacy != '' ){
@@ -55,8 +54,7 @@ class RTMediaPrivacy
 	 *
 	 * @param $attr
 	 */
-	function uploader_privacy_ui( $attr )
-	{
+	function uploader_privacy_ui( $attr ) {
 		if ( ! isset ( $attr[ 'privacy' ] ) ){
 			$this->select_privacy_ui();
 		}
@@ -70,8 +68,7 @@ class RTMediaPrivacy
 	 *
 	 * @return bool|string
 	 */
-	function select_privacy_ui( $echo = true, $select_id = false )
-	{
+	function select_privacy_ui( $echo = true, $select_id = false ) {
 		global $rtmedia;
 
 		if ( ! is_rtmedia_privacy_enable() ) return false;
@@ -113,31 +110,29 @@ class RTMediaPrivacy
 
 	/**
 	 * System defaults
+	 *
 	 * @return int
 	 */
-	public function system_default()
-	{
+	public function system_default() {
 		return 0;
 	}
 
 	/**
 	 * Site defaults
+	 *
 	 * @return bool
 	 */
-	public function site_default()
-	{
+	public function site_default() {
 		global $rtmedia;
 
 		return rtmedia_get_site_option( 'privacy_settings' );
 	}
 
-	public function user_default()
-	{
+	public function user_default() {
 		return;
 	}
 
-	public function get_default()
-	{
+	public function get_default() {
 		$default_privacy = $this->user_default();
 
 		if ( $default_privacy === false ){
@@ -151,10 +146,10 @@ class RTMediaPrivacy
 
 	/**
 	 * Check enabled
+	 *
 	 * @return bool
 	 */
-	static function is_enabled()
-	{
+	static function is_enabled() {
 		global $bp_media;
 		$options = $bp_media->options;
 		if ( ! array_key_exists( 'privacy_enabled', $options ) ){
@@ -176,8 +171,7 @@ class RTMediaPrivacy
 	 *
 	 * @return mixed
 	 */
-	static function save_user_default( $level = 0, $user_id = false )
-	{
+	static function save_user_default( $level = 0, $user_id = false ) {
 		if ( $user_id == false ){
 			global $bp;
 			$user_id = $bp->loggedin_user->id;
@@ -193,8 +187,7 @@ class RTMediaPrivacy
 	 *
 	 * @return mixed
 	 */
-	static function get_user_default( $user_id = false )
-	{
+	static function get_user_default( $user_id = false ) {
 		if ( $user_id == false ){
 			global $bp;
 			$user_id = $bp->loggedin_user->id;
@@ -214,8 +207,7 @@ class RTMediaPrivacy
 	 *
 	 * @return mixed
 	 */
-	static function required_access( $object_id = false )
-	{
+	static function required_access( $object_id = false ) {
 		if ( BPMediaPrivacy::is_enabled() == false ) return;
 		if ( $object_id == false ) return;
 		$privacy        = BPMediaPrivacy::get_privacy( $object_id );
@@ -233,8 +225,7 @@ class RTMediaPrivacy
 		return $privacy;
 	}
 
-	function add_nav()
-	{
+	function add_nav() {
 
 		if ( bp_displayed_user_domain() ){
 			$user_domain = bp_displayed_user_domain();
@@ -268,8 +259,7 @@ class RTMediaPrivacy
 		bp_core_new_subnav_item( $defaults );
 	}
 
-	function settings_ui()
-	{
+	function settings_ui() {
 		if ( bp_action_variables() ){
 			bp_do_404();
 
@@ -281,8 +271,7 @@ class RTMediaPrivacy
 		bp_core_load_template( apply_filters( 'bp_settings_screen_delete_account', 'members/single/plugins' ) );
 	}
 
-	function content()
-	{
+	function content() {
 		if ( buddypress()->current_action != 'privacy' ) return;
 
 		if ( isset ( $_POST[ 'rtmedia-default-privacy' ] ) ){
@@ -317,8 +306,7 @@ class RTMediaPrivacy
 	<?php
 	}
 
-	function title()
-	{
+	function title() {
 		return __( 'Privacy', 'rtmedia' );
 	}
 
@@ -334,8 +322,7 @@ class RTMediaPrivacy
 	 *
 	 * @return string
 	 */
-	function activity_privacy( $sql, $select_sql, $from_sql, $where_sql, $sort, $pag_sql = '' )
-	{
+	function activity_privacy( $sql, $select_sql, $from_sql, $where_sql, $sort, $pag_sql = '' ) {
 		if ( is_rt_admin() ) return $sql;
 
 		$sql   = '';

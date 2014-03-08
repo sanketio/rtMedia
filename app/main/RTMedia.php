@@ -73,8 +73,7 @@ class RTMedia
 	 *
 	 * @global int $bp_media_counter Media counter
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		/**
 		 *
 		 * Buddypress Media Auto Upgradation
@@ -97,6 +96,7 @@ class RTMedia
 		add_filter( 'site_option_upload_filetypes', array( &$this, 'filter_allow_mime_type_mu' ), 1, 1 );
 		add_filter( 'image_size_names_choose', array( $this, 'rtmedia_custom_image_sizes_choose' ) );
 	}
+
 	/**
 	 * Filter allowed types
 	 *
@@ -104,8 +104,7 @@ class RTMedia
 	 *
 	 * @return string
 	 */
-	function filter_allow_mime_type_mu( $options )
-	{
+	function filter_allow_mime_type_mu( $options ) {
 		$allowed_types       = array();
 		$this->allowed_types = apply_filters( 'rtmedia_allowed_types', $this->allowed_types );
 		foreach ( $this->allowed_types as $type ) {
@@ -127,8 +126,7 @@ class RTMedia
 		return $options;
 	}
 
-	function fix_parent_id()
-	{
+	function fix_parent_id() {
 		$site_global = rtmedia_get_site_option( 'rtmedia-global-albums' );
 		if ( $site_global && is_array( $site_global ) && isset( $site_global[ 0 ] ) ){
 			$model     = new RTMediaModel();
@@ -153,8 +151,7 @@ class RTMedia
 		}
 	}
 
-	function fix_privacy()
-	{
+	function fix_privacy() {
 		global $wpdb;
 		$model      = new RTMediaModel();
 		$update_sql = "UPDATE $model->table_name SET privacy = '80' where privacy = '-1' ";
@@ -165,8 +162,7 @@ class RTMedia
 	 * Update media privacy of the medias having context=group
 	 * update privacy of groups medias according to the privacy of the group 0->public, 20-> private/hidden
 	 */
-	function fix_group_media_privacy()
-	{
+	function fix_group_media_privacy() {
 		//if buddypress is active and groups are enabled
 		global $wpdb;
 		$model     = new RTMediaModel();
@@ -177,8 +173,7 @@ class RTMedia
 	}
 
 
-	function fix_db_collation()
-	{
+	function fix_db_collation() {
 		global $wpdb;
 		$model             = new RTMediaModel();
 		$interaction_model = new RTMediaInteractionModel();
@@ -190,8 +185,7 @@ class RTMedia
 		$wpdb->query( $update_media_interaction_sql );
 	}
 
-	function set_site_options()
-	{
+	function set_site_options() {
 
 		$rtmedia_options  = rtmedia_get_site_option( 'rtmedia-options' );
 		$bp_media_options = rtmedia_get_site_option( 'bp_media_options' );
@@ -210,19 +204,17 @@ class RTMedia
 	 *
 	 * @return array
 	 */
-	public function image_sizes()
-	{
+	public function image_sizes() {
 		$image_sizes                = array();
 		$image_sizes[ 'thumbnail' ] = array( 'width' => $this->options[ 'defaultSizes_photo_thumbnail_width' ], 'height' => $this->options[ 'defaultSizes_photo_thumbnail_height' ], 'crop' => ( $this->options[ 'defaultSizes_photo_thumbnail_crop' ] == '0' ) ? false : true );
 		$image_sizes[ 'activity' ]  = array( 'width' => $this->options[ 'defaultSizes_photo_medium_width' ], 'height' => $this->options[ 'defaultSizes_photo_medium_height' ], 'crop' => ( $this->options[ 'defaultSizes_photo_medium_crop' ] == '0' ) ? false : true );
 		$image_sizes[ 'single' ]    = array( 'width' => $this->options[ 'defaultSizes_photo_large_width' ], 'height' => $this->options[ 'defaultSizes_photo_large_height' ], 'crop' => ( $this->options[ 'defaultSizes_photo_large_crop' ] == '0' ) ? false : true );
-		$image_sizes[ 'featured' ] = array( 'width' => $this->options[ 'defaultSizes_featured_default_width' ], 'height' => $this->options[ 'defaultSizes_featured_default_height' ], 'crop' => ( $this->options[ 'defaultSizes_featured_default_crop' ] == '0' ) ? false : true );
+		$image_sizes[ 'featured' ]  = array( 'width' => $this->options[ 'defaultSizes_featured_default_width' ], 'height' => $this->options[ 'defaultSizes_featured_default_height' ], 'crop' => ( $this->options[ 'defaultSizes_featured_default_crop' ] == '0' ) ? false : true );
 
 		return $image_sizes;
 	}
 
-	public function add_image_sizes()
-	{
+	public function add_image_sizes() {
 		$bp_media_sizes = $this->image_sizes();
 		add_image_size( 'rt_media_thumbnail', $bp_media_sizes[ 'thumbnail' ][ 'width' ], $bp_media_sizes[ 'thumbnail' ][ 'height' ], $bp_media_sizes[ 'thumbnail' ][ 'crop' ] );
 		add_image_size( 'rt_media_activity_image', $bp_media_sizes[ 'activity' ][ 'width' ], $bp_media_sizes[ 'activity' ][ 'height' ], $bp_media_sizes[ 'activity' ][ 'crop' ] );
@@ -231,8 +223,7 @@ class RTMedia
 		add_action( 'wp_head', array( &$this, 'custome_style_for_activity_image_size' ) );
 	}
 
-	function custome_style_for_activity_image_size()
-	{
+	function custome_style_for_activity_image_size() {
 		?>
 		<style>
 			.rtmedia-activity-container .rtmedia-list .rtmedia-item-thumbnail, .bp_media_content img {
@@ -262,8 +253,7 @@ class RTMedia
 	/**
 	 *  Default allowed media types array
 	 */
-	function set_allowed_types()
-	{
+	function set_allowed_types() {
 		$allowed_types = array( 'photo' => array( 'name' => 'photo', 'plural' => 'photos', 'label' => __( 'Photo', 'rtmedia' ), 'plural_label' => __( 'Photos', 'rtmedia' ), 'extn' => array( 'jpg', 'jpeg', 'png', 'gif' ), 'thumbnail' => RTMEDIA_URL . 'app/assets/img/image_thumb.png', 'settings_visibility' => true ), 'video' => array( 'name' => 'video', 'plural' => 'videos', 'label' => __( 'Video', 'rtmedia' ), 'plural_label' => __( 'Videos', 'rtmedia' ), 'extn' => array( 'mp4' ), 'thumbnail' => RTMEDIA_URL . 'app/assets/img/video_thumb.png', 'settings_visibility' => true ), 'music' => array( 'name' => 'music', 'plural' => 'music', 'label' => __( 'Music', 'rtmedia' ), 'plural_label' => __( 'Music', 'rtmedia' ), 'extn' => array( 'mp3' ), 'thumbnail' => RTMEDIA_URL . 'app/assets/img/audio_thumb.png', 'settings_visibility' => true ) );
 
 		// filter for hooking additional media types
@@ -283,8 +273,7 @@ class RTMedia
 	 *
 	 * @return array $allowed_types sanitized media types
 	 */
-	function sanitize_allowed_types( $allowed_types )
-	{
+	function sanitize_allowed_types( $allowed_types ) {
 		// check if the array is formatted properly
 		if ( ! is_array( $allowed_types ) && count( $allowed_types ) < 1 ) return;
 
@@ -292,9 +281,9 @@ class RTMedia
 		foreach ( $allowed_types as $key => &$type ) {
 
 			if ( ! isset( $type[ 'name' ] ) || // check if a name is set
-			empty( $type[ 'name' ] ) || //commented this section for playlist // !isset($type['extn']) || // check if file extensions are set
-			//commented this section for playlist  // empty($type['extn']) ||
-			strstr( $type[ 'name' ], ' ' ) || strstr( $type[ 'name' ], '_' )
+				 empty( $type[ 'name' ] ) || //commented this section for playlist // !isset($type['extn']) || // check if file extensions are set
+				 //commented this section for playlist  // empty($type['extn']) ||
+				 strstr( $type[ 'name' ], ' ' ) || strstr( $type[ 'name' ], '_' )
 			){
 				unset( $allowed_types[ $key ] ); // if not unset this type
 				continue;
@@ -318,8 +307,7 @@ class RTMedia
 	/**
 	 * Set the default sizes
 	 */
-	function set_default_sizes()
-	{
+	function set_default_sizes() {
 		$this->default_sizes = array( 'photo' => array( 'thumbnail' => array( 'width' => 150, 'height' => 150, 'crop' => 1 ), 'medium' => array( 'width' => 320, 'height' => 240, 'crop' => 1 ), 'large' => array( 'width' => 800, 'height' => 0, 'crop' => 1 ) ), 'video' => array( 'activityPlayer' => array( 'width' => 320, 'height' => 240 ), 'singlePlayer' => array( 'width' => 640, 'height' => 480 ) ), 'music' => array( 'activityPlayer' => array( 'width' => 320 ), 'singlePlayer' => array( 'width' => 640 ) ), 'featured' => array( 'default' => array( 'width' => 100, 'height' => 100, 'crop' => 1 ) ) );
 
 		$this->default_sizes = apply_filters( 'rtmedia_allowed_sizes', $this->default_sizes );
@@ -328,8 +316,7 @@ class RTMedia
 	/**
 	 * Set privacy options
 	 */
-	function set_privacy()
-	{
+	function set_privacy() {
 
 		$this->privacy_settings = array( 'levels' => array( 60 => __( '<strong>Private</strong> - Visible only to the user', 'rtmedia' ), 40 => __( '<strong>Friends</strong> - Visible to user\'s friends', 'rtmedia' ), 20 => __( '<strong>Logged in Users</strong> - Visible to registered users', 'rtmedia' ), 0 => __( '<strong>Public</strong> - Visible to the world', 'rtmedia' ) ) );
 		$this->privacy_settings = apply_filters( 'rtmedia_privacy_levels', $this->privacy_settings );
@@ -344,15 +331,13 @@ class RTMedia
 	 *
 	 * @global RTMediaAdmin $rtmedia_admin Class for loading admin screen
 	 */
-	function admin_init()
-	{
+	function admin_init() {
 		global $rtmedia_admin;
 		$rtmedia_admin = new RTMediaAdmin();
 		$rtMigration   = new RTMediaMigration();
 	}
 
-	function media_screen()
-	{
+	function media_screen() {
 		return;
 	}
 
@@ -363,8 +348,7 @@ class RTMedia
 	 *
 	 * @return mixed
 	 */
-	function get_user_link( $user )
-	{
+	function get_user_link( $user ) {
 
 		if ( function_exists( 'bp_core_get_user_domain' ) ){
 			$parent_link = bp_core_get_user_domain( $user );
@@ -375,8 +359,7 @@ class RTMedia
 		return $parent_link;
 	}
 
-	public function init_buddypress_options()
-	{
+	public function init_buddypress_options() {
 		/**
 		 * BuddyPress Settings
 		 */
@@ -396,8 +379,7 @@ class RTMedia
 		rtmedia_update_site_option( 'rtmedia-options', $this->options );
 	}
 
-	public function init_site_options()
-	{
+	public function init_site_options() {
 
 		$bp_media_options = rtmedia_get_site_option( 'bp_media_options' );
 
@@ -453,8 +435,7 @@ class RTMedia
 	 * Defines all the constants if undefined. Can be overridden by
 	 * defining them elsewhere, say wp-config.php
 	 */
-	public function constants()
-	{
+	public function constants() {
 
 		/* If the plugin is installed. */
 		if ( ! defined( 'RTMEDIA_IS_INSTALLED' ) ) define( 'RTMEDIA_IS_INSTALLED', 1 );
@@ -496,8 +477,7 @@ class RTMedia
 		$this->define_type_constants();
 	}
 
-	function define_type_constants()
-	{
+	function define_type_constants() {
 
 		if ( ! isset( $this->allowed_types ) ) return;
 		foreach ( $this->allowed_types as $type ) {
@@ -542,8 +522,7 @@ class RTMedia
 	 *
 	 * @global BPMediaAdmin $bp_media_admin
 	 */
-	function init()
-	{
+	function init() {
 		$this->set_allowed_types(); // Define allowed types
 		$this->constants(); // Define constants
 		$this->redirect_on_change_slug();
@@ -570,18 +549,9 @@ class RTMedia
 		 */
 		//			new BPMediaActivity();
 		$class_construct = array(
-			'deprecated' => true,
-			'interaction' => true,
-			//'template' => false,
-			'upload_shortcode' => false,
-			'gallery_shortcode' => false,
-			'upload_endpoint' => false,
-			'privacy' => false,
-			'nav' => true,
-			'like' => false,
-			'featured' => false,
-			//'Group' => false, will be constructed after rtmedia pro classes are constructed.
-			'ViewCount' => false,
+			'deprecated'       => true, 'interaction' => true, //'template' => false,
+			'upload_shortcode' => false, 'gallery_shortcode' => false, 'upload_endpoint' => false, 'privacy' => false, 'nav' => true, 'like' => false, 'featured' => false, //'Group' => false, will be constructed after rtmedia pro classes are constructed.
+			'ViewCount'        => false,
 			//'query' => false,
 		);
 		global $rtmedia_nav;
@@ -642,8 +612,7 @@ class RTMedia
 		do_action( 'rtmedia_init' );
 	}
 
-	function redirect_on_change_slug()
-	{
+	function redirect_on_change_slug() {
 		$old_slugs     = rtmedia_get_site_option( 'rtmedia_old_media_slug', false, true );
 		$current_slugs = rtmedia_get_site_option( 'rtmedia_current_media_slug', false, false );
 		if ( $current_slugs === false ){
@@ -660,8 +629,7 @@ class RTMedia
 	/**
 	 * Loads translations
 	 */
-	static function load_translation()
-	{
+	static function load_translation() {
 		load_plugin_textdomain( 'rtmedia', false, basename( RTMEDIA_PATH ) . '/languages/' );
 	}
 
@@ -670,8 +638,7 @@ class RTMedia
 	 *
 	 * @return bool
 	 */
-	function check_global_album()
-	{
+	function check_global_album() {
 		$album        = new RTMediaAlbum();
 		$global_album = $album->get_default();
 		//** Hack for plupload default name
@@ -692,8 +659,7 @@ class RTMedia
 	 *
 	 * @return int
 	 */
-	function default_count()
-	{
+	function default_count() {
 		$count = $this->posts_per_page;
 		if ( array_key_exists( 'default_count', $this->options ) ){
 			$count = $this->options[ 'default_count' ];
@@ -710,8 +676,7 @@ class RTMedia
 	 *
 	 * @return mixed
 	 */
-	static function plugin_get_version( $path = null )
-	{
+	static function plugin_get_version( $path = null ) {
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		$path           = ( $path ) ? $path : RTMEDIA_PATH . 'index.php';
 		$plugin_data    = get_plugin_data( $path );
@@ -720,8 +685,7 @@ class RTMedia
 		return $plugin_version;
 	}
 
-	function update_db()
-	{
+	function update_db() {
 		$update = new RTDBUpdate( false, RTMEDIA_PATH . 'index.php', RTMEDIA_PATH . 'app/schema/', true );
 		/* Current Version. */
 		if ( ! defined( 'RTMEDIA_VERSION' ) ) define( 'RTMEDIA_VERSION', $update->db_version );
@@ -735,15 +699,13 @@ class RTMedia
 		}
 	}
 
-	function create_table_error_notice()
-	{
+	function create_table_error_notice() {
 		global $rtmedia_error;
 		$rtmedia_error = true;
 		echo '<div class="error"><p><strong>rtMedia</strong>' . __( ': Can\'t Create Database table. Please check create table permission.', 'rtmedia' ) . '</p></div>';
 	}
 
-	function enqueue_scripts_styles()
-	{
+	function enqueue_scripts_styles() {
 
 		if ( wp_script_is( 'wp-mediaelement', 'registered' ) ){
 			wp_enqueue_style( 'wp-mediaelement' );
@@ -814,13 +776,11 @@ class RTMedia
 		wp_localize_script( 'rtmedia-backbone', 'rtmedia_user_domain', $rtmedia_user_domain );
 	}
 
-	function set_bp_bar()
-	{
+	function set_bp_bar() {
 		remove_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu', 4 );
 	}
 
-	function set_friends_object()
-	{
+	function set_friends_object() {
 		if ( is_user_logged_in() ){
 			$user    = get_current_user_id();
 			$friends = friends_get_friend_user_ids( $user );
@@ -836,8 +796,7 @@ class RTMedia
 	 *
 	 * @return array
 	 */
-	function filter_image_sizes_details( $sizes )
-	{
+	function filter_image_sizes_details( $sizes ) {
 		if ( isset( $_REQUEST[ 'post_id' ] ) ){
 			$sizes = $this->unset_bp_media_image_sizes_details( $sizes );
 		} elseif ( isset( $_REQUEST[ 'id' ] ) ) { //For Regenerate Thumbnails Plugin
@@ -865,13 +824,9 @@ class RTMedia
 	 *
 	 * @return array
 	 */
-	function rtmedia_custom_image_sizes_choose( $sizes )
-	{
+	function rtmedia_custom_image_sizes_choose( $sizes ) {
 		$custom_sizes = array(
-			'rt_media_thumbnail' => 'rtMedia Thumbnail',
-			'rt_media_activity_image' => 'rtMedia Activity Image',
-			'rt_media_single_image' => 'rtMedia Single Image',
-			'rt_media_featured_image' => 'rtMedia Fetured Image',
+			'rt_media_thumbnail' => 'rtMedia Thumbnail', 'rt_media_activity_image' => 'rtMedia Activity Image', 'rt_media_single_image' => 'rtMedia Single Image', 'rt_media_featured_image' => 'rtMedia Fetured Image',
 		);
 
 		return array_merge( $sizes, $custom_sizes );
@@ -884,8 +839,7 @@ class RTMedia
 	 *
 	 * @return array
 	 */
-	function filter_image_sizes( $sizes )
-	{
+	function filter_image_sizes( $sizes ) {
 		if ( isset( $_REQUEST[ 'postid' ] ) ){ //For Regenerate Thumbnails Plugin
 			if ( $parent_id = get_post_field( 'post_parent', $_REQUEST[ 'postid' ] ) ){
 				$post_type = get_post_field( 'post_type', $parent_id );
@@ -909,8 +863,7 @@ class RTMedia
 	 *
 	 * @return mixed
 	 */
-	function unset_bp_media_image_sizes_details( $sizes )
-	{
+	function unset_bp_media_image_sizes_details( $sizes ) {
 		if ( isset( $sizes[ 'rt_media_thumbnail' ] ) ) unset( $sizes[ 'rt_media_thumbnail' ] );
 		if ( isset( $sizes[ 'rt_media_activity_image' ] ) ) unset( $sizes[ 'rt_media_activity_image' ] );
 		if ( isset( $sizes[ 'rt_media_single_image' ] ) ) unset( $sizes[ 'rt_media_single_image' ] );
@@ -926,8 +879,7 @@ class RTMedia
 	 *
 	 * @return mixed
 	 */
-	function unset_bp_media_image_sizes( $sizes )
-	{
+	function unset_bp_media_image_sizes( $sizes ) {
 		if ( ( $key = array_search( 'rt_media_thumbnail', $sizes ) ) !== false ) unset( $sizes[ $key ] );
 		if ( ( $key = array_search( 'rt_media_activity_image', $sizes ) ) !== false ) unset( $sizes[ $key ] );
 		if ( ( $key = array_search( 'rt_media_single_image', $sizes ) ) !== false ) unset( $sizes[ $key ] );
@@ -945,8 +897,7 @@ class RTMedia
  *
  * @return string
  */
-function parentlink_global_album( $id )
-{
+function parentlink_global_album( $id ) {
 	$global_albums = RTMediaAlbum::get_globals();
 	$parent_link   = '';
 	if ( is_array( $global_albums ) && $global_albums != '' ){
@@ -975,8 +926,7 @@ function parentlink_global_album( $id )
  *
  * @return mixed
  */
-function get_rtmedia_permalink( $id )
-{
+function get_rtmedia_permalink( $id ) {
 	$mediaModel = new RTMediaModel();
 	$media      = $mediaModel->get( array( 'id' => intval( $id ) ) );
 	global $rtmedia_query;
@@ -1016,8 +966,7 @@ function get_rtmedia_permalink( $id )
  *
  * @return mixed
  */
-function get_rtmedia_user_link( $id )
-{
+function get_rtmedia_user_link( $id ) {
 	if ( function_exists( 'bp_core_get_user_domain' ) ){
 		$parent_link = bp_core_get_user_domain( $id );
 	} else {
@@ -1035,8 +984,7 @@ function get_rtmedia_user_link( $id )
  *
  * @return mixed
  */
-function rtmedia_update_site_option( $option_name, $option_value )
-{
+function rtmedia_update_site_option( $option_name, $option_value ) {
 	if ( is_multisite() ){
 		return update_option( $option_name, $option_value );
 	} else {
@@ -1046,12 +994,12 @@ function rtmedia_update_site_option( $option_name, $option_value )
 
 /**
  * Get rtMedia group link
+ *
  * @param $group_id
  *
  * @return mixed
  */
-function get_rtmedia_group_link( $group_id )
-{
+function get_rtmedia_group_link( $group_id ) {
 	$group = groups_get_group( array( 'group_id' => $group_id ) );
 
 	return home_url( trailingslashit( bp_get_groups_root_slug() ) . $group->slug );
@@ -1059,13 +1007,13 @@ function get_rtmedia_group_link( $group_id )
 
 /**
  * Get site options
+ *
  * @param      $option_name
  * @param bool $default
  *
  * @return bool
  */
-function rtmedia_get_site_option( $option_name, $default = false )
-{
+function rtmedia_get_site_option( $option_name, $default = false ) {
 	if ( is_multisite() ){
 		$return_val = get_option( $option_name, $default );
 		if ( $return_val === false ){

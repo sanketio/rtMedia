@@ -25,8 +25,7 @@ class RTMediaMedia
 	/**
 	 * Initialises the model object of the mediua object
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		$this->model = new RTMediaModel();
 	}
@@ -39,8 +38,7 @@ class RTMediaMedia
 	 *
 	 * @return string json encoded nonce
 	 */
-	static function media_nonce_generator( $id, $echo = true )
-	{
+	static function media_nonce_generator( $id, $echo = true ) {
 		if ( $echo ){
 			wp_nonce_field( 'rtmedia_' . $id, 'rtmedia_media_nonce' );
 		} else {
@@ -58,8 +56,7 @@ class RTMediaMedia
 	 *
 	 * @return boolean whether the nonce is valid
 	 */
-	function verify_nonce( $mode )
-	{
+	function verify_nonce( $mode ) {
 
 		$nonce = $_REQUEST[ "rtmedia_{$mode}_media_nonce" ];
 		$mode  = $_REQUEST[ 'mode' ];
@@ -72,8 +69,7 @@ class RTMediaMedia
 	 * Adds a hook to delete_attachment tag called
 	 * when a media is deleted externally out of rtMedia context
 	 */
-	public function delete_hook()
-	{
+	public function delete_hook() {
 		add_action( 'delete_attachment', array( $this, 'delete_wordpress_attachment' ) );
 	}
 
@@ -83,8 +79,7 @@ class RTMediaMedia
 	 * @param array $attachments ids of the attachments created after upload
 	 * @param array $taxonomies  array of terms indexed by a taxonomy
 	 */
-	function add_taxonomy( $attachments, $taxonomies )
-	{
+	function add_taxonomy( $attachments, $taxonomies ) {
 
 		foreach ( $attachments as $id ) {
 
@@ -105,8 +100,7 @@ class RTMediaMedia
 	 *
 	 * @return boolean success of meta
 	 */
-	function add_meta( $attachments, $custom_fields )
-	{
+	function add_meta( $attachments, $custom_fields ) {
 
 		foreach ( $attachments as $id ) {
 			$row = array( 'media_id' => $id );
@@ -132,8 +126,7 @@ class RTMediaMedia
 	 *
 	 * @return boolean
 	 */
-	function is_multisite()
-	{
+	function is_multisite() {
 		return is_multisite();
 	}
 
@@ -145,8 +138,7 @@ class RTMediaMedia
 	 *
 	 * @return type
 	 */
-	function add( $uploaded, $file_object )
-	{
+	function add( $uploaded, $file_object ) {
 
 		/* action to perform any task before adding a media */
 		do_action( 'rtmedia_before_add_media', $file_object, $uploaded );
@@ -190,8 +182,7 @@ class RTMediaMedia
 	 *
 	 * @return bool
 	 */
-	function update( $id, $data, $media_id )
-	{
+	function update( $id, $data, $media_id ) {
 
 		/* action to perform any task before updating a media */
 		do_action( 'rtmedia_before_update_media', $id );
@@ -230,8 +221,7 @@ class RTMediaMedia
 	 *
 	 * @param $id
 	 */
-	function delete_wordpress_attachment( $id )
-	{
+	function delete_wordpress_attachment( $id ) {
 		$media = $this->model->get( array( 'media_id' => $id ), false, false );
 
 		if ( $media ){
@@ -248,8 +238,7 @@ class RTMediaMedia
 	 *
 	 * @return bool
 	 */
-	function delete( $id, $core = false, $delete_activity = true )
-	{
+	function delete( $id, $core = false, $delete_activity = true ) {
 		do_action( 'rtmedia_before_delete_media', $id );
 
 		$media = $this->model->get( array( 'id' => $id ), false, false );
@@ -314,8 +303,7 @@ class RTMediaMedia
 	 *
 	 * @return boolean
 	 */
-	function move( $media_id, $album_id )
-	{
+	function move( $media_id, $album_id ) {
 
 		global $wpdb;
 		/* update the post_parent value in wp_post table */
@@ -326,7 +314,7 @@ class RTMediaMedia
 		} else {
 			/* update album_id, context, context_id and privacy in rtMedia context */
 			$album_data = $this->model->get( array( 'media_id' => $media_id ) );
-			$data = array( 'album_id' => $album_id, 'context' => $album_data->context, 'context_id' => $album_data->context_id, 'privacy' => $album_data->privacy );
+			$data       = array( 'album_id' => $album_id, 'context' => $album_data->context, 'context_id' => $album_data->context_id, 'privacy' => $album_data->privacy );
 
 			return $this->update( $media_id, $data );
 		}
@@ -335,8 +323,7 @@ class RTMediaMedia
 	/**
 	 *  Imports attachment as media
 	 */
-	function import_attachment()
-	{
+	function import_attachment() {
 
 	}
 
@@ -345,8 +332,7 @@ class RTMediaMedia
 	 *
 	 * @return boolean
 	 */
-	function activity_enabled()
-	{
+	function activity_enabled() {
 
 		if ( ! function_exists( 'bp_is_active' ) || ! bp_is_active( 'activity' ) ) return false;
 
@@ -362,8 +348,7 @@ class RTMediaMedia
 	 *
 	 * @return type
 	 */
-	function generate_post_array( $uploaded, $file_object )
-	{
+	function generate_post_array( $uploaded, $file_object ) {
 		if ( $uploaded[ 'album_id' ] ){
 			$model          = new RTMediaModel();
 			$parent_details = $model->get( array( 'id' => $uploaded[ 'album_id' ] ) );
@@ -393,8 +378,7 @@ class RTMediaMedia
 	 * @return type
 	 * @throws Exception
 	 */
-	function insert_attachment( $attachments, $file_object )
-	{
+	function insert_attachment( $attachments, $file_object ) {
 		foreach ( $attachments as $key => $attachment ) {
 			$attachment_id = wp_insert_attachment( $attachment, $file_object[ $key ][ 'file' ], $attachment[ 'post_parent' ] );
 			if ( ! is_wp_error( $attachment_id ) ){
@@ -423,8 +407,7 @@ class RTMediaMedia
 	 *
 	 * @return type
 	 */
-	function image_sizes( $sizes )
-	{
+	function image_sizes( $sizes ) {
 		return array( 'rt_media_thumbnail', 'rt_media_activity_image', 'rt_media_single_image', 'rt_media_featured_image' );
 	}
 
@@ -435,8 +418,7 @@ class RTMediaMedia
 	 *
 	 * @return type
 	 */
-	function insert_album( $attributes )
-	{
+	function insert_album( $attributes ) {
 
 		return $this->model->insert( $attributes );
 	}
@@ -449,8 +431,7 @@ class RTMediaMedia
 	 *
 	 * @return string
 	 */
-	function set_media_type( $mime_type, $file_object )
-	{
+	function set_media_type( $mime_type, $file_object ) {
 		switch ( $mime_type ) {
 			case 'image':
 				return 'photo';
@@ -476,8 +457,7 @@ class RTMediaMedia
 	 *
 	 * @return array
 	 */
-	function insertmedia( $attachment_ids, $uploaded, $file_object /* added for file extension */ )
-	{
+	function insertmedia( $attachment_ids, $uploaded, $file_object /* added for file extension */ ) {
 
 		$defaults = array( 'activity_id' => $this->activity_enabled(), 'privacy' => 0 );
 
@@ -505,8 +485,7 @@ class RTMediaMedia
 	 *
 	 * @return mixed
 	 */
-	function insert_activity( $id, $media )
-	{
+	function insert_activity( $id, $media ) {
 		if ( ! $this->activity_enabled() ) return;
 		$activity         = new RTMediaActivity( $media->id, $media->privacy );
 		$activity_content = $activity->create_activity_html();

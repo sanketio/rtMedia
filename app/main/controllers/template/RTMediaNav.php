@@ -11,8 +11,7 @@ class RTMediaNav
 	 *
 	 * @param bool $action
 	 */
-	function __construct( $action = true )
-	{
+	function __construct( $action = true ) {
 		if ( $action === false ){
 			return;
 		}
@@ -23,8 +22,7 @@ class RTMediaNav
 		}
 	}
 
-	function media_screen()
-	{
+	function media_screen() {
 		return;
 	}
 
@@ -33,8 +31,7 @@ class RTMediaNav
 	 *
 	 * @global object $bp global BuddyPress object
 	 */
-	function custom_media_nav_tab()
-	{
+	function custom_media_nav_tab() {
 		global $bp;
 		if ( ! function_exists( 'bp_core_new_nav_item' ) ) return;
 		if ( bp_is_blog_page() || ( ! bp_is_group() && ! ( isset ( $bp->displayed_user ) && isset ( $bp->displayed_user->id ) ) ) ) return;
@@ -61,8 +58,7 @@ class RTMediaNav
 		}
 	}
 
-	function admin_nav()
-	{
+	function admin_nav() {
 		global $wp_admin_bar;
 		global $rtmedia;
 		if ( ( ! isset( $rtmedia->options[ 'buddypress_enableOnProfile' ] ) ) || ( isset( $rtmedia->options[ 'buddypress_enableOnProfile' ] ) && $rtmedia->options[ 'buddypress_enableOnProfile' ] == '0' ) ){
@@ -93,8 +89,7 @@ class RTMediaNav
 		}
 	}
 
-	public function sub_nav()
-	{
+	public function sub_nav() {
 
 		if ( bp_is_group() ){
 			global $bp;
@@ -192,8 +187,7 @@ class RTMediaNav
 	 *
 	 * @return array
 	 */
-	function refresh_counts( $user_id, $where )
-	{
+	function refresh_counts( $user_id, $where ) {
 		$model       = new RTMediaModel();
 		$counts      = $model->get_counts( $user_id, $where );
 		$media_count = array();
@@ -229,8 +223,7 @@ class RTMediaNav
 	 *
 	 * @return array|bool
 	 */
-	function get_counts( $profile_id = false, $context = 'profile' )
-	{
+	function get_counts( $profile_id = false, $context = 'profile' ) {
 		if ( $profile_id === false && $context = 'profile' ) $profile_id = $this->profile_id(); else if ( $profile_id === false && $context = 'profile' ) $profile_id = $this->group_id();
 		if ( ! $profile_id ) return false;
 		if ( $context == 'profile' ){
@@ -253,8 +246,7 @@ class RTMediaNav
 	 *
 	 * @return bool
 	 */
-	function profile_id()
-	{
+	function profile_id() {
 		global $rtmedia_query;
 		if ( isset ( $rtmedia_query->query[ 'context' ] ) && ( $rtmedia_query->query[ 'context' ] == 'profile' ) ){
 			return $rtmedia_query->query[ 'context_id' ];
@@ -263,8 +255,7 @@ class RTMediaNav
 		return false;
 	}
 
-	function group_id()
-	{
+	function group_id() {
 		global $rtmedia_query;
 		if ( isset ( $rtmedia_query->query[ 'context' ] ) && ( $rtmedia_query->query[ 'context' ] == 'group' ) ){
 			return $rtmedia_query->query[ 'context_id' ];
@@ -279,8 +270,7 @@ class RTMediaNav
 	 *
 	 * @return array
 	 */
-	function actual_counts( $profile_id = false, $context = 'profile' )
-	{
+	function actual_counts( $profile_id = false, $context = 'profile' ) {
 		if ( $profile_id === false ){
 			if ( ! $this->profile_id() ) return;
 		}
@@ -299,8 +289,7 @@ class RTMediaNav
 	 *
 	 * @return array
 	 */
-	function process_count( $media_count, $privacy )
-	{
+	function process_count( $media_count, $privacy ) {
 		$total       = array( 'all' => 0 );
 		$media_count = ! empty( $media_count ) ? $media_count : array();
 
@@ -328,8 +317,7 @@ class RTMediaNav
 	 *
 	 * @return int
 	 */
-	function visitor_id()
-	{
+	function visitor_id() {
 		if ( is_user_logged_in() ){
 			$user = get_current_user_id();
 		} else {
@@ -346,8 +334,7 @@ class RTMediaNav
 	 *
 	 * @return int
 	 */
-	function set_privacy( $profile )
-	{
+	function set_privacy( $profile ) {
 		if ( is_rt_admin() ) return 60;
 
 		$user    = $this->visitor_id();

@@ -22,8 +22,7 @@ class RTMediaUpload
 	 *
 	 * @return bool
 	 */
-	public function __construct( $uploaded )
-	{
+	public function __construct( $uploaded ) {
 		/**
 		 * prepare to upload a file
 		 */
@@ -66,8 +65,7 @@ class RTMediaUpload
 	 *
 	 * @return type
 	 */
-	function upload( $uploaded )
-	{
+	function upload( $uploaded ) {
 		switch ( $uploaded[ 'mode' ] ) {
 			case 'file_upload':
 				return $this->file->init( $uploaded[ 'files' ] );

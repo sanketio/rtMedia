@@ -16,8 +16,7 @@ class RTMediaGroup
 	/**
 	 * Constructor
 	 */
-	function __construct()
-	{
+	function __construct() {
 		global $rtmedia;
 		$options = $rtmedia->options;
 		if ( isset ( $options [ 'buddypress_enableOnGroup' ] ) && $options [ 'buddypress_enableOnGroup' ] == '1' ){

@@ -15,8 +15,7 @@ class RTMediaInteraction
 	/**
 	 * Initialise the interaction
 	 */
-	function __construct()
-	{
+	function __construct() {
 
 		// hook into the WordPress Rewrite Endpoint API
 
@@ -35,8 +34,7 @@ class RTMediaInteraction
 		add_filter( 'wpseo_opengraph_url', array( $this, 'rtmedia_wpseo_og_url' ), 999, 1 );
 	}
 
-	function flush_rules()
-	{
+	function flush_rules() {
 		$rtmedia_version = rtmedia_get_site_option( 'rtmedia_flush_rules_plugin_version' );
 		if ( ! $rtmedia_version ){
 			$rtmedia_version = '0';
@@ -52,8 +50,7 @@ class RTMediaInteraction
 		}
 	}
 
-	function init()
-	{
+	function init() {
 		// set up the routes array
 		$this->route_slugs();
 		$this->set_context();
@@ -64,15 +61,13 @@ class RTMediaInteraction
 	/**
 	 * Set up the route slugs' array
 	 */
-	function route_slugs()
-	{
+	function route_slugs() {
 
 		// filter to add custom slugs for routes
 		$this->slugs = apply_filters( 'rtmedia_default_routes', $this->slugs );
 	}
 
-	static function rewrite_rules()
-	{
+	static function rewrite_rules() {
 		add_rewrite_rule( '^/' . RTMEDIA_MEDIA_SLUG . '/([0-9]*)/([^/]*)/?', 'index.php?media_id=$matches[1]&action=$matches[2]', 'bottom' );
 		add_rewrite_rule( '^/' . RTMEDIA_MEDIA_SLUG . '/([0-9]*)/pg/([0-9]*)/?', 'index.php?media_id=$matches[1]&pg=$matches[2]', 'bottom' );
 		add_rewrite_rule( '^/' . RTMEDIA_MEDIA_SLUG . '/nonce/([^/]*)/?', 'index.php?nonce_type=$matches[1]', 'bottom' );
@@ -81,8 +76,7 @@ class RTMediaInteraction
 		do_action( 'rtmedia_add_rewrite_rules' );
 	}
 
-	static function rewrite_tags()
-	{
+	static function rewrite_tags() {
 		add_rewrite_tag( '%media_id%', '([0-9]*)' );
 		add_rewrite_tag( '%action%', '([^/]*)' );
 		add_rewrite_tag( '%nonce_type%', '([^/]*)' );
@@ -94,16 +88,14 @@ class RTMediaInteraction
 	/**
 	 * Just adds the current /{slug}/ to the rewite endpoint
 	 */
-	function endpoint()
-	{
+	function endpoint() {
 
 		foreach ( $this->slugs as $slug ) {
 			add_rewrite_endpoint( $slug, EP_ALL );
 		}
 	}
 
-	function set_routers()
-	{
+	function set_routers() {
 
 
 		// set up routes for each slug
@@ -115,8 +107,7 @@ class RTMediaInteraction
 	/**
 	 * Sets up the default context
 	 */
-	function default_context()
-	{
+	function default_context() {
 
 		return new RTMediaContext();
 	}
@@ -127,8 +118,7 @@ class RTMediaInteraction
 	 *
 	 * @todo the method should also allow objects
 	 */
-	function set_context( $context = false )
-	{
+	function set_context( $context = false ) {
 
 		// take the context supplied and replace the context
 		if ( is_array( $context ) && isset ( $context[ 'type' ] ) && isset ( $context[ 'id' ] ) ){
@@ -151,14 +141,12 @@ class RTMediaInteraction
 	 * Reset the context to the default context after temporarily setting it,
 	 * Say, for an upload
 	 */
-	function rewind_context()
-	{
+	function rewind_context() {
 
 		$this->context = $this->default_context();
 	}
 
-	function set_query()
-	{
+	function set_query() {
 		global $rtmedia_query;
 
 		$args          = array( 'context' => $this->context->type, 'context_id' => $this->context->id );
@@ -174,8 +162,7 @@ class RTMediaInteraction
 	 *
 	 * @return mixed
 	 */
-	function set_title( $default, $sep = '|' )
-	{
+	function set_title( $default, $sep = '|' ) {
 		global $wp_query;
 		global $rtmedia_seo_title;
 
@@ -193,7 +180,7 @@ class RTMediaInteraction
 						foreach ( $rtmedia_query->album as $single_album ) {
 							if ( intval( $single_album->id ) == intval( $rtmedia_query->media_query[ 'album_id' ] ) ){
 								$title .= $sep . ucfirst( $single_album->media_title );
-								$sep    = $oldSep;
+								$sep = $oldSep;
 							}
 						}
 					}
@@ -201,40 +188,40 @@ class RTMediaInteraction
 			} else {
 				if ( isset ( $rtmedia_query->media ) && count( $rtmedia_query->media ) > 0 ){
 					$title .= $sep . ucfirst( $rtmedia_query->media[ 0 ]->media_title );
-					$sep    = $oldSep;
+					$sep = $oldSep;
 				}
 				$title .= $sep . ucfirst( $rtmedia_query->query[ 'media_type' ] );
-				$sep    = $oldSep;
+				$sep = $oldSep;
 			}
 		} else {
 			if ( isset ( $rtmedia_query->action_query ) && isset ( $rtmedia_query->action_query->media_type ) ){
 				$title .= $sep . ucfirst( $rtmedia_query->action_query->media_type );
-				$sep    = $oldSep;
+				$sep = $oldSep;
 			}
 		}
 		if ( function_exists( 'bp_is_group' ) ){
 			if ( bp_is_group() or bp_is_group_forum() or bp_is_group_forum_topic() ){
 				if ( bp_is_group_forum_topic() ){
 					$title .= $sep . bp_get_the_topic_title();
-					$sep    = $oldSep;
+					$sep = $oldSep;
 				}
 				$title .= $sep . bp_get_current_group_name();
-				$sep    = $oldSep;
+				$sep = $oldSep;
 			}
 		}
 		if ( function_exists( 'bp_get_displayed_user_fullname' ) && bp_displayed_user_id() != 0 ){
 			$title .= $sep . bp_get_displayed_user_fullname();
-			$sep    = $oldSep;
+			$sep = $oldSep;
 		} else {
 			$user_info = get_userdata( get_current_user_id() );
 			if ( isset( $user_info->data->display_name ) ){
 				$title .= $sep . $user_info->data->display_name;
-				$sep    = $oldSep;
+				$sep = $oldSep;
 			}
 		}
 
 		$title .= $sep . RTMEDIA_MEDIA_LABEL;
-		$sep    = $oldSep;
+		$sep = $oldSep;
 		if ( isset( $this->context->type ) ){
 			switch ( $this->context->type ) {
 				case 'group':
@@ -265,8 +252,7 @@ class RTMediaInteraction
 	 *
 	 * @return mixed
 	 */
-	function rtmedia_wpseo_og_image( $data )
-	{
+	function rtmedia_wpseo_og_image( $data ) {
 		global $wp_query;
 		if ( ! array_key_exists( 'media', $wp_query->query_vars ) ) return $data;
 		global $rtmedia_query;
@@ -284,8 +270,7 @@ class RTMediaInteraction
 	 *
 	 * @return string
 	 */
-	function rtmedia_wpseo_og_url( $url )
-	{
+	function rtmedia_wpseo_og_url( $url ) {
 		global $wp_query;
 		if ( ! array_key_exists( 'media', $wp_query->query_vars ) ) return $url;
 		$s        = empty ( $_SERVER[ 'HTTPS' ] ) ? '' : ( $_SERVER[ 'HTTPS' ] == 'on' ) ? 's' : '';

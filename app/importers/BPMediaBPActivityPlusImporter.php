@@ -16,8 +16,7 @@ class BPMediaBPActivityPlusImporter extends BPMediaImporter
 	/**
 	 * Constructor
 	 */
-	function __construct()
-	{
+	function __construct() {
 		parent::__construct();
 
 	}

@@ -17,8 +17,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 		/**
 		 * Constructor
 		 */
-		public function __construct()
-		{
+		public function __construct() {
 			if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ){
 				add_action( 'admin_init', array( $this, 'settings' ) );
 				if ( isset( $_POST[ 'rtmedia-options-save' ] ) ){
@@ -37,8 +36,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 		 *
 		 * @return array
 		 */
-		function get_default_options()
-		{
+		function get_default_options() {
 			global $rtmedia;
 
 			$defaults = array( 'general_enableAlbums' => 0, 'general_enableComments' => 0, 'general_downloadButton' => 0, 'general_enableLightbox' => 0, 'general_perPageMedia' => 10, 'general_enableMediaEndPoint' => 0, 'general_showAdminMenu' => 0, 'general_videothumbs' => 2, 'general_uniqueviewcount' => 0, 'general_viewcount' => 0, 'general_AllowUserData' => 1, 'rtmedia_add_linkback' => 0, 'rtmedia_affiliate_id' => '', 'rtmedia_enable_api' => 0, );
@@ -84,8 +82,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 		 *
 		 * @global string 'rtmedia'
 		 */
-		function sanitize_options( $options )
-		{
+		function sanitize_options( $options ) {
 			$defaults = $this->get_default_options();
 			$options  = wp_parse_args( $options, $defaults );
 
@@ -99,8 +96,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 		 *
 		 * @return mixed
 		 */
-		function sanitize_before_save_options( $options )
-		{
+		function sanitize_before_save_options( $options ) {
 			$defaults = $this->get_default_options();
 			foreach ( $defaults as $key => $value ) {
 				if ( ! isset( $options[ $key ] ) ){
@@ -111,8 +107,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 			return $options;
 		}
 
-		function add_max_video_thumb_notice()
-		{
+		function add_max_video_thumb_notice() {
 			echo '<div class="error"><p>' . __( 'Max Video thumbnail size is ', 'rtmedia' ) . ' <strong>10</strong></p></div>';
 		}
 
@@ -120,8 +115,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 		 *
 		 * @global BPMediaAddon $rtmedia_addon
 		 */
-		public function settings()
-		{
+		public function settings() {
 			global $rtmedia, $rtmedia_addon, $rtmedia_save_setting_single;
 			$options          = rtmedia_get_site_option( 'rtmedia-options' );
 			$options          = $this->sanitize_options( $options );
@@ -164,8 +158,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 			}
 		}
 
-		public function network_notices()
-		{
+		public function network_notices() {
 			$flag = 1;
 			if ( rtmedia_get_site_option( 'rtm-media-enable', false ) ){
 				echo '<div id="setting-error-bpm-media-enable" class="error"><p><strong>' . rtmedia_get_site_option( 'rtm-media-enable' ) . '</strong></p></div>';
@@ -199,8 +192,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 			delete_site_option( 'rtm-settings-saved' );
 		}
 
-		public function allowed_types()
-		{
+		public function allowed_types() {
 			$allowed_types = rtmedia_get_site_option( 'upload_filetypes', 'jpg jpeg png gif' );
 			$allowed_types = explode( ' ', $allowed_types );
 			$allowed_types = implode( ', ', $allowed_types );
@@ -219,8 +211,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 		 *
 		 * @return type
 		 */
-		public function sanitize( $input )
-		{
+		public function sanitize( $input ) {
 			global $rtmedia_admin;
 			if ( isset( $_POST[ 'refresh-count' ] ) ){
 				if ( $rtmedia_admin->update_count() ){
@@ -256,8 +247,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 			return $input;
 		}
 
-		public function image_settings_intro()
-		{
+		public function image_settings_intro() {
 			if ( is_plugin_active( 'regenerate-thumbnails/regenerate-thumbnails.php' ) ){
 				$regenerate_link = admin_url( '/tools.php?page=regenerate-thumbnails' );
 			} elseif ( array_key_exists( 'regenerate-thumbnails/regenerate-thumbnails.php', get_plugins() ) ) {
@@ -276,8 +266,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 		 *
 		 * @param array  $args
 		 */
-		public function privacy_notice()
-		{
+		public function privacy_notice() {
 			if ( current_user_can( 'create_users' ) ){
 				//                if (BPMediaPrivacy::is_installed())
 				//                    return;
@@ -292,8 +281,7 @@ if ( ! class_exists( 'RTMediaSettings' ) ){
 			}
 		}
 
-		public function rtmedia_support_intro()
-		{
+		public function rtmedia_support_intro() {
 			echo '<p>' . __( 'If your site has some issues due to BuddyPress Media and you want one on one support then you can create a support topic on the <a target="_blank" href="http://rtcamp.com/groups/buddypress-media/forum/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media">rtCamp Support Forum</a>.', 'rtmedia' ) . '</p>';
 			echo '<p>' . __( 'If you have any suggestions, enhancements or bug reports, then you can open a new issue on <a target="_blank" href="https://github.com/rtCamp/buddypress-media/issues/new">GitHub</a>.', 'rtmedia' ) . '</p>';
 		}

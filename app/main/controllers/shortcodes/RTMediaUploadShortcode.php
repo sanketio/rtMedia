@@ -17,8 +17,7 @@ class RTMediaUploadShortcode
 	/**
 	 *
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		add_shortcode( 'rtmedia_uploader', array( 'RTMediaUploadShortcode', 'pre_render' ) );
 		$method_name = strtolower( str_replace( 'RTMedia', '', __CLASS__ ) );
@@ -33,8 +32,7 @@ class RTMediaUploadShortcode
 	 *
 	 * @return type
 	 */
-	static function display_allowed()
-	{
+	static function display_allowed() {
 		global $rtmedia_query;
 
 
@@ -53,8 +51,7 @@ class RTMediaUploadShortcode
 	 *
 	 * @return string
 	 */
-	static function pre_render( $attr )
-	{
+	static function pre_render( $attr ) {
 		global $post;
 		global $rtmedia_query;
 		if ( ! $rtmedia_query ) $rtmedia_query = new RTMediaQuery();

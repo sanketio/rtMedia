@@ -83,27 +83,11 @@ if ( ! class_exists( 'rtForm' ) ){
 		 * if id for any element is not given then these count will be used in id generation
 		 */
 		private static $id_counts = array(
-			'rtText' => 0,
-			'rtNumber' => 0,
-			'rtDate' => 0,
-			'rtRadio' => 0,
-			'rtCheckbox' => 0,
-			'rtSelect' => 0,
-			'rtTextarea' => 0,
-			'rtHidden' => 0,
-			'rtWysiwyg' => 0,
+			'rtText' => 0, 'rtNumber' => 0, 'rtDate' => 0, 'rtRadio' => 0, 'rtCheckbox' => 0, 'rtSelect' => 0, 'rtTextarea' => 0, 'rtHidden' => 0, 'rtWysiwyg' => 0,
 		);
 
 		private static $default_classes = array(
-			'rtText' => 'rt-form-text',
-			'rtNumber' => 'rt-form-number',
-			'rtDate' => 'rt-form-date',
-			'rtRadio' => 'rt-form-radio',
-			'rtCheckbox' => 'rt-form-checkbox',
-			'rtSelect' => 'rt-form-select',
-			'rtTextarea' => 'rt-form-textarea',
-			'rtHidden' => 'rt-form-hidden',
-			'rtWysiwyg' => 'rt-form-wysiwyg',
+			'rtText' => 'rt-form-text', 'rtNumber' => 'rt-form-number', 'rtDate' => 'rt-form-date', 'rtRadio' => 'rt-form-radio', 'rtCheckbox' => 'rt-form-checkbox', 'rtSelect' => 'rt-form-select', 'rtTextarea' => 'rt-form-textarea', 'rtHidden' => 'rt-form-hidden', 'rtWysiwyg' => 'rt-form-wysiwyg',
 		);
 
 
@@ -114,8 +98,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return mixed
 		 */
-		private function get_default_id( $element )
-		{
+		private function get_default_id( $element ) {
 			return self::$id_counts[ $element ];
 		}
 
@@ -124,8 +107,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @param $element
 		 */
-		private function update_default_id( $element )
-		{
+		private function update_default_id( $element ) {
 			self::$id_counts[ $element ] ++;
 		}
 
@@ -136,8 +118,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return mixed
 		 */
-		private function get_default_class( $element )
-		{
+		private function get_default_class( $element ) {
 			return self::$default_classes[ $element ];
 		}
 
@@ -150,8 +131,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 * @return string
 		 * @throws rtFormInvalidArgumentsException
 		 */
-		private function embedd_class( $element, $class = null )
-		{
+		private function embedd_class( $element, $class = null ) {
 
 			$html = 'class="' . $this->get_default_class( $element );
 
@@ -173,8 +153,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		private function generate_element_id( $element, $id = null )
-		{
+		private function generate_element_id( $element, $id = null ) {
 
 			$html = 'id="';
 			if ( isset( $id ) ){
@@ -198,8 +177,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		private function generate_element_name( $element, $multiple, $name )
-		{
+		private function generate_element_name( $element, $multiple, $name ) {
 
 			$html = 'name="';
 			if ( $multiple ){
@@ -212,7 +190,7 @@ if ( ! class_exists( 'rtForm' ) ){
 				}
 			} else
 				$html .= isset( $name ) ? $name : $element;
-			$html  .= '"';
+			$html .= '"';
 
 			return $html;
 		}
@@ -225,8 +203,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		private function generate_element_value( $element, $attributes )
-		{
+		private function generate_element_value( $element, $attributes ) {
 
 			$html = '';
 			switch ( $element ) {
@@ -261,8 +238,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		private function generate_element_desc( $attributes )
-		{
+		private function generate_element_desc( $attributes ) {
 
 			if ( isset( $attributes[ 'desc' ] ) ){
 
@@ -282,8 +258,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 * @return string
 		 * @throws rtFormInvalidArgumentsException
 		 */
-		private function embedd_misc_attributes( $misc )
-		{
+		private function embedd_misc_attributes( $misc ) {
 
 			if ( ! is_array( $misc ) ){
 				throw new rtFormInvalidArgumentsException( 'attributes : misc' );
@@ -309,8 +284,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		private function processAttributes( $element, $attributes, $container = false )
-		{
+		private function processAttributes( $element, $attributes, $container = false ) {
 
 			/* generating the id on its own if not provided otherwise taken from the parameter provided */
 			if ( isset( $attributes[ 'id' ] ) ) $html = $this->generate_element_id( $element, $attributes[ 'id' ] ) . ' '; else
@@ -319,7 +293,7 @@ if ( ! class_exists( 'rtForm' ) ){
 			/* name attrbute according to multiple flag */
 			$multiple = ( isset( $attributes[ 'multiple' ] ) && $attributes[ 'multiple' ] ) ? true : false;
 			$name     = ( isset( $attributes[ 'name' ] ) ) ? $attributes[ 'name' ] : $element;
-			$html    .= $this->generate_element_name( $element, $multiple, $name ) . ' ';
+			$html .= $this->generate_element_name( $element, $multiple, $name ) . ' ';
 
 			/*
 			 *  list down all the classes provided along with the default class of rtForms.
@@ -347,8 +321,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		private function container_enclosed_elements( $element, $attrib, $rtForm_options )
-		{
+		private function container_enclosed_elements( $element, $attrib, $rtForm_options ) {
 
 			$html = '';
 			$size = count( $rtForm_options );
@@ -423,8 +396,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 * @return array
 		 * @throws rtFormInvalidArgumentsException
 		 */
-		private function parse_multiple_options( $element, $attributes )
-		{
+		private function parse_multiple_options( $element, $attributes ) {
 
 			if ( is_array( $attributes ) ){
 
@@ -456,8 +428,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		protected function enclose_label( $element, $html, $label, $class = false )
-		{
+		protected function enclose_label( $element, $html, $label, $class = false ) {
 
 			$labelClass = '';
 			if ( ! empty( $class ) && is_array( $class ) ) $labelClass = 'class="' . implode( ' ', $class ) . '"';
@@ -480,8 +451,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 * @return string
 		 * @throws rtFormInvalidArgumentsException
 		 */
-		protected function generate_textbox( $attributes )
-		{
+		protected function generate_textbox( $attributes ) {
 
 			$element = 'rtText';
 			if ( is_array( $attributes ) ){
@@ -514,8 +484,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_textbox( $attributes = '' )
-		{
+		public function get_textbox( $attributes = '' ) {
 
 			return $this->generate_textbox( $attributes );
 		}
@@ -528,8 +497,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 * @return string
 		 * @throws rtFormInvalidArgumentsException
 		 */
-		protected function generate_number( $attributes )
-		{
+		protected function generate_number( $attributes ) {
 
 			$element = 'rtNumber';
 			if ( is_array( $attributes ) ){
@@ -564,8 +532,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_number( $attributes = '' )
-		{
+		public function get_number( $attributes = '' ) {
 
 			return $this->generate_number( $attributes );
 		}
@@ -578,8 +545,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 * @return string
 		 * @throws rtFormInvalidArgumentsException
 		 */
-		protected function generate_date( $attributes )
-		{
+		protected function generate_date( $attributes ) {
 
 			$element = 'rtDate';
 			if ( is_array( $attributes ) ){
@@ -608,8 +574,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_date( $attributes )
-		{
+		public function get_date( $attributes ) {
 			return $this->generate_date( $attributes );
 		}
 
@@ -621,8 +586,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 * @return string
 		 * @throws rtFormInvalidArgumentsException
 		 */
-		protected function generate_hidden( $attributes )
-		{
+		protected function generate_hidden( $attributes ) {
 
 			$element = 'rtHidden';
 			if ( is_array( $attributes ) ){
@@ -655,8 +619,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_hidden( $attributes = '' )
-		{
+		public function get_hidden( $attributes = '' ) {
 
 			return $this->generate_hidden( $attributes );
 		}
@@ -669,13 +632,12 @@ if ( ! class_exists( 'rtForm' ) ){
 		 * @return string
 		 * @throws rtFormInvalidArgumentsException
 		 */
-		protected function generate_textarea( $attributes )
-		{
+		protected function generate_textarea( $attributes ) {
 
 			$element = 'rtTextarea';
 			if ( is_array( $attributes ) ){
 
-				$html  = '<textarea ';
+				$html = '<textarea ';
 				$html .= $this->processAttributes( $element, $attributes );
 				$html .= '>';
 
@@ -702,8 +664,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_textarea( $attributes = '' )
-		{
+		public function get_textarea( $attributes = '' ) {
 
 			return $this->generate_textarea( $attributes );
 		}
@@ -752,13 +713,12 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		protected function generate_radio( $attributes )
-		{
+		protected function generate_radio( $attributes ) {
 
 			$element = 'rtRadio';
 			$html    = '';
 
-			$meta  = $this->parse_multiple_options( $element, $attributes );
+			$meta = $this->parse_multiple_options( $element, $attributes );
 			$html .= $this->container_enclosed_elements( $element, $meta[ 'attrib' ], $meta[ 'rtForm_options' ] );
 
 			if ( isset( $attributes[ 'show_desc' ] ) && $attributes[ 'show_desc' ] ) $html .= $this->generate_element_desc( $attributes );
@@ -785,8 +745,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_radio( $attributes = '' )
-		{
+		public function get_radio( $attributes = '' ) {
 
 			return $this->generate_radio( $attributes );
 		}
@@ -799,13 +758,12 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		protected function generate_checkbox( $attributes )
-		{
+		protected function generate_checkbox( $attributes ) {
 
 			$element = 'rtCheckbox';
 			$html    = '';
 
-			$meta  = $this->parse_multiple_options( $element, $attributes );
+			$meta = $this->parse_multiple_options( $element, $attributes );
 			$html .= $this->container_enclosed_elements( $element, $meta[ 'attrib' ], $meta[ 'rtForm_options' ] );
 
 			if ( isset( $attributes[ 'show_desc' ] ) && $attributes[ 'show_desc' ] ) $html .= $this->generate_element_desc( $attributes );
@@ -832,8 +790,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_checkbox( $attributes = '' )
-		{
+		public function get_checkbox( $attributes = '' ) {
 
 			return $this->generate_checkbox( $attributes );
 		}
@@ -845,8 +802,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_switch( $attributes = '' )
-		{
+		public function get_switch( $attributes = '' ) {
 
 			$attributes[ 'switch' ] = true;
 
@@ -860,8 +816,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_switch_square( $attributes = '' )
-		{
+		public function get_switch_square( $attributes = '' ) {
 
 			$attributes[ 'switch_square' ] = true;
 
@@ -876,8 +831,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 * @return string
 		 * @throws rtFormInvalidArgumentsException
 		 */
-		protected function generate_select( $attributes )
-		{
+		protected function generate_select( $attributes ) {
 
 			if ( is_array( $attributes ) ){
 				$element = 'rtSelect';
@@ -896,7 +850,7 @@ if ( ! class_exists( 'rtForm' ) ){
 
 				$html .= '>';
 
-				$meta  = $this->parse_multiple_options( $element, $attributes );
+				$meta = $this->parse_multiple_options( $element, $attributes );
 				$html .= $this->container_enclosed_elements( $element, $meta[ 'attrib' ], $meta[ 'rtForm_options' ] );
 
 				$html .= '</select>';
@@ -921,8 +875,7 @@ if ( ! class_exists( 'rtForm' ) ){
 		 *
 		 * @return string
 		 */
-		public function get_select( $attributes = '' )
-		{
+		public function get_select( $attributes = '' ) {
 
 			return $this->generate_select( $attributes );
 		}

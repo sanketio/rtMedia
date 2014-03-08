@@ -16,8 +16,7 @@ class RTMediaDeprecated
 
 	var $deprecate_notice = false;
 
-	static function uploadshortcode()
-	{
+	static function uploadshortcode() {
 		//
 		//add_shortcode('rtmedia_uploader', array($this, 'pre_render'));
 		$deprecated       = false;
@@ -34,8 +33,7 @@ class RTMediaDeprecated
 	 *
 	 * @return string
 	 */
-	static function generate_notice( $method, $deprecated = false, $notice = '' )
-	{
+	static function generate_notice( $method, $deprecated = false, $notice = '' ) {
 		return sprintf( __( 'Deprecated %s. Please use %s.', 'rtmedia' ), $deprecated, $method );
 	}
 }

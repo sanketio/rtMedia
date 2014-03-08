@@ -16,8 +16,7 @@ class RTMediaInteractionModel extends RTDBModel
 	/**
 	 * Constructor
 	 */
-	function __construct()
-	{
+	function __construct() {
 		parent::__construct( 'rtm_media_interaction', false, 10, true );
 	}
 
@@ -30,8 +29,7 @@ class RTMediaInteractionModel extends RTDBModel
 	 *
 	 * @return bool
 	 */
-	function check( $user_id = '', $media_id = '', $action = '' )
-	{
+	function check( $user_id = '', $media_id = '', $action = '' ) {
 		if ( $user_id == '' || $media_id == '' || $action == '' ) return false;
 		$columns = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action );
 		$results = $this->get( $columns );
@@ -48,8 +46,7 @@ class RTMediaInteractionModel extends RTDBModel
 	 *
 	 * @return bool|type
 	 */
-	function get_row( $user_id = '', $media_id = '', $action = '' )
-	{
+	function get_row( $user_id = '', $media_id = '', $action = '' ) {
 		if ( $user_id == '' || $media_id == '' || $action == '' ) return false;
 		$columns = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action );
 		$results = $this->get( $columns );

@@ -14,10 +14,10 @@ class RTMediaFeed
 
 	/**
 	 * Constructor
+	 *
 	 * @param string $feed_url
 	 */
-	public function __construct( $feed_url = '' )
-	{
+	public function __construct( $feed_url = '' ) {
 		if ( $feed_url ) $this->feed_url = $feed_url;
 	}
 
@@ -29,8 +29,7 @@ class RTMediaFeed
 	 *
 	 * @global type $rtmedia
 	 */
-	public function fetch_feed()
-	{
+	public function fetch_feed() {
 		global $rtmedia;
 		// Get RSS Feed(s)
 		require_once( ABSPATH . WPINC . '/feed.php' );

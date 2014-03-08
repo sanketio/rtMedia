@@ -16,8 +16,7 @@ class RTMediaMeta
 	/**
 	 *
 	 */
-	function __construct()
-	{
+	function __construct() {
 		$this->model = new RTDBModel( 'rtm_media_meta', false, 10, true );
 	}
 
@@ -29,8 +28,7 @@ class RTMediaMeta
 	 *
 	 * @return bool
 	 */
-	function get_meta( $id = false, $key = false )
-	{
+	function get_meta( $id = false, $key = false ) {
 		if ( $id === false ) return false;
 		if ( $key === false ){
 			return $this->get_all_meta( $id );
@@ -47,8 +45,7 @@ class RTMediaMeta
 	 *
 	 * @return bool
 	 */
-	private function get_all_meta( $id = false )
-	{
+	private function get_all_meta( $id = false ) {
 		if ( $id === false ) return false;
 
 		return maybe_unserialize( $this->model->get( array( 'media_id' => $id ) ) );
@@ -62,8 +59,7 @@ class RTMediaMeta
 	 *
 	 * @return bool
 	 */
-	private function get_single_meta( $id = false, $key = false )
-	{
+	private function get_single_meta( $id = false, $key = false ) {
 		if ( $id === false ) return false;
 		if ( $key === false ) return false;
 		$value = $this->model->get( array( 'media_id' => $id, 'meta_key' => $key ) );
@@ -81,8 +77,7 @@ class RTMediaMeta
 	 *
 	 * @return bool|type
 	 */
-	function add_meta( $id = false, $key = false, $value = false, $duplicate = false )
-	{
+	function add_meta( $id = false, $key = false, $value = false, $duplicate = false ) {
 		return $this->update_meta( $id, $key, $value, $duplicate );
 	}
 
@@ -96,8 +91,7 @@ class RTMediaMeta
 	 *
 	 * @return bool|type
 	 */
-	function update_meta( $id = false, $key = false, $value = false, $duplicate = false )
-	{
+	function update_meta( $id = false, $key = false, $value = false, $duplicate = false ) {
 		if ( $id === false ) return false;
 		if ( $key === false ) return false;
 		if ( $value === false ) return false;
@@ -126,8 +120,7 @@ class RTMediaMeta
 	 *
 	 * @return bool|type
 	 */
-	function delete_meta( $id = false, $key = false )
-	{
+	function delete_meta( $id = false, $key = false ) {
 		if ( $id === false ) return false;
 		if ( $key === false ){
 			$where = array( 'media_id' => $id );

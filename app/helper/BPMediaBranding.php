@@ -19,8 +19,7 @@ if ( ! class_exists( 'BPMediaBranding' ) ){
 		/**
 		 * Constructor
 		 */
-		public function __construct()
-		{
+		public function __construct() {
 			;
 		}
 

@@ -19,15 +19,14 @@ class rtDimensions extends rtForm
 
 	/**
 	 * Get default id
+	 *
 	 * @return int
 	 */
-	private function get_default_id()
-	{
+	private function get_default_id() {
 		return self::$id_count;
 	}
 
-	private function update_default_id()
-	{
+	private function update_default_id() {
 		self::$id_count ++;
 	}
 
@@ -36,8 +35,7 @@ class rtDimensions extends rtForm
 	 *
 	 * @return string
 	 */
-	private function get_default_class()
-	{
+	private function get_default_class() {
 		return self::$default_class;
 	}
 
@@ -50,8 +48,7 @@ class rtDimensions extends rtForm
 	 * @return string
 	 * @throws rtFormsInvalidArgumentsException
 	 */
-	private function embedd_class( $element, $class = null )
-	{
+	private function embedd_class( $element, $class = null ) {
 
 		$html = 'class = "' . $this->get_default_class();
 
@@ -72,8 +69,7 @@ class rtDimensions extends rtForm
 	 *
 	 * @return string
 	 */
-	protected function generate_dimensions( $attributes )
-	{
+	protected function generate_dimensions( $attributes ) {
 
 		$element = 'rtDimension';
 		global $rtmedia;
@@ -101,17 +97,14 @@ class rtDimensions extends rtForm
 
 		if ( isset ( $crop ) ){
 			$croparray = array(
-				'name' => "rtmedia-options[{$key}_crop]",
-				'rtForm_options' => array(
+				'name'         => "rtmedia-options[{$key}_crop]", 'rtForm_options' => array(
 					array(
-						'' => 1, //label would be blank
+						''        => 1, //label would be blank
 						'checked' => $crop,
 					),
-				),
-				'class' => array(
+				), 'class'     => array(
 					'large-offset-1',
-				),
-				'show_desc' => $show_desc,
+				), 'show_desc' => $show_desc,
 			);
 			$html .= parent::get_checkbox( $croparray );
 		}
@@ -132,8 +125,7 @@ class rtDimensions extends rtForm
 	 *
 	 * @return string
 	 */
-	public function get_dimensions( $attributes = '' )
-	{
+	public function get_dimensions( $attributes = '' ) {
 
 		return $this->generate_dimensions( $attributes );
 	}

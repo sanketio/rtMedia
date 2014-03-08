@@ -20,8 +20,7 @@ class RTMediaActivity
 	/**
 	 *
 	 */
-	function __construct( $media, $privacy = 0, $activity_text = false )
-	{
+	function __construct( $media, $privacy = 0, $activity_text = false ) {
 		if ( ! isset ( $media ) ) return false;
 		if ( ! is_array( $media ) ) $media = array( $media );
 
@@ -35,8 +34,7 @@ class RTMediaActivity
 	 *
 	 * @return string
 	 */
-	function create_activity_html()
-	{
+	function create_activity_html() {
 
 
 		$html = '';
@@ -96,8 +94,7 @@ class RTMediaActivity
 		return $html;
 	}
 
-	function actions()
-	{
+	function actions() {
 
 	}
 
@@ -108,8 +105,7 @@ class RTMediaActivity
 	 *
 	 * @return mixed
 	 */
-	function media( $media )
-	{
+	function media( $media ) {
 		if ( isset ( $media->media_type ) ){
 			//			if ($media->media_type == 'album' ||
 			//					$media->media_type != 'photo') {

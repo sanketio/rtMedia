@@ -13,8 +13,7 @@ class RTMediaMigration
 	/**
 	 * Constructor
 	 */
-	function __construct()
-	{
+	function __construct() {
 		global $wpdb;
 		$this->bmp_table = $wpdb->base_prefix . 'rt_rtm_media';
 
@@ -42,13 +41,11 @@ class RTMediaMigration
 		}
 	}
 
-	function hide_migration_notice()
-	{
+	function hide_migration_notice() {
 		rtmedia_update_site_option( 'rt_migration_hide_notice', true );
 	}
 
-	function migrate_image_size_fix()
-	{
+	function migrate_image_size_fix() {
 		if ( rtmedia_get_site_option( 'rt_image_size_migration_fix', '' ) == '' ){
 			global $wpdb;
 			$sql = $wpdb->prepare( "update $wpdb->postmeta set meta_value=replace(meta_value	,%s,%s) where meta_key = '_wp_attachment_metadata';", 'bp_media', 'rt_media' );
@@ -57,8 +54,7 @@ class RTMediaMigration
 		}
 	}
 
-	function add_migration_notice()
-	{
+	function add_migration_notice() {
 		if ( current_user_can( 'manage_options' ) ) $this->create_notice( '<p><strong>rtMedia</strong>: ' . __( 'Please Migrate your Database', 'rtmedia' ) . ' <a href=' . admin_url( 'admin.php?page=rtmedia-migration&force=true' ) . '>' . __( 'Click Here', 'rtmedia' ) . '</a>.  <a href=' . admin_url( 'admin.php?page=rtmedia-migration&hide=true' ) . ' style="float:right">' . __( 'Hide', 'rtmedia' ) . '</a> </p>' );
 	}
 
@@ -68,8 +64,7 @@ class RTMediaMigration
 	 * @param        $message
 	 * @param string $type
 	 */
-	function create_notice( $message, $type = 'error' )
-	{
+	function create_notice( $message, $type = 'error' ) {
 		echo '<div class="' . $type . '">' . $message . '</div>';
 	}
 
@@ -80,8 +75,7 @@ class RTMediaMigration
 	 *
 	 * @return bool
 	 */
-	static function table_exists( $table )
-	{
+	static function table_exists( $table ) {
 		global $wpdb;
 
 		if ( $wpdb->query( "SHOW TABLES LIKE '" . $table . "'" ) == 1 ){
@@ -91,8 +85,7 @@ class RTMediaMigration
 		return false;
 	}
 
-	function menu()
-	{
+	function menu() {
 		add_submenu_page( 'rtmedia-setting', __( 'Migration', 'rtmedia' ), __( 'Migration', 'rtmedia' ), 'manage_options', 'rtmedia-migration', array( $this, 'test' ) );
 	}
 
@@ -101,8 +94,7 @@ class RTMediaMigration
 	 *
 	 * @return int
 	 */
-	function get_total_count()
-	{
+	function get_total_count() {
 		global $wpdb;
 		if ( function_exists( 'bp_core_get_table_prefix' ) ) $bp_prefix = bp_core_get_table_prefix(); else
 			$bp_prefix = '';
@@ -171,8 +163,7 @@ class RTMediaMigration
 	 *
 	 * @return bool
 	 */
-	function get_last_imported()
-	{
+	function get_last_imported() {
 		$album    = rtmedia_get_site_option( 'rtmedia-global-albums' );
 		$album_id = $album[ 0 ];
 
@@ -200,8 +191,7 @@ class RTMediaMigration
 	 *
 	 * @return mixed
 	 */
-	function get_done_count( $flag = false )
-	{
+	function get_done_count( $flag = false ) {
 		global $wpdb;
 		$sql = "select count(*)
                 from {$this->bmp_table} where blog_id = %d and media_id in (select a.post_id
@@ -223,7 +213,7 @@ class RTMediaMigration
 		if ( $flag ) return $media_count - 1;
 		$state = intval( rtmedia_get_site_option( 'rtmedia-migration', '0' ) );
 		if ( $state == 5 ){
-			$album_count  = intval( $_SESSION[ 'migration_user_album' ] );
+			$album_count = intval( $_SESSION[ 'migration_user_album' ] );
 			$album_count += ( isset ( $_SESSION[ 'migration_group_album' ] ) ) ? intval( $_SESSION[ 'migration_group_album' ] ) : 0;
 		} else {
 			if ( $state > 0 ){
@@ -234,11 +224,11 @@ class RTMediaMigration
 					$pending_count .= ' or ID in (select meta_value FROM {$bp_prefix}bp_groups_groupmeta where meta_key ="bp_media_default_album")';
 				}
 				$pending_count .= ')';
-				$pending_count  = $wpdb->get_var( $pending_count );
+				$pending_count = $wpdb->get_var( $pending_count );
 
-				$album_count  = intval( $_SESSION[ 'migration_user_album' ] );
+				$album_count = intval( $_SESSION[ 'migration_user_album' ] );
 				$album_count += ( isset ( $_SESSION[ 'migration_group_album' ] ) ) ? intval( $_SESSION[ 'migration_group_album' ] ) : 0;
-				$album_count  = $album_count - intval( $pending_count );
+				$album_count = $album_count - intval( $pending_count );
 			} else {
 				$album_count = 0;
 			}
@@ -253,8 +243,7 @@ class RTMediaMigration
 		return $media_count + $album_count + $comment_sql;
 	}
 
-	function return_migration()
-	{
+	function return_migration() {
 		$total   = $this->get_total_count();
 		$done    = $this->get_done_count();
 		$pending = $total - $done;
@@ -282,8 +271,7 @@ class RTMediaMigration
 	 *
 	 * @return bool
 	 */
-	function manage_album()
-	{
+	function manage_album() {
 		$album = rtmedia_get_site_option( 'rtmedia-global-albums' );
 		$stage = intval( rtmedia_get_site_option( 'rtmedia-migration', '0' ) );
 
@@ -374,8 +362,7 @@ class RTMediaMigration
 		return false;
 	}
 
-	function test()
-	{
+	function test() {
 		if ( ! $this->table_exists( $this->bmp_table ) ){
 			$obj                     = new RTDBUpdate( false, RTMEDIA_PATH . 'index.php', RTMEDIA_PATH . 'app/schema/', true );
 			$obj->install_db_version = '0';
@@ -474,7 +461,7 @@ class RTMediaMigration
 								}
 							},
 							error: function () {
-								alert( "<?php _e( 'Error During Migration, Please Refresh Page then try again', 'rtmedia' ); ?>" );
+								alert("<?php _e( 'Error During Migration, Please Refresh Page then try again', 'rtmedia' ); ?>");
 								jQuery("#submit").removeAttr('disabled');
 							}
 						});
@@ -508,8 +495,7 @@ class RTMediaMigration
 	 * @param int $lastid
 	 * @param int $limit
 	 */
-	function migrate_to_new_db( $lastid = 0, $limit = 1 )
-	{
+	function migrate_to_new_db( $lastid = 0, $limit = 1 ) {
 
 		if ( ! isset ( $_SESSION[ 'migration_media' ] ) ) $this->get_total_count();
 
@@ -577,8 +563,7 @@ class RTMediaMigration
 		$this->return_migration();
 	}
 
-	function migrate_encoding_options()
-	{
+	function migrate_encoding_options() {
 		$encoding_mnigration_array = array( 'bp-media-encoding-api-key' => 'rtmedia-encoding-api-key', 'bp-media-encoding-usage-limit-mail' => 'rtmedia-encoding-usage-limit-mail', 'bp-media-encoding-usage' => 'rtmedia-encoding-usage', 'bpmedia_encoding_service_notice' => 'rtmedia-encoding-service-notice', 'bpmedia_encoding_expansion_notice' => 'rtmedia-encoding-expansion-notice', 'bp_media_ffmpeg_options' => 'rtmedia-ffmpeg-options', 'bp_media_kaltura_options' => 'rtmedia-kaltura-options', );
 		foreach ( $encoding_mnigration_array as $key => $ma ) {
 			if ( ( $value = rtmedia_get_site_option( $key ) ) !== false ){
@@ -595,8 +580,7 @@ class RTMediaMigration
 	 *
 	 * @return mixed
 	 */
-	function migrate_single_media( $result, $album = false )
-	{
+	function migrate_single_media( $result, $album = false ) {
 		$blog_id = get_current_blog_id();
 		$old     = $result;
 		if ( function_exists( 'bp_core_get_table_prefix' ) ) $bp_prefix = bp_core_get_table_prefix(); else
@@ -772,8 +756,7 @@ class RTMediaMigration
 	 * @param $id
 	 * @param $prefix
 	 */
-	function importmedia( $id, $prefix )
-	{
+	function importmedia( $id, $prefix ) {
 
 
 		$delete               = false;
@@ -999,8 +982,7 @@ class RTMediaMigration
 	 * @param $old
 	 * @param $new
 	 */
-	function search_and_replace( $old, $new )
-	{
+	function search_and_replace( $old, $new ) {
 		global $wpdb;
 		if ( function_exists( 'bp_core_get_table_prefix' ) ) $bp_prefix = bp_core_get_table_prefix(); else
 			$bp_prefix = $wpdb->prefix;
@@ -1015,8 +997,7 @@ class RTMediaMigration
 	 *
 	 * @return string
 	 */
-	function formatSeconds( $secondsLeft )
-	{
+	function formatSeconds( $secondsLeft ) {
 
 		$minuteInSeconds = 60;
 		$hourInSeconds   = $minuteInSeconds * 60;
@@ -1067,8 +1048,7 @@ class RTMediaMigration
 	 * @param     $exclude
 	 * @param int $parent_commnet_id
 	 */
-	function insert_comment( $media_id, $data, $exclude, $parent_commnet_id = 0 )
-	{
+	function insert_comment( $media_id, $data, $exclude, $parent_commnet_id = 0 ) {
 		foreach ( $data as $cmnt ) {
 			$comment_id = 0;
 			if ( ! key_exists( strval( $cmnt->id ), $exclude ) ){

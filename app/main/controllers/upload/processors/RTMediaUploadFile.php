@@ -10,7 +10,7 @@ class RTMediaUploadFile
 {
 
 	var $files;
-	var $fake     = false;
+	var $fake = false;
 	var $uploaded = false;
 
 	/**
@@ -18,8 +18,7 @@ class RTMediaUploadFile
 	 *
 	 * @param $uploaded
 	 */
-	function __construct( $uploaded )
-	{
+	function __construct( $uploaded ) {
 		$this->uploaded = $uploaded;
 	}
 
@@ -30,8 +29,7 @@ class RTMediaUploadFile
 	 *
 	 * @return type
 	 */
-	function init( $files )
-	{
+	function init( $files ) {
 
 		$this->set_file( $files );
 		$this->unset_invalid_files();
@@ -43,8 +41,7 @@ class RTMediaUploadFile
 	/**
 	 * core process of upload
 	 */
-	function process()
-	{
+	function process() {
 		include_once( ABSPATH . 'wp-admin/includes/file.php' );
 		include_once( ABSPATH . 'wp-admin/includes/image.php' );
 
@@ -89,8 +86,7 @@ class RTMediaUploadFile
 	 *
 	 * @return mixed
 	 */
-	function upload_dir( $upload_dir )
-	{
+	function upload_dir( $upload_dir ) {
 		global $rtmedia_interaction;
 		if ( isset ( $this->uploaded[ 'context' ] ) && isset ( $this->uploaded[ 'context_id' ] ) ){
 			if ( $this->uploaded[ 'context' ] != 'group' ){
@@ -126,8 +122,7 @@ class RTMediaUploadFile
 	 *
 	 * @throws RTMediaUploadException
 	 */
-	function set_file( $files )
-	{
+	function set_file( $files ) {
 		/**
 		 * if files parameter is provided then take th file details from that object
 		 */
@@ -152,8 +147,7 @@ class RTMediaUploadFile
 	 *
 	 * @param type $file_array
 	 */
-	function populate_file_array( $file_array )
-	{
+	function populate_file_array( $file_array ) {
 		$this->files[ ] = array( 'name' => isset ( $file_array[ 'name' ] ) ? $file_array[ 'name' ] = str_replace( '%', '-', $file_array[ 'name' ] ) : '', 'type' => isset ( $file_array[ 'type' ] ) ? $file_array[ 'type' ] : '', 'tmp_name' => isset ( $file_array[ 'tmp_name' ] ) ? $file_array[ 'tmp_name' ] : '', 'error' => isset ( $file_array[ 'error' ] ) ? $file_array[ 'error' ] : '', 'size' => isset ( $file_array[ 'size' ] ) ? $file_array[ 'size' ] : 0, );
 	}
 
@@ -167,8 +161,7 @@ class RTMediaUploadFile
 	 * @return boolean
 	 * @throws RTMediaUploadException
 	 */
-	function is_valid_type( $file )
-	{
+	function is_valid_type( $file ) {
 		try {
 			global $rtmedia;
 			$allowed_types          = array();
@@ -201,8 +194,7 @@ class RTMediaUploadFile
 	/**
 	 * Remove invalid files
 	 */
-	function unset_invalid_files()
-	{
+	function unset_invalid_files() {
 		$temp_array  = $this->files;
 		$this->files = null;
 		foreach ( $temp_array as $key => $file ) {
@@ -220,8 +212,7 @@ class RTMediaUploadFile
 	 * @return bool
 	 * @throws RTMediaUploadException
 	 */
-	function id3_validate_type( $file )
-	{
+	function id3_validate_type( $file ) {
 		$file_type = explode( '/', $file[ 'type' ] );
 		$type      = $file_type[ 0 ];
 		switch ( $type ) {
@@ -297,8 +288,7 @@ class RTMediaUploadFile
 	 *
 	 * @param $file_path
 	 */
-	function safe_unlink( $file_path )
-	{
+	function safe_unlink( $file_path ) {
 		if ( file_exists( $file_path ) ) unlink( $file_path );
 	}
 
@@ -307,8 +297,7 @@ class RTMediaUploadFile
 	 *
 	 * @return mixed
 	 */
-	function exif( $file )
-	{
+	function exif( $file ) {
 		$file_parts = pathinfo( $file[ 'file' ] );
 		if ( in_array( strtolower( $file_parts[ 'extension' ] ), array( 'jpg', 'jpeg', 'tiff' ) ) ){
 			$exif        = read_exif_data( $file[ 'file' ] );
@@ -369,8 +358,7 @@ class RTMediaUploadFile
 	 *
 	 * @return mixed
 	 */
-	function arrayify( $files )
-	{
+	function arrayify( $files ) {
 		if ( isset ( $files[ 'name' ] ) && ! is_array( $files[ 'name' ] ) ){
 			$updated_files[ 0 ] = $files;
 		} else {

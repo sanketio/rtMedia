@@ -16,19 +16,16 @@ class RTMediaAJAX
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		add_action( 'wp_ajax_rtmedia_backbone_template', array( $this, 'backbone_template' ) );
 		add_action( 'wp_ajax_rtmedia_create_album', array( $this, 'create_album' ) );
 	}
 
-	function backbone_template()
-	{
+	function backbone_template() {
 		include RTMEDIA_PATH . 'templates/media/media-gallery-item.php';
 	}
 
-	function create_album()
-	{
+	function create_album() {
 		if ( isset( $_POST[ 'name' ] ) && $_POST[ 'name' ] && is_rtmedia_album_enable() ){
 			if ( isset( $_POST[ 'context' ] ) && $_POST[ 'context' ] == 'group' ){
 				$group_id = ! empty( $_POST[ 'group_id' ] ) ? $_POST[ 'group_id' ] : '';

@@ -14,8 +14,7 @@ class RTMediaUploadModel
 	 *
 	 * @return type
 	 */
-	function set_post_object()
-	{
+	function set_post_object() {
 		$this->upload = wp_parse_args( $_POST, $this->upload );
 		$this->sanitize_object();
 
@@ -26,8 +25,7 @@ class RTMediaUploadModel
 	 *
 	 * @return boolean
 	 */
-	function has_context()
-	{
+	function has_context() {
 		if ( isset ( $this->upload[ 'context_id' ] ) && ! empty ( $this->upload[ 'context_id' ] ) ) return true;
 
 		return false;
@@ -37,8 +35,7 @@ class RTMediaUploadModel
 	 *
 	 * @global type $rtmedia_interaction
 	 */
-	function sanitize_object()
-	{
+	function sanitize_object() {
 		if ( ! $this->has_context() ){
 
 			global $rtmedia_interaction;
@@ -73,13 +70,11 @@ class RTMediaUploadModel
 	 *
 	 * @return type
 	 */
-	function has_author()
-	{
+	function has_author() {
 		return $this->upload[ 'media_author' ];
 	}
 
-	function set_author()
-	{
+	function set_author() {
 		$this->upload[ 'media_author' ] = get_current_user_id();
 	}
 
@@ -87,8 +82,7 @@ class RTMediaUploadModel
 	 *
 	 * @return boolean
 	 */
-	function has_album_id()
-	{
+	function has_album_id() {
 		if ( ! $this->upload[ 'album_id' ] || $this->upload[ 'album_id' ] == 'undefined' ) return false;
 
 		return true;
@@ -98,8 +92,7 @@ class RTMediaUploadModel
 	 *
 	 * @return boolean
 	 */
-	function has_album_permissions()
-	{
+	function has_album_permissions() {
 		//yet to be coded for the privacy options of the album
 		return true;
 	}
@@ -110,16 +103,14 @@ class RTMediaUploadModel
 	 *
 	 * @return boolean
 	 */
-	function album_id_exists( $id )
-	{
+	function album_id_exists( $id ) {
 		return true;
 	}
 
 	/**
 	 *
 	 */
-	function set_album_id()
-	{
+	function set_album_id() {
 		if ( class_exists( 'BuddyPress' ) ){
 			$this->set_bp_album_id();
 		} else {
@@ -130,8 +121,7 @@ class RTMediaUploadModel
 	/**
 	 *
 	 */
-	function set_bp_album_id()
-	{
+	function set_bp_album_id() {
 		if ( bp_is_blog_page() ){
 			$this->set_wp_album_id();
 		} else {
@@ -143,8 +133,7 @@ class RTMediaUploadModel
 	 *
 	 * @throws RTMediaUploadException
 	 */
-	function set_wp_album_id()
-	{
+	function set_wp_album_id() {
 		if ( isset ( $this->upload[ 'context' ] ) ) $this->upload[ 'album_id' ] = $this->upload[ 'context_id' ]; else
 			throw new RTMediaUploadException( 9 ); // Invalid Context
 	}
@@ -152,8 +141,7 @@ class RTMediaUploadModel
 	/**
 	 *
 	 */
-	function set_bp_component_album_id()
-	{
+	function set_bp_component_album_id() {
 		switch ( bp_current_component() ) {
 			case 'groups':
 				$this->upload[ 'album_id' ] = RTMediaAlbum::get_default();

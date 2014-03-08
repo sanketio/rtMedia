@@ -9,8 +9,7 @@ class RTMediaJsonApiFunctions
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 	}
 
 	/**
@@ -22,8 +21,7 @@ class RTMediaJsonApiFunctions
 	 * @return type
 	 */
 
-	function rtmedia_api_get_user_token( $user_id, $user_login )
-	{
+	function rtmedia_api_get_user_token( $user_id, $user_login ) {
 		if ( empty( $user_id ) || empty( $user_login ) ) return false;
 		$string = '08~' . $user_id . '~' . $user_login . '~kumar';
 
@@ -40,8 +38,7 @@ class RTMediaJsonApiFunctions
 	 *
 	 * @return array|bool
 	 */
-	function rtmedia_api_user_data_from_id( $user_id, $width = 80, $height = 80, $type = 'thumb' )
-	{
+	function rtmedia_api_user_data_from_id( $user_id, $width = 80, $height = 80, $type = 'thumb' ) {
 		if ( empty( $user_id ) ) return false;
 		$user_data           = array();
 		$user_data[ 'id' ]   = $user_id;
@@ -60,8 +57,7 @@ class RTMediaJsonApiFunctions
 	 *
 	 * @return array|bool
 	 */
-	function rtmedia_api_media_data_from_object( $media )
-	{
+	function rtmedia_api_media_data_from_object( $media ) {
 		if ( empty( $media ) ) return false;
 		$media_data                    = array();
 		$media_data[ 'id' ]            = $media[ 'id' ];
@@ -79,13 +75,12 @@ class RTMediaJsonApiFunctions
 	 *
 	 * @return bool|type
 	 */
-	function rtmedia_api_validate_token( $token )
-	{
+	function rtmedia_api_validate_token( $token ) {
 		if ( empty( $token ) ) return false;
 		if ( class_exists( 'RTMediaApiLogin' ) ){
 			$rtmediaapilogin = new RTMediaApiLogin();
 			$columns         = array( 'token' => $token );
-			$token_data = $rtmediaapilogin->get( $columns );
+			$token_data      = $rtmediaapilogin->get( $columns );
 			if ( empty( $token_data ) || $token_data[ 0 ]->status === 'FALSE' ){
 				return false;
 			}
@@ -102,8 +97,7 @@ class RTMediaJsonApiFunctions
 	 *
 	 * @return bool
 	 */
-	function rtmedia_api_get_user_id_from_token( $token )
-	{
+	function rtmedia_api_get_user_id_from_token( $token ) {
 		if ( empty( $token ) ) return false;
 		$token_data = $this->rtmedia_api_validate_token( $token );
 
@@ -112,8 +106,7 @@ class RTMediaJsonApiFunctions
 
 	// Token processing for all data fetch/post requests
 
-	function rtmedia_api_verfiy_token()
-	{
+	function rtmedia_api_verfiy_token() {
 		$rtmjsonapi = new RTMediaJsonApi();
 		if ( empty( $_POST[ 'token' ] ) ){
 			echo $rtmjsonapi->rtmedia_api_response_object( 'FALSE', $rtmjsonapi->ec_token_missing, $rtmjsonapi->msg_token_missing );
@@ -129,8 +122,7 @@ class RTMediaJsonApiFunctions
 		}
 	}
 
-	function rtmedia_api_media_activity_id_missing()
-	{
+	function rtmedia_api_media_activity_id_missing() {
 		$rtmjsonapi = new RTMediaJsonApi();
 		if ( empty( $_POST[ 'activity_id' ] ) && empty( $_POST[ 'media_id' ] ) ){
 			echo $rtmjsonapi->rtmedia_api_response_object( 'FALSE', $rtmjsonapi->ec_media_activity_id_missing, $rtmjsonapi->msg_media_activity_id_missing );
@@ -145,8 +137,7 @@ class RTMediaJsonApiFunctions
 	 *
 	 * @return bool
 	 */
-	function rtmedia_api_activityid_from_mediaid( $media_id )
-	{
+	function rtmedia_api_activityid_from_mediaid( $media_id ) {
 		$rtmjsonapi = new RTMediaJsonApi();
 		if ( empty( $media_id ) ) return false;
 		$mediaModel = new RTMediaModel();
@@ -167,8 +158,7 @@ class RTMediaJsonApiFunctions
 	 *
 	 * @return bool
 	 */
-	function rtmedia_api_followers( $user_id )
-	{
+	function rtmedia_api_followers( $user_id ) {
 		if ( empty( $user_id ) ) return false;
 		$followers = bp_follow_get_followers( array( 'user_id' => $user_id ) );
 
@@ -182,8 +172,7 @@ class RTMediaJsonApiFunctions
 	 *
 	 * @return bool
 	 */
-	function rtmedia_api_following( $user_id )
-	{
+	function rtmedia_api_following( $user_id ) {
 		if ( empty( $user_id ) ) return false;
 		$followers = bp_follow_get_following( array( 'user_id' => $user_id ) );
 
@@ -193,8 +182,7 @@ class RTMediaJsonApiFunctions
 	/**
 	 * Accepts a rtmedia media object and returns a array of media details
 	 */
-	function rtmedia_api_media_details( $media_list )
-	{
+	function rtmedia_api_media_details( $media_list ) {
 		global $rtmediajsonapi;
 		if ( empty( $media_list ) ) return false;
 		$result = array();
@@ -209,11 +197,7 @@ class RTMediaJsonApiFunctions
 
 
 				$result[ ] = array(
-					'id' => $media[ 'id' ],
-					'title' => $media[ 'media_title' ],
-					'src' => rtmedia_image( 'rt_media_activity_image', $media[ 'id' ], false ),
-					'likes' => $media[ 'likes' ],
-					'current_user' => $current_user,
+					'id' => $media[ 'id' ], 'title' => $media[ 'media_title' ], 'src' => rtmedia_image( 'rt_media_activity_image', $media[ 'id' ], false ), 'likes' => $media[ 'likes' ], 'current_user' => $current_user,
 				);
 			}
 		}
@@ -225,24 +209,21 @@ class RTMediaJsonApiFunctions
 	 * Fetches Activity for rtmedia updates, if user id for activity is provided fetches the user specific rtmedia updates
 	 *
 	 * @global type $activities_template
-	 * @param bool $activity_user_id
-	 * @param bool $activity_id
-	 * @param int  $per_page
+	 *
+	 * @param bool  $activity_user_id
+	 * @param bool  $activity_id
+	 * @param int   $per_page
 	 *
 	 * @return array
 	 */
-	function rtmedia_api_get_feed( $activity_user_id = false, $activity_id = false, $per_page = 10 )
-	{
+	function rtmedia_api_get_feed( $activity_user_id = false, $activity_id = false, $per_page = 10 ) {
 		global $activities_template, $rtmediajsonapi;
 		$activity_feed = array();
 		extract( $_REQUEST );
 		$i    = 0;
 		$args = array(
-			'user_id' => $activity_user_id,
-			'action' => '', /* or rtmedia_update for fetching only rtmedia updates */
-			'page'    => ! empty( $_REQUEST[ 'page' ] ) ? $_REQUEST[ 'page' ] : 1,
-			'per_page' => $per_page,
-			'in' => $activity_id,
+			'user_id' => $activity_user_id, 'action' => '', /* or rtmedia_update for fetching only rtmedia updates */
+			'page'    => ! empty( $_REQUEST[ 'page' ] ) ? $_REQUEST[ 'page' ] : 1, 'per_page' => $per_page, 'in' => $activity_id,
 		);
 		if ( bp_has_activities( $args ) ) :
 			$activity_feed[ 'total_activity_count' ] = $activities_template->total_activity_count;
@@ -295,8 +276,7 @@ class RTMediaJsonApiFunctions
 	 *
 	 * @return array
 	 */
-	function rtmedia_api_get_media_comments( $media_id )
-	{
+	function rtmedia_api_get_media_comments( $media_id ) {
 		global $wpdb;
 		$rtmjsonapi = new RTMediaJsonApi();
 		$id         = rtmedia_media_id( $media_id );
@@ -304,7 +284,7 @@ class RTMediaJsonApiFunctions
 			echo $rtmjsonapi->rtmedia_api_response_object( 'FALSE', $rtmjsonapi->ec_invalid_media_id, $rtmjsonapi->msg_invalid_media_id );
 			exit;
 		}
-		$comments = $wpdb->get_results( 'SELECT * FROM $wpdb->comments WHERE comment_post_ID = ' . $id , ARRAY_A );
+		$comments = $wpdb->get_results( 'SELECT * FROM $wpdb->comments WHERE comment_post_ID = ' . $id, ARRAY_A );
 
 		$media_comments = array();
 		if ( ! empty( $comments ) ){
@@ -329,11 +309,10 @@ class RTMediaJsonApiFunctions
 	 *
 	 * @return type
 	 */
-	function rtmedia_api_media_liked_by_user( $media_id )
-	{
+	function rtmedia_api_media_liked_by_user( $media_id ) {
 		$rtmediainteractionmodel = new RTMediaInteractionModel();
-		$media_like_cols = array( 'media_id' => $media_id, 'action' => 'like', 'value' => 1 );
-		$likers = $rtmediainteractionmodel->get( $media_like_cols, false, false, 'action_date' );
+		$media_like_cols         = array( 'media_id' => $media_id, 'action' => 'like', 'value' => 1 );
+		$likers                  = $rtmediainteractionmodel->get( $media_like_cols, false, false, 'action_date' );
 
 		return $likers;
 	}
@@ -345,13 +324,12 @@ class RTMediaJsonApiFunctions
 	 *
 	 * @return array|bool
 	 */
-	function rtmedia_api_album_media( $album_id )
-	{
+	function rtmedia_api_album_media( $album_id ) {
 		if ( empty( $album_id ) ) return false;
 		$rtmediamodel = new RTMediaModel();
 		$args         = array( 'album_id' => $album_id );
-		$media_list = $rtmediamodel->get( $args );
-		$media_data = array();
+		$media_list   = $rtmediamodel->get( $args );
+		$media_data   = array();
 		if ( ! empty( $media_list ) && is_array( $media_list ) ){
 			foreach ( $media_list as $media ) {
 				$media_data[ ] = array( 'id' => $media->id, 'media_title' => $media->media_title, 'media_url' => get_rtmedia_permalink( $media->media_id ), 'media_author' => $media->media_author, 'cover' => rtmedia_image( 'rt_media_thumbnail', $media->media_id, false ) );
@@ -361,8 +339,7 @@ class RTMediaJsonApiFunctions
 		return $media_data;
 	}
 
-	function  rtmedia_api_set_user_id()
-	{
+	function  rtmedia_api_set_user_id() {
 		global $rtmediajsonapi;
 
 		return $rtmediajsonapi->user_id;

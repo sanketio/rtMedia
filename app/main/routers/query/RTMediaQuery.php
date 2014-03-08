@@ -45,20 +45,19 @@ class RTMediaQuery
 	public $actions = array( 'edit' => array( 'Edit', false ), 'delete' => array( 'Delete', false ), 'comment' => array( 'Comment', true ), 'delete-comment' => array( 'Comment Deleted', false ) );
 	public $media = '';
 	public $media_count = 0;
-	public $current_media     = - 1;
+	public $current_media = - 1;
 	public $in_the_media_loop = false;
-	public $format            = false;
-	public $shortcode_global  = false;
+	public $format = false;
+	public $shortcode_global = false;
 
 	/**
 	 * Initialise the query
 	 *
 	 * @global object $rtmedia_interaction The global interaction object
 	 *
-	 * @param bool   $args                The query arguments
+	 * @param bool    $args                The query arguments
 	 */
-	function __construct( $args = false )
-	{
+	function __construct( $args = false ) {
 
 		// set up the interaction object relevant to just the query
 		// we only need information related to the media route
@@ -101,13 +100,11 @@ class RTMediaQuery
 	/**
 	 * Initialise the default args for the query
 	 */
-	function init()
-	{
+	function init() {
 
 	}
 
-	function set_media_type()
-	{
+	function set_media_type() {
 		if ( ! isset ( $this->query[ 'media_type' ] ) ){
 			if ( isset ( $this->action_query->id ) ){
 				$media = $this->model->get( array( 'id' => $this->action_query->id ) );
@@ -124,8 +121,7 @@ class RTMediaQuery
 	/**
 	 * @return bool
 	 */
-	function is_single()
-	{
+	function is_single() {
 		/**
 		 * // check the condition
 		 * wont be true in case of multiple albums
@@ -144,8 +140,7 @@ class RTMediaQuery
 	/**
 	 * @return bool
 	 */
-	function is_album()
-	{
+	function is_album() {
 		if ( isset ( $this->query[ 'media_type' ] ) && $this->query[ 'media_type' ] == 'album' ){
 			return true;
 		}
@@ -156,8 +151,7 @@ class RTMediaQuery
 	/**
 	 * @return bool
 	 */
-	function is_group_album()
-	{
+	function is_group_album() {
 		if ( $this->is_album() && ( isset ( $this->query[ 'context' ] ) && $this->query[ 'context' ] == 'group' ) ){
 			return true;
 		}
@@ -168,8 +162,7 @@ class RTMediaQuery
 	/**
 	 * @return bool
 	 */
-	function is_gallery()
-	{
+	function is_gallery() {
 		if ( ! $this->is_single() ) return true;
 
 		return false;
@@ -178,8 +171,7 @@ class RTMediaQuery
 	/**
 	 * @return bool
 	 */
-	function is_album_gallery()
-	{
+	function is_album_gallery() {
 		if ( isset ( $this->action_query->media_type ) && $this->action_query->media_type == 'album' ){
 			return true;
 		}
@@ -190,8 +182,7 @@ class RTMediaQuery
 	/**
 	 * @return bool
 	 */
-	function is_playlist_gallery()
-	{
+	function is_playlist_gallery() {
 		if ( isset ( $this->action_query->media_type ) && $this->action_query->media_type == 'playlist' ){
 			return true;
 		}
@@ -202,8 +193,7 @@ class RTMediaQuery
 	/**
 	 * @return bool
 	 */
-	function is_playlist()
-	{
+	function is_playlist() {
 		if ( isset ( $this->query[ 'media_type' ] ) && $this->query[ 'media_type' ] == 'playlist' ){
 			return true;
 		}
@@ -214,16 +204,14 @@ class RTMediaQuery
 	/**
 	 * json request
 	 */
-	function set_json_format()
-	{
+	function set_json_format() {
 
 		if ( isset ( $_GET[ 'json' ] ) || isset ( $_POST[ 'json' ] ) ){
 			$this->format = 'json';
 		}
 	}
 
-	function set_action_query()
-	{
+	function set_action_query() {
 		if ( isset( $this->interaction ) && isset( $this->interaction->query_vars ) ){
 			$raw_query = $this->interaction->query_vars;
 		} else {
@@ -434,8 +422,7 @@ class RTMediaQuery
 	/**
 	 * additional actions to be added via action hook
 	 */
-	function set_actions()
-	{
+	function set_actions() {
 		$this->actions = apply_filters( 'rtmedia_query_actions', $this->actions );
 	}
 
@@ -446,8 +433,7 @@ class RTMediaQuery
 	 *
 	 * @return type
 	 */
-	function &query( $query )
-	{
+	function &query( $query ) {
 		$this->original_query = $query;
 		$this->query          = wp_parse_args( $query, $this->query );
 		//Set Json
@@ -501,8 +487,7 @@ class RTMediaQuery
 	 *
 	 * @return string
 	 */
-	function register_set_gallery_template_filter( $template, $attr )
-	{
+	function register_set_gallery_template_filter( $template, $attr ) {
 		remove_filter( 'rtmedia-before-template', array( &$this, 'register_set_gallery_template_filter' ), 10, 2 );
 
 		return 'album-gallery';
@@ -515,8 +500,7 @@ class RTMediaQuery
 	 *
 	 * @return string
 	 */
-	function privacy_filter( $where, $table_name )
-	{
+	function privacy_filter( $where, $table_name ) {
 		if ( is_rt_admin() ) return $where;
 		$user = $this->get_user();
 
@@ -527,7 +511,7 @@ class RTMediaQuery
 			if ( class_exists( 'BuddyPress' ) ){
 				if ( bp_is_active( 'friends' ) ){
 					$friends = $this->friendship->get_friends_cache( $user );
-					$where  .= ' OR ({$table_name}.privacy=40 AND {$table_name}.media_author IN (' . implode( ',', $friends ) . '))';
+					$where .= ' OR ({$table_name}.privacy=40 AND {$table_name}.media_author IN (' . implode( ',', $friends ) . '))';
 				}
 			}
 		}
@@ -538,8 +522,7 @@ class RTMediaQuery
 	/**
 	 * @return int
 	 */
-	function get_user()
-	{
+	function get_user() {
 		if ( is_user_logged_in() ){
 			$user = apply_filters( 'rtmedia_current_user', get_current_user_id() );
 		} else {
@@ -549,8 +532,7 @@ class RTMediaQuery
 		return $user;
 	}
 
-	function set_privacy()
-	{
+	function set_privacy() {
 		$user = $this->get_user();
 		if ( ! $user ){
 			$privacy = 0;
@@ -562,8 +544,7 @@ class RTMediaQuery
 	/**
 	 * @return bool|type
 	 */
-	function populate_media()
-	{
+	function populate_media() {
 
 		$this->set_privacy();
 		if ( $this->is_single() ) $this->media_query[ 'id' ] = $this->action_query->id;
@@ -649,8 +630,7 @@ class RTMediaQuery
 	//	return $where;
 	//    }
 
-	function album_or_media()
-	{
+	function album_or_media() {
 		global $rtmedia;
 		foreach ( $rtmedia->allowed_types as $value ) {
 			$allowed_media_types[ ] = $value[ 'name' ];
@@ -667,8 +647,7 @@ class RTMediaQuery
 		}
 	}
 
-	function order_by()
-	{
+	function order_by() {
 		/**
 		 * Handle order of the result set
 		 */
@@ -692,8 +671,7 @@ class RTMediaQuery
 	/**
 	 * @return bool|type
 	 */
-	function populate_album()
-	{
+	function populate_album() {
 		$this->album                     = $this->media;
 		$this->media_query[ 'album_id' ] = $this->action_query->id;
 		unset ( $this->action_query->id );
@@ -706,8 +684,7 @@ class RTMediaQuery
 	/**
 	 * @return mixed
 	 */
-	function populate_comments()
-	{
+	function populate_comments() {
 
 		$this->model = new RTMediaCommentModel();
 		global $rtmedia_interaction;
@@ -720,8 +697,7 @@ class RTMediaQuery
 	 *
 	 * @return boolean
 	 */
-	function populate_data()
-	{
+	function populate_data() {
 		unset ( $this->media_query->meta_query );
 		unset ( $this->media_query->tax_query );
 		$this->current_media = - 1;
@@ -764,8 +740,7 @@ class RTMediaQuery
 	 *
 	 * @return type
 	 */
-	function get_media_id( $media )
-	{
+	function get_media_id( $media ) {
 		return $media->media_id;
 	}
 
@@ -776,8 +751,7 @@ class RTMediaQuery
 	 *
 	 * @return null
 	 */
-	function get_media_by_media_id( $id )
-	{
+	function get_media_by_media_id( $id ) {
 
 		foreach ( $this->media as $key => $media ) {
 			if ( $media->media_id == $id ) return $key;
@@ -791,8 +765,7 @@ class RTMediaQuery
 	 *
 	 * @param type $media
 	 */
-	function populate_post_data( $media )
-	{
+	function populate_post_data( $media ) {
 		if ( ! empty ( $media ) && is_array( $media ) ){
 
 			/**
@@ -840,8 +813,7 @@ class RTMediaQuery
 	 *
 	 * @return boolean
 	 */
-	function have_media()
-	{
+	function have_media() {
 
 		$total    = $this->media_count;
 		$curr     = $this->current_media;
@@ -868,8 +840,7 @@ class RTMediaQuery
 	 *
 	 * @return type
 	 */
-	function rtmedia()
-	{
+	function rtmedia() {
 		global $rtmedia_media;
 		$this->in_the_media_loop = true;
 
@@ -884,8 +855,7 @@ class RTMediaQuery
 	 *
 	 * @return type
 	 */
-	function next_media()
-	{
+	function next_media() {
 		$this->current_media ++;
 
 		$this->rtmedia = $this->media[ $this->current_media ];
@@ -893,8 +863,7 @@ class RTMediaQuery
 		return $this->rtmedia;
 	}
 
-	function permalink()
-	{
+	function permalink() {
 
 		global $rtmedia_media;
 		$parent_link = '';
@@ -913,8 +882,7 @@ class RTMediaQuery
 	/**
 	 * Rewinds the db pool of media album and resets it to begining
 	 */
-	function rewind_media()
-	{
+	function rewind_media() {
 		$this->current_media = - 1;
 		if ( $this->action_query->per_page_media > 0 ){
 			$this->media = $this->media[ 0 ];
@@ -925,8 +893,7 @@ class RTMediaQuery
 	 *
 	 * @return type
 	 */
-	function &get_data()
-	{
+	function &get_data() {
 
 		$this->populate_data();
 

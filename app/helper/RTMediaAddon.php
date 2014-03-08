@@ -24,11 +24,10 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 		 *
 		 * @return string
 		 */
-		public function coming_soon_div()
-		{
+		public function coming_soon_div() {
 			return '<div class="coming-soon coming-soon-l"></div>
 				<a class="coming-soon coming-soon-r" href="' . $this->enquiry_link . '" target="_blank">' //<a></a>
-				. '</a>';
+				   . '</a>';
 		}
 
 		/**
@@ -36,8 +35,7 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 		 *
 		 * @param string $page
 		 */
-		public static function render_addons( $page = '' )
-		{
+		public static function render_addons( $page = '' ) {
 			global $wp_settings_sections, $wp_settings_fields;
 
 			if ( ! isset( $wp_settings_sections ) || ! isset( $wp_settings_sections[ $page ] ) ) return;
@@ -57,8 +55,7 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 		/**
 		 * Get addons
 		 */
-		public function get_addons()
-		{
+		public function get_addons() {
 
 			$tabs = array();
 			global $rtmedia_admin;
@@ -78,44 +75,44 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 					<dl class='tabs' data-tab>
 						<?php
 						$i = 1;
-			foreach ( $tabs as $tab ) {
-				$active_class = '';
-				if ( $i == 1 ){
-					$active_class = 'active';
-				}
-				$i ++;
-				?>
-				<dd class="<?php echo $active_class ?>">
-					<a id="tab-<?php echo substr( $tab[ 'href' ], 1 ) ?>"
-					   title="<?php echo $tab[ 'title' ] ?>" href="<?php echo $tab[ 'href' ] ?>"
-					   class="rtmedia-tab-title <?php echo sanitize_title( $tab[ 'name' ] ) ?>"><?php echo $tab[ 'name' ] ?></a>
-				</dd>
-			<?php
-			}
-			?>
+						foreach ( $tabs as $tab ) {
+							$active_class = '';
+							if ( $i == 1 ){
+								$active_class = 'active';
+							}
+							$i ++;
+							?>
+							<dd class="<?php echo $active_class ?>">
+								<a id="tab-<?php echo substr( $tab[ 'href' ], 1 ) ?>"
+								   title="<?php echo $tab[ 'title' ] ?>" href="<?php echo $tab[ 'href' ] ?>"
+								   class="rtmedia-tab-title <?php echo sanitize_title( $tab[ 'name' ] ) ?>"><?php echo $tab[ 'name' ] ?></a>
+							</dd>
+						<?php
+						}
+						?>
 					</dl>
 
 					<?php
 					$k = 1;
 					$active_class = '';
 					echo "<div class='tabs-content'>";
-			foreach ( $tabs as $tab ) {
-				$active_class = '';
-				if ( $k == 1 ){
-					$active_class = ' active';
-				}
-				$k ++;
-				if ( isset ( $tab[ 'icon' ] ) && ! empty ( $tab[ 'icon' ] ) ) $icon = '<i class="' . $tab[ 'icon' ] . '"></i>';
-				$tab_without_hash = explode( '#', $tab[ 'href' ] );
-				$tab_without_hash = $tab_without_hash[ 1 ];
-				echo '<div class="row content' . $active_class . '" id="' . $tab_without_hash . '">';
-				echo '<div class="large-12 columns">';
-				call_user_func( $tab[ 'callback' ] );
-				echo '</div>';
-				echo '</div>';
-			}
-			echo '</div>';
-			?>
+					foreach ( $tabs as $tab ) {
+						$active_class = '';
+						if ( $k == 1 ){
+							$active_class = ' active';
+						}
+						$k ++;
+						if ( isset ( $tab[ 'icon' ] ) && ! empty ( $tab[ 'icon' ] ) ) $icon = '<i class="' . $tab[ 'icon' ] . '"></i>';
+						$tab_without_hash = explode( '#', $tab[ 'href' ] );
+						$tab_without_hash = $tab_without_hash[ 1 ];
+						echo '<div class="row content' . $active_class . '" id="' . $tab_without_hash . '">';
+						echo '<div class="large-12 columns">';
+						call_user_func( $tab[ 'callback' ] );
+						echo '</div>';
+						echo '</div>';
+					}
+					echo '</div>';
+					?>
 				</div>
 			</div>
 		<?php
@@ -126,46 +123,20 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 		 *
 		 * @param string $args
 		 */
-		public function plugins_content( $args = '' )
-		{
+		public function plugins_content( $args = '' ) {
 			$img_src = RTMEDIA_URL . 'app/assets/img/';
 			$addons  = array(
 				array(
-					'title' => __( 'rtMedia Photo Tagging', 'rtmedia' ),
-					'img_src' => $img_src . 'rtmedia-phototagging-240x184.png',
-					'product_link' => 'http://rtcamp.com/store/buddypress-media-photo-tagging/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media',
-					'desc' => '<p>' . __( 'rtMedia Photo Tagging add-on enables tagging on photos uploaded using BuddyPress Media.', 'rtmedia' ) . '</p><p><strong>' . __( 'Important', 'rtmedia' ) . ':</strong> ' . __( 'You need to have ImageMagick installed on your server for this addon to work.', 'rtmedia' ) . '</p>',
-					'price' => '$49',
-					'demo_link' => 'http://demo.rtcamp.com/buddypress-media/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media',
-					'buy_now' => 'http://rtcamp.com/store/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media&add-to-cart=37506',
-				),
-				array(
-					'title' => __( 'rtMedia Instagram', 'rtmedia' ),
-					'img_src' => $img_src . 'rtmedia-instagram-240x184.png',
-					'product_link' => 'http://rtcamp.com/store/buddypress-media-instagram/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media',
-					'desc' => '<p>' . __( 'rtMedia Instagram adds Instagram like filters to images uploaded with rtMedia.', 'rtmedia' ) . '</p><p><strong>' . __( 'Important', 'rtmedia' ) . ':</strong> ' . __( 'You need to have ImageMagick installed on your server for this addon to work.', 'rtmedia' ) . '</p>',
-					'price' => '$49',
-					'demo_link' => 'http://demo.rtcamp.com/buddypress-media/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media',
-					'buy_now' => 'http://rtcamp.com/store/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media&add-to-cart=34379',
-				),
-				array(
-					'title' => __( 'rtMedia Kaltura Add-on', 'rtmedia' ),
-					'img_src' => $img_src . 'rtmedia-kaltura-240x184.png',
-					'product_link' => 'http://rtcamp.com/store/buddypress-media-kaltura/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media',
-					'desc' => '<p>' . __( 'Add support for more video formats using Kaltura video solution.', 'rtmedia' ) . '</p><p>' . __( 'Works with Kaltura.com, self-hosted Kaltura-CE and Kaltura-on-premise.', 'rtmedia' ) . '</p>',
-					'price' => '$199',
-					'demo_link' => 'http://demo.rtcamp.com/bpm-kaltura/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media',
-					'buy_now' => 'http://rtcamp.com/store/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media&add-to-cart=15446',
-				),
-				array(
-					'title' => __( 'rtMedia FFMPEG Add-on', 'rtmedia' ),
-					'img_src' => $img_src . 'rtmedia-ffmpeg-240x184.png',
-					'price' => '$199',
-					'demo_link' => 'http://demo.rtcamp.com/bpm-media/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media',
-					'buy_now' => 'http://rtcamp.com/store/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media&add-to-cart=13677',
+					'title' => __( 'rtMedia Photo Tagging', 'rtmedia' ), 'img_src' => $img_src . 'rtmedia-phototagging-240x184.png', 'product_link' => 'http://rtcamp.com/store/buddypress-media-photo-tagging/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media', 'desc' => '<p>' . __( 'rtMedia Photo Tagging add-on enables tagging on photos uploaded using BuddyPress Media.', 'rtmedia' ) . '</p><p><strong>' . __( 'Important', 'rtmedia' ) . ':</strong> ' . __( 'You need to have ImageMagick installed on your server for this addon to work.', 'rtmedia' ) . '</p>', 'price' => '$49', 'demo_link' => 'http://demo.rtcamp.com/buddypress-media/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media', 'buy_now' => 'http://rtcamp.com/store/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media&add-to-cart=37506',
+				), array(
+					'title' => __( 'rtMedia Instagram', 'rtmedia' ), 'img_src' => $img_src . 'rtmedia-instagram-240x184.png', 'product_link' => 'http://rtcamp.com/store/buddypress-media-instagram/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media', 'desc' => '<p>' . __( 'rtMedia Instagram adds Instagram like filters to images uploaded with rtMedia.', 'rtmedia' ) . '</p><p><strong>' . __( 'Important', 'rtmedia' ) . ':</strong> ' . __( 'You need to have ImageMagick installed on your server for this addon to work.', 'rtmedia' ) . '</p>', 'price' => '$49', 'demo_link' => 'http://demo.rtcamp.com/buddypress-media/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media', 'buy_now' => 'http://rtcamp.com/store/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media&add-to-cart=34379',
+				), array(
+					'title' => __( 'rtMedia Kaltura Add-on', 'rtmedia' ), 'img_src' => $img_src . 'rtmedia-kaltura-240x184.png', 'product_link' => 'http://rtcamp.com/store/buddypress-media-kaltura/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media', 'desc' => '<p>' . __( 'Add support for more video formats using Kaltura video solution.', 'rtmedia' ) . '</p><p>' . __( 'Works with Kaltura.com, self-hosted Kaltura-CE and Kaltura-on-premise.', 'rtmedia' ) . '</p>', 'price' => '$199', 'demo_link' => 'http://demo.rtcamp.com/bpm-kaltura/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media', 'buy_now' => 'http://rtcamp.com/store/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media&add-to-cart=15446',
+				), array(
+					'title' => __( 'rtMedia FFMPEG Add-on', 'rtmedia' ), 'img_src' => $img_src . 'rtmedia-ffmpeg-240x184.png', 'price' => '$199', 'demo_link' => 'http://demo.rtcamp.com/bpm-media/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media', 'buy_now' => 'http://rtcamp.com/store/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media&add-to-cart=13677',
 				),
 			);
-			$addons = apply_filters( 'rtmedia_addons', $addons );
+			$addons  = apply_filters( 'rtmedia_addons', $addons );
 
 			foreach ( $addons as $key => $value ) {
 
@@ -187,8 +158,7 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 		 *
 		 * @param string $args
 		 */
-		public function services_content( $args = '' )
-		{
+		public function services_content( $args = '' ) {
 
 
 			$objEncoding->encoding_service_intro();
@@ -199,8 +169,7 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 		 *
 		 * @param string $args
 		 */
-		public function themes_content( $args = '' )
-		{
+		public function themes_content( $args = '' ) {
 			echo '<h3>' . __( 'Coming Soon !!', 'rtmedia' ) . '</h3>';
 		}
 
@@ -211,12 +180,11 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 		 *
 		 * @param type  $args
 		 */
-		public function addon( $args )
-		{
+		public function addon( $args ) {
 			global $rtmedia;
 
 			$defaults = array( 'title' => '', 'img_src' => '', 'product_link' => '', 'desc' => '', 'price' => '', 'demo_link' => '', 'buy_now' => '', 'coming_soon' => false, );
-			$args = wp_parse_args( $args, $defaults );
+			$args     = wp_parse_args( $args, $defaults );
 			extract( $args );
 
 			$coming_soon ? ' coming-soon' : '';

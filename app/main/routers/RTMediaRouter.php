@@ -30,8 +30,7 @@ class RTMediaRouter
 	 *
 	 * @param string $slug The slug for which the route needs to be registered, for eg, /media/
 	 */
-	function __construct( $slug = RTMEDIA_MEDIA_SLUG )
-	{
+	function __construct( $slug = RTMEDIA_MEDIA_SLUG ) {
 
 		//set up the slug for the route
 		$this->slug( $slug );
@@ -50,8 +49,7 @@ class RTMediaRouter
 	 *
 	 * @param string $slug The slug string passed for the route, in the constructor
 	 */
-	function slug( $slug )
-	{
+	function slug( $slug ) {
 
 		// create the slug constant name
 		$slug_constant = 'RTMEDIA_' . strtoupper( $slug ) . '_SLUG';
@@ -73,8 +71,7 @@ class RTMediaRouter
 	 * @global object $wp_query
 	 * @return boolean
 	 */
-	function is_template()
-	{
+	function is_template() {
 		global $wp_query;
 		global $rtmedia, $rtmedia_query;
 		if ( isset( $rtmedia_query ) && isset( $rtmedia_query->query ) && isset( $rtmedia_query->query[ 'context' ] ) ){
@@ -117,8 +114,7 @@ class RTMediaRouter
 	 * Hook into the template redirect action to populate the global objects
 	 *
 	 */
-	function template_redirect()
-	{
+	function template_redirect() {
 
 		// if it is not our route, return early
 		if ( ! $this->is_template() ) return;
@@ -140,8 +136,7 @@ class RTMediaRouter
 	 *
 	 * @return string File path of the template file to be loaded
 	 */
-	function template_include( $template )
-	{
+	function template_include( $template ) {
 
 		// if it is not our route, return the default template early
 		if ( ! $this->is_template() ) return $template;
@@ -181,10 +176,10 @@ class RTMediaRouter
 	 * @global object   $post
 	 *
 	 * @param array     $args
+	 *
 	 * @return string
 	 */
-	function rt_replace_the_content( $content = '' )
-	{
+	function rt_replace_the_content( $content = '' ) {
 		// Do we have new content to replace the old content?
 		global $new_rt_template, $rt_template_content;
 		//var_dump($new_rt_template);
@@ -218,8 +213,7 @@ class RTMediaRouter
 	/**
 	 * @param array $args
 	 */
-	function rt_theme_compat_reset_post( $args = array() )
-	{
+	function rt_theme_compat_reset_post( $args = array() ) {
 		global $wp_query, $post;
 
 		// Switch defaults if post is set
@@ -235,10 +229,12 @@ class RTMediaRouter
 			} else if ( isset( $rtmedia_query->media ) && count( $rtmedia_query->media ) == 1 && $rtmedia_query->media ){
 				$wp_query->post = get_post( $rtmedia_query->media[ 0 ]->media_id );
 			}
-			$dummy = wp_parse_args( $args, array( 'ID'        => $wp_query->post->ID, 'post_status' => $wp_query->post->post_status, 'post_author' => $wp_query->post->post_author, 'post_parent' => $wp_query->post->post_parent, 'post_type' => 'rtmedia', //$wp_query->post->post_type,
-												  'post_date' => $wp_query->post->post_date, 'post_date_gmt' => $wp_query->post->post_date_gmt, 'post_modified' => $wp_query->post->post_modified, 'post_modified_gmt' => $wp_query->post->post_modified_gmt, 'post_content' => $wp_query->post->post_content, 'post_title' => $wp_query->post->post_title, 'post_excerpt' => $wp_query->post->post_excerpt, 'post_content_filtered' => $wp_query->post->post_content_filtered, 'post_mime_type' => $wp_query->post->post_mime_type, 'post_password' => $wp_query->post->post_password, 'post_name' => $wp_query->post->post_name, 'guid' => $wp_query->post->guid, 'menu_order' => $wp_query->post->menu_order, 'pinged' => $wp_query->post->pinged, 'to_ping' => $wp_query->post->to_ping, 'ping_status' => $wp_query->post->ping_status, 'comment_status' => $wp_query->post->comment_status, 'comment_count' => $wp_query->post->comment_count, 'filter' => $wp_query->post->filter,
+			$dummy = wp_parse_args( $args, array(
+				'ID'        => $wp_query->post->ID, 'post_status' => $wp_query->post->post_status, 'post_author' => $wp_query->post->post_author, 'post_parent' => $wp_query->post->post_parent, 'post_type' => 'rtmedia', //$wp_query->post->post_type,
+				'post_date' => $wp_query->post->post_date, 'post_date_gmt' => $wp_query->post->post_date_gmt, 'post_modified' => $wp_query->post->post_modified, 'post_modified_gmt' => $wp_query->post->post_modified_gmt, 'post_content' => $wp_query->post->post_content, 'post_title' => $wp_query->post->post_title, 'post_excerpt' => $wp_query->post->post_excerpt, 'post_content_filtered' => $wp_query->post->post_content_filtered, 'post_mime_type' => $wp_query->post->post_mime_type, 'post_password' => $wp_query->post->post_password, 'post_name' => $wp_query->post->post_name, 'guid' => $wp_query->post->guid, 'menu_order' => $wp_query->post->menu_order, 'pinged' => $wp_query->post->pinged, 'to_ping' => $wp_query->post->to_ping, 'ping_status' => $wp_query->post->ping_status, 'comment_status' => $wp_query->post->comment_status, 'comment_count' => $wp_query->post->comment_count, 'filter' => $wp_query->post->filter,
 
-												  'is_404'    => false, 'is_page' => false, 'is_single' => false, 'is_archive' => false, 'is_tax' => false, ) );
+				'is_404'    => false, 'is_page' => false, 'is_single' => false, 'is_archive' => false, 'is_tax' => false,
+			) );
 		} else {
 			$dummy = wp_parse_args( $args, array( 'ID' => 0, 'post_status' => 'public', 'post_author' => 0, 'post_parent' => 0, 'post_type' => 'bp_member', 'post_date' => 0, 'post_date_gmt' => 0, 'post_modified' => 0, 'post_modified_gmt' => 0, 'post_content' => '', 'post_title' => '', 'post_excerpt' => '', 'post_content_filtered' => '', 'post_mime_type' => '', 'post_password' => '', 'post_name' => '', 'guid' => '', 'menu_order' => 0, 'pinged' => '', 'to_ping' => '', 'ping_status' => '', 'comment_status' => 'closed', 'comment_count' => 0, 'filter' => 'raw', 'is_404' => false, 'is_page' => false, 'is_single' => false, 'is_archive' => false, 'is_tax' => false, ) );
 		}
@@ -306,8 +302,7 @@ class RTMediaRouter
 	 *
 	 * @global object $wp_query
 	 */
-	function set_query_vars()
-	{
+	function set_query_vars() {
 
 		global $wp_query;
 		$query_vars_array = '';

@@ -16,8 +16,7 @@ class rtProgress
 	/**
 	 *
 	 */
-	function __construct()
-	{
+	function __construct() {
 
 	}
 
@@ -29,8 +28,7 @@ class rtProgress
 	 *
 	 * @return string
 	 */
-	function progress_ui( $progress, $echo = true )
-	{
+	function progress_ui( $progress, $echo = true ) {
 		$progress_ui = '
 			<div id="rtprogressbar">
 				<div style="width:' . $progress . '%"></div>
@@ -48,8 +46,7 @@ class rtProgress
 	 *
 	 * @return float|int
 	 */
-	function progress( $progress, $total )
-	{
+	function progress( $progress, $total ) {
 		if ( $total < 1 ) return 100;
 
 		return ( $progress / $total ) * 100;

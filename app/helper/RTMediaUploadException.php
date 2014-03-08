@@ -17,11 +17,11 @@ class RTMediaUploadException extends Exception
 
 	/**
 	 * Constructor
+	 *
 	 * @param string $code
 	 * @param bool   $msg
 	 */
-	public function __construct( $code, $msg = false )
-	{
+	public function __construct( $code, $msg = false ) {
 		$message = $this->codeToMessage( $code, $msg );
 		parent::__construct( $message, $code );
 	}
@@ -35,8 +35,7 @@ class RTMediaUploadException extends Exception
 	 *
 	 * @return type
 	 */
-	private function codeToMessage( $code, $msg )
-	{
+	private function codeToMessage( $code, $msg ) {
 		switch ( $code ) {
 			case UPLOAD_ERR_INI_SIZE:
 			case UPLOAD_ERR_FORM_SIZE:

@@ -13,16 +13,14 @@ class RTMediaUploadEndpoint
 	/**
 	 *
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		add_action( 'rtmedia_upload_redirect', array( $this, 'template_redirect' ) );
 	}
 
 	/**
 	 *
 	 */
-	function template_redirect( $create_activity = true )
-	{
+	function template_redirect( $create_activity = true ) {
 		ob_start();
 		if ( ! count( $_POST ) ){
 			include get_404_template();

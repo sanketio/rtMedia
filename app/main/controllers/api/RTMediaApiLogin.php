@@ -16,8 +16,7 @@ class RTMediaApiLogin extends RTDBModel
 	/**
 	 * Constructor
 	 */
-	function __construct()
-	{
+	function __construct() {
 		parent::__construct( 'rtm_api' );
 	}
 }

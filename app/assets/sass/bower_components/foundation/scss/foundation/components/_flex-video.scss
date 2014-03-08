@@ -25,8 +25,12 @@ $flex-video-widescreen-padding-bottom: 57.25% !default;
   margin-bottom: $flex-video-margin-bottom;
   overflow: hidden;
 
-  &.widescreen { padding-bottom: $flex-video-widescreen-padding-bottom; }
-  &.vimeo { padding-top: 0; }
+  &.widescreen {
+    padding-bottom: $flex-video-widescreen-padding-bottom;
+  }
+  &.vimeo {
+    padding-top: 0;
+  }
 
   iframe,
   object,
@@ -42,6 +46,8 @@ $flex-video-widescreen-padding-bottom: 57.25% !default;
 
 @include exports("flex-video") {
   @if $include-html-media-classes {
-    .flex-video { @include flex-video-container; }
+    .flex-video {
+      @include flex-video-container;
+    }
   }
 }

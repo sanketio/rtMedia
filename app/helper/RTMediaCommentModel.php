@@ -16,8 +16,7 @@ class RTMediaCommentModel
 	/**
 	 * Construct
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		//initialization
 	}
 
@@ -28,8 +27,7 @@ class RTMediaCommentModel
 	 *
 	 * @return mixed
 	 */
-	function insert( $attr )
-	{
+	function insert( $attr ) {
 		return wp_insert_comment( $attr );
 	}
 
@@ -40,8 +38,7 @@ class RTMediaCommentModel
 	 *
 	 * @return mixed
 	 */
-	function update( $attr )
-	{
+	function update( $attr ) {
 
 		return wp_update_comment( $attr, ARRAY_A );
 	}
@@ -53,8 +50,7 @@ class RTMediaCommentModel
 	 *
 	 * @return mixed
 	 */
-	function get( $where )
-	{
+	function get( $where ) {
 
 		return get_comments( $where );
 	}
@@ -66,8 +62,7 @@ class RTMediaCommentModel
 	 *
 	 * @return mixed
 	 */
-	function get_by_id( $id )
-	{
+	function get_by_id( $id ) {
 
 		return get_comment( $id );
 	}
@@ -79,8 +74,7 @@ class RTMediaCommentModel
 	 *
 	 * @return mixed
 	 */
-	function delete( $id )
-	{
+	function delete( $id ) {
 
 		return wp_delete_comment( $id, true );
 	}

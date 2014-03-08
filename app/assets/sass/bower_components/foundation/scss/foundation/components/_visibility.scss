@@ -5,9 +5,9 @@ $include-html-visibility-classes: $include-html-classes !default;
 
 @if $include-html-visibility-classes != false {
 
-//
-// Media Class Names
-//
+  //
+  // Media Class Names
+  //
 
   /* Foundation Visibility HTML Classes */
   .show-for-small,
@@ -24,7 +24,9 @@ $include-html-visibility-classes: $include-html-classes !default;
   .hide-for-xlarge-up,
   .hide-for-xlarge-only,
   .hide-for-xxlarge-up,
-  .hide-for-xxlarge-only { display: inherit !important; }
+  .hide-for-xxlarge-only {
+    display: inherit !important;
+  }
 
   .hide-for-small,
   .hide-for-small-only,
@@ -40,7 +42,9 @@ $include-html-visibility-classes: $include-html-classes !default;
   .show-for-xlarge-up,
   .show-for-xlarge-only,
   .show-for-xxlarge-up,
-  .show-for-xxlarge-only { display: none !important; }
+  .show-for-xxlarge-only {
+    display: none !important;
+  }
 
   /* Specific visibility for tables */
   table {
@@ -58,7 +62,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     &.hide-for-xlarge-up,
     &.hide-for-xlarge-only,
     &.hide-for-xxlarge-up,
-    &.hide-for-xxlarge-only { display: table; }
+    &.hide-for-xxlarge-only {
+      display: table;
+    }
   }
   thead {
     &.show-for-small,
@@ -75,7 +81,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     &.hide-for-xlarge-up,
     &.hide-for-xlarge-only,
     &.hide-for-xxlarge-up,
-    &.hide-for-xxlarge-only { display: table-header-group !important; }
+    &.hide-for-xxlarge-only {
+      display: table-header-group !important;
+    }
   }
   tbody {
     &.show-for-small,
@@ -92,7 +100,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     &.hide-for-xlarge-up,
     &.hide-for-xlarge-only,
     &.hide-for-xxlarge-up,
-    &.hide-for-xxlarge-only { display: table-row-group !important; }
+    &.hide-for-xxlarge-only {
+      display: table-row-group !important;
+    }
   }
   tr {
     &.show-for-small,
@@ -109,7 +119,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     &.hide-for-xlarge-up,
     &.hide-for-xlarge-only,
     &.hide-for-xxlarge-up,
-    &.hide-for-xxlarge-only { display: table-row !important; }
+    &.hide-for-xxlarge-only {
+      display: table-row !important;
+    }
   }
   td,
   th {
@@ -123,7 +135,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     &.hide-for-large-up,
     &.hide-for-xlarge
     &.hide-for-xlarge-up,
-    &.hide-for-xxlarge-up { display: table-cell !important; }
+    &.hide-for-xxlarge-up {
+      display: table-cell !important;
+    }
   }
 
   /* Medium Displays: 641px and up */
@@ -141,7 +155,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     .hide-for-xlarge-up,
     .hide-for-xlarge-only,
     .hide-for-xxlarge-up,
-    .hide-for-xxlarge-only { display: inherit !important; }
+    .hide-for-xxlarge-only {
+      display: inherit !important;
+    }
 
     .show-for-small,
     .show-for-small-only,
@@ -157,7 +173,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     .show-for-xlarge-up,
     .show-for-xlarge-only,
     .show-for-xxlarge-up,
-    .show-for-xxlarge-only { display: none !important; }
+    .show-for-xxlarge-only {
+      display: none !important;
+    }
 
     /* Specific visibility for tables */
     table {
@@ -174,7 +192,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.hide-for-xlarge-up,
       &.hide-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table; }
+      &.hide-for-xxlarge-only {
+        display: table;
+      }
     }
     thead {
       &.hide-for-small,
@@ -190,7 +210,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.hide-for-xlarge-up,
       &.hide-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-header-group !important; }
+      &.hide-for-xxlarge-only {
+        display: table-header-group !important;
+      }
     }
     tbody {
       &.hide-for-small,
@@ -206,7 +228,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.hide-for-xlarge-up,
       &.hide-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-row-group !important; }
+      &.hide-for-xxlarge-only {
+        display: table-row-group !important;
+      }
     }
     tr {
       &.hide-for-small,
@@ -222,7 +246,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.hide-for-xlarge-up,
       &.hide-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-row !important; }
+      &.hide-for-xxlarge-only {
+        display: table-row !important;
+      }
     }
     td,
     th {
@@ -239,7 +265,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.hide-for-xlarge-up,
       &.hide-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-cell !important; }
+      &.hide-for-xxlarge-only {
+        display: table-cell !important;
+      }
     }
   }
 
@@ -258,7 +286,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     .hide-for-xlarge-up,
     .hide-for-xlarge-only,
     .hide-for-xxlarge-up,
-    .hide-for-xxlarge-only { display: inherit !important; }
+    .hide-for-xxlarge-only {
+      display: inherit !important;
+    }
 
     .show-for-small-only,
     .show-for-medium,
@@ -271,7 +301,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     .show-for-xlarge-up,
     .show-for-xlarge-only,
     .show-for-xxlarge-up,
-    .show-for-xxlarge-only { display: none !important; }
+    .show-for-xxlarge-only {
+      display: none !important;
+    }
 
     /* Specific visilbity for tables */
     table {
@@ -288,7 +320,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.hide-for-xlarge-up,
       &.hide-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table; }
+      &.hide-for-xxlarge-only {
+        display: table;
+      }
     }
     thead {
       &.hide-for-small,
@@ -304,7 +338,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.hide-for-xlarge-up,
       &.hide-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-header-group !important; }
+      &.hide-for-xxlarge-only {
+        display: table-header-group !important;
+      }
     }
     tbody {
       &.hide-for-small,
@@ -320,7 +356,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.hide-for-xlarge-up,
       &.hide-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-row-group !important; }
+      &.hide-for-xxlarge-only {
+        display: table-row-group !important;
+      }
     }
     tr {
       &.hide-for-small,
@@ -336,7 +374,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.hide-for-xlarge-up,
       &.hide-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-row !important; }
+      &.hide-for-xxlarge-only {
+        display: table-row !important;
+      }
     }
     td,
     th {
@@ -353,7 +393,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.hide-for-xlarge-up,
       &.hide-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-cell !important; }
+      &.hide-for-xxlarge-only {
+        display: table-cell !important;
+      }
     }
   }
 
@@ -370,7 +412,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     .show-for-xlarge-up,
     .show-for-xlarge-only,
     .hide-for-xxlarge-up,
-    .hide-for-xxlarge-only { display: inherit !important; }
+    .hide-for-xxlarge-only {
+      display: inherit !important;
+    }
 
     .show-for-small-only,
     .show-for-medium,
@@ -383,7 +427,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     .hide-for-xlarge-up,
     .hide-for-xlarge-only,
     .show-for-xxlarge-up,
-    .show-for-xxlarge-only { display: none !important; }
+    .show-for-xxlarge-only {
+      display: none !important;
+    }
 
     /* Specific visilbity for tables */
     table {
@@ -398,7 +444,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.show-for-xlarge-up,
       &.show-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table; }
+      &.hide-for-xxlarge-only {
+        display: table;
+      }
     }
     thead {
       &.hide-for-small,
@@ -412,7 +460,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.show-for-xlarge-up,
       &.show-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-header-group !important; }
+      &.hide-for-xxlarge-only {
+        display: table-header-group !important;
+      }
     }
     tbody {
       &.hide-for-small,
@@ -426,7 +476,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.show-for-xlarge-up,
       &.show-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-row-group !important; }
+      &.hide-for-xxlarge-only {
+        display: table-row-group !important;
+      }
     }
     tr {
       &.hide-for-small,
@@ -440,7 +492,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.show-for-xlarge-up,
       &.show-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-row !important; }
+      &.hide-for-xxlarge-only {
+        display: table-row !important;
+      }
     }
     td,
     th {
@@ -455,7 +509,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.show-for-xlarge-up,
       &.show-for-xlarge-only,
       &.hide-for-xxlarge-up,
-      &.hide-for-xxlarge-only { display: table-cell !important; }
+      &.hide-for-xxlarge-only {
+        display: table-cell !important;
+      }
     }
   }
 
@@ -470,7 +526,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     .show-for-large-up,
     .show-for-xlarge-up,
     .show-for-xxlarge-up,
-    .show-for-xxlarge-only { display: inherit !important; }
+    .show-for-xxlarge-only {
+      display: inherit !important;
+    }
 
     .show-for-small-only,
     .show-for-medium,
@@ -482,7 +540,9 @@ $include-html-visibility-classes: $include-html-classes !default;
     .hide-for-xlarge,
     .show-for-xlarge-only,
     .hide-for-xxlarge-up,
-    .hide-for-xxlarge-only { display: none !important; }
+    .hide-for-xxlarge-only {
+      display: none !important;
+    }
 
     /* Specific visilbity for tables */
     table {
@@ -495,7 +555,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.show-for-large-up,
       &.show-for-xlarge-up,
       &.show-for-xxlarge-up,
-      &.show-for-xxlarge-only { display: table; }
+      &.show-for-xxlarge-only {
+        display: table;
+      }
     }
     thead {
       &.hide-for-small,
@@ -507,7 +569,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.show-for-large-up,
       &.show-for-xlarge-up,
       &.show-for-xxlarge-up,
-      &.show-for-xxlarge-only { display: table-header-group !important; }
+      &.show-for-xxlarge-only {
+        display: table-header-group !important;
+      }
     }
     tbody {
       &.hide-for-small,
@@ -519,7 +583,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.show-for-large-up,
       &.show-for-xlarge-up,
       &.show-for-xxlarge-up,
-      &.show-for-xxlarge-only { display: table-row-group !important; }
+      &.show-for-xxlarge-only {
+        display: table-row-group !important;
+      }
     }
     tr {
       &.hide-for-small,
@@ -531,7 +597,9 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.show-for-large-up,
       &.show-for-xlarge-up,
       &.show-for-xxlarge-up,
-      &.show-for-xxlarge-only { display: table-row !important; }
+      &.show-for-xxlarge-only {
+        display: table-row !important;
+      }
     }
     td,
     th {
@@ -544,118 +612,193 @@ $include-html-visibility-classes: $include-html-classes !default;
       &.show-for-large-up,
       &.show-for-xlarge-up,
       &.show-for-xxlarge-up,
-      &.show-for-xxlarge-only { display: table-cell !important; }
+      &.show-for-xxlarge-only {
+        display: table-cell !important;
+      }
     }
   }
 
-
   /* Orientation targeting */
   .show-for-landscape,
-  .hide-for-portrait { display: inherit !important; }
+  .hide-for-portrait {
+    display: inherit !important;
+  }
   .hide-for-landscape,
-  .show-for-portrait { display: none !important; }
+  .show-for-portrait {
+    display: none !important;
+  }
 
   /* Specific visilbity for tables */
   table {
     &.hide-for-landscape,
-    &.show-for-portrait { display: table; }
+    &.show-for-portrait {
+      display: table;
+    }
   }
   thead {
     &.hide-for-landscape,
-    &.show-for-portrait { display: table-header-group !important; }
+    &.show-for-portrait {
+      display: table-header-group !important;
+    }
   }
   tbody {
     &.hide-for-landscape,
-    &.show-for-portrait { display: table-row-group !important; }
+    &.show-for-portrait {
+      display: table-row-group !important;
+    }
   }
   tr {
     &.hide-for-landscape,
-    &.show-for-portrait { display: table-row !important; }
+    &.show-for-portrait {
+      display: table-row !important;
+    }
   }
   td,
   th {
     &.hide-for-landscape,
-    &.show-for-portrait { display: table-cell !important; }
+    &.show-for-portrait {
+      display: table-cell !important;
+    }
   }
 
   @media #{$landscape} {
     .show-for-landscape,
-    .hide-for-portrait { display: inherit !important; }
+    .hide-for-portrait {
+      display: inherit !important;
+    }
     .hide-for-landscape,
-    .show-for-portrait { display: none !important; }
+    .show-for-portrait {
+      display: none !important;
+    }
 
     /* Specific visilbity for tables */
     table {
       &.show-for-landscape,
-      &.hide-for-portrait { display: table; }
+      &.hide-for-portrait {
+        display: table;
+      }
     }
     thead {
       &.show-for-landscape,
-      &.hide-for-portrait { display: table-header-group !important; }
+      &.hide-for-portrait {
+        display: table-header-group !important;
+      }
     }
     tbody {
       &.show-for-landscape,
-      &.hide-for-portrait { display: table-row-group !important; }
+      &.hide-for-portrait {
+        display: table-row-group !important;
+      }
     }
     tr {
       &.show-for-landscape,
-      &.hide-for-portrait { display: table-row !important; }
+      &.hide-for-portrait {
+        display: table-row !important;
+      }
     }
     td,
     th {
       &.show-for-landscape,
-      &.hide-for-portrait { display: table-cell !important; }
+      &.hide-for-portrait {
+        display: table-cell !important;
+      }
     }
   }
 
   @media #{$portrait} {
     .show-for-portrait,
-    .hide-for-landscape { display: inherit !important; }
+    .hide-for-landscape {
+      display: inherit !important;
+    }
     .hide-for-portrait,
-    .show-for-landscape { display: none !important; }
+    .show-for-landscape {
+      display: none !important;
+    }
 
     /* Specific visilbity for tables */
     table {
       &.show-for-portrait,
-      &.hide-for-landscape { display: table; }
+      &.hide-for-landscape {
+        display: table;
+      }
     }
     thead {
       &.show-for-portrait,
-      &.hide-for-landscape { display: table-header-group !important; }
+      &.hide-for-landscape {
+        display: table-header-group !important;
+      }
     }
     tbody {
       &.show-for-portrait,
-      &.hide-for-landscape { display: table-row-group !important; }
+      &.hide-for-landscape {
+        display: table-row-group !important;
+      }
     }
     tr {
       &.show-for-portrait,
-      &.hide-for-landscape { display: table-row !important; }
+      &.hide-for-landscape {
+        display: table-row !important;
+      }
     }
     td,
     th {
       &.show-for-portrait,
-      &.hide-for-landscape { display: table-cell !important; }
+      &.hide-for-landscape {
+        display: table-cell !important;
+      }
     }
   }
 
   /* Touch-enabled device targeting */
-  .show-for-touch { display: none !important; }
-  .hide-for-touch { display: inherit !important; }
-  .touch .show-for-touch { display: inherit !important; }
-  .touch .hide-for-touch { display: none !important; }
+  .show-for-touch {
+    display: none !important;
+  }
+  .hide-for-touch {
+    display: inherit !important;
+  }
+  .touch .show-for-touch {
+    display: inherit !important;
+  }
+  .touch .hide-for-touch {
+    display: none !important;
+  }
 
   /* Specific visilbity for tables */
-  table.hide-for-touch { display: table; }
-  .touch table.show-for-touch { display: table; }
-  thead.hide-for-touch { display: table-header-group !important; }
-  .touch thead.show-for-touch { display: table-header-group !important; }
-  tbody.hide-for-touch { display: table-row-group !important; }
-  .touch tbody.show-for-touch { display: table-row-group !important; }
-  tr.hide-for-touch { display: table-row !important; }
-  .touch tr.show-for-touch { display: table-row !important; }
-  td.hide-for-touch { display: table-cell !important; }
-  .touch td.show-for-touch { display: table-cell !important; }
-  th.hide-for-touch { display: table-cell !important; }
-  .touch th.show-for-touch { display: table-cell !important; }
+  table.hide-for-touch {
+    display: table;
+  }
+  .touch table.show-for-touch {
+    display: table;
+  }
+  thead.hide-for-touch {
+    display: table-header-group !important;
+  }
+  .touch thead.show-for-touch {
+    display: table-header-group !important;
+  }
+  tbody.hide-for-touch {
+    display: table-row-group !important;
+  }
+  .touch tbody.show-for-touch {
+    display: table-row-group !important;
+  }
+  tr.hide-for-touch {
+    display: table-row !important;
+  }
+  .touch tr.show-for-touch {
+    display: table-row !important;
+  }
+  td.hide-for-touch {
+    display: table-cell !important;
+  }
+  .touch td.show-for-touch {
+    display: table-cell !important;
+  }
+  th.hide-for-touch {
+    display: table-cell !important;
+  }
+  .touch th.show-for-touch {
+    display: table-cell !important;
+  }
 
 }

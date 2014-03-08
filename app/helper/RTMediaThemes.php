@@ -19,8 +19,7 @@ class RTMediaThemes
 	 *
 	 * @param string $page
 	 */
-	public static function render_themes( $page = '' )
-	{
+	public static function render_themes( $page = '' ) {
 		global $wp_settings_sections, $wp_settings_fields;
 
 		if ( ! isset( $wp_settings_sections ) || ! isset( $wp_settings_sections[ $page ] ) ) return;
@@ -37,8 +36,7 @@ class RTMediaThemes
 		}
 	}
 
-	public function get_themes()
-	{
+	public function get_themes() {
 
 		$tabs = array();
 		global $rtmedia_admin;
@@ -50,49 +48,48 @@ class RTMediaThemes
 				<dl class='tabs' data-tab>
 					<?php
 					$i = 1;
-		foreach ( $tabs as $tab ) {
-			$active_class = '';
-			if ( $i == 1 ){
-				$active_class = 'active';
-			}
-			$i ++;
-			?>
-			<dd class="<?php echo $active_class ?>">
-				<a id="tab-<?php echo substr( $tab[ 'href' ], 1 ) ?>" title="<?php echo $tab[ 'title' ] ?>"
-				   href="<?php echo $tab[ 'href' ] ?>"
-				   class="rtmedia-tab-title <?php echo sanitize_title( $tab[ 'name' ] ) ?>"><?php echo $tab[ 'name' ] ?></a>
-			</dd>
-		<?php
-		}
-		?>
+					foreach ( $tabs as $tab ) {
+						$active_class = '';
+						if ( $i == 1 ){
+							$active_class = 'active';
+						}
+						$i ++;
+						?>
+						<dd class="<?php echo $active_class ?>">
+							<a id="tab-<?php echo substr( $tab[ 'href' ], 1 ) ?>" title="<?php echo $tab[ 'title' ] ?>"
+							   href="<?php echo $tab[ 'href' ] ?>"
+							   class="rtmedia-tab-title <?php echo sanitize_title( $tab[ 'name' ] ) ?>"><?php echo $tab[ 'name' ] ?></a>
+						</dd>
+					<?php
+					}
+					?>
 				</dl>
 
 				<?php
 				$k = 1;
 				$active_class = '';
 				echo "<div class='tabs-content'>";
-		foreach ( $tabs as $tab ) {
-			$active_class = '';
-			if ( $k == 1 ){
-				$active_class = ' active';
-			}
-			$k ++;
-			if ( isset ( $tab[ 'icon' ] ) && ! empty ( $tab[ 'icon' ] ) ) $icon = '<i class="' . $tab[ 'icon' ] . '"></i>';
-			$tab_without_hash = explode( '#', $tab[ 'href' ] );
-			$tab_without_hash = $tab_without_hash[ 1 ];
-			echo '<div class="content' . $active_class . '" id="' . $tab_without_hash . '">';
-			call_user_func( $tab[ 'callback' ] );
-			echo '</div>';
-		}
-		echo '</div>';
-		?>
+				foreach ( $tabs as $tab ) {
+					$active_class = '';
+					if ( $k == 1 ){
+						$active_class = ' active';
+					}
+					$k ++;
+					if ( isset ( $tab[ 'icon' ] ) && ! empty ( $tab[ 'icon' ] ) ) $icon = '<i class="' . $tab[ 'icon' ] . '"></i>';
+					$tab_without_hash = explode( '#', $tab[ 'href' ] );
+					$tab_without_hash = $tab_without_hash[ 1 ];
+					echo '<div class="content' . $active_class . '" id="' . $tab_without_hash . '">';
+					call_user_func( $tab[ 'callback' ] );
+					echo '</div>';
+				}
+				echo '</div>';
+				?>
 			</div>
 		</div>
 	<?php
 	}
 
-	function rtmedia_themes_content()
-	{
+	function rtmedia_themes_content() {
 		?>
 		<div class="row">
 			<div class="columns large-12">
@@ -130,8 +127,7 @@ class RTMediaThemes
 	<?php
 	}
 
-	function rtmedia_3rd_party_themes_content()
-	{
+	function rtmedia_3rd_party_themes_content() {
 		?>
 		<div class="row">
 			<div class="columns large-12">

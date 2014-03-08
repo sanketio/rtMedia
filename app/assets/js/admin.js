@@ -1,12 +1,12 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
 
     /* Linkback */
-    jQuery('#spread-the-word').on('click', '#bp-media-add-linkback', function() {
+    jQuery('#spread-the-word').on('click', '#bp-media-add-linkback', function () {
         var data = {
             action: 'rtmedia_linkback',
             linkback: jQuery('#bp-media-add-linkback:checked').length
         };
-        jQuery.post(rtmedia_admin_ajax, data, function(response) {
+        jQuery.post(rtmedia_admin_ajax, data, function (response) {
         });
     })
 
@@ -22,7 +22,7 @@ jQuery(document).ready(function($) {
 //    }
 
     /* Select Request */
-    jQuery('#bp-media-settings-boxes').on('change', '#select-request', function() {
+    jQuery('#bp-media-settings-boxes').on('change', '#select-request', function () {
         if (jQuery(this).val()) {
             jQuery('#bp_media_settings_form .bp-media-metabox-holder').html()
             jQuery('#bp_media_settings_form .bp-media-metabox-holder').html('<div class="support_form_loader"></div>');
@@ -32,7 +32,7 @@ jQuery(document).ready(function($) {
             };
 
             // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-            jQuery.post(ajaxurl, data, function(response) {
+            jQuery.post(ajaxurl, data, function (response) {
                 jQuery('#bp_media_settings_form .bp-media-metabox-holder').html()
                 jQuery('#bp_media_settings_form .bp-media-metabox-holder').html(response).fadeIn('slow');
             });
@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
     });
 
     /* Cancel Request */
-    jQuery('#bp-media-settings-boxes').on('click', '#cancel-request', function() {
+    jQuery('#bp-media-settings-boxes').on('click', '#cancel-request', function () {
         if (jQuery(this).val()) {
             jQuery('#bp_media_settings_form .bp-media-metabox-holder').html()
             jQuery('#bp_media_settings_form .bp-media-metabox-holder').html('<div class="support_form_loader"></div>');
@@ -49,7 +49,7 @@ jQuery(document).ready(function($) {
             };
 
             // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-            jQuery.post(ajaxurl, data, function(response) {
+            jQuery.post(ajaxurl, data, function (response) {
                 jQuery('#bp_media_settings_form .bp-media-metabox-holder').html()
                 jQuery('#bp_media_settings_form .bp-media-metabox-holder').html(response).fadeIn('slow');
             });
@@ -58,10 +58,10 @@ jQuery(document).ready(function($) {
 
     /* Submit Request */
 
-    jQuery('#bp-media-settings-boxes').on('submit', '#bp_media_settings_form,#rtmedia-settings-submit', function(e) {
+    jQuery('#bp-media-settings-boxes').on('submit', '#bp_media_settings_form,#rtmedia-settings-submit', function (e) {
         var return_code = true;
         var reg = new RegExp('^auto$|^[+-]?[0-9]+\\.?([0-9]+)?(px|em|ex|%|in|cm|mm|pt|pc)?$');
-        jQuery("input[name*='defaultSizes']").each(function(el) {
+        jQuery("input[name*='defaultSizes']").each(function (el) {
             if (!reg.test(jQuery(this).val())) {
                 alert("Invalid value for " + jQuery(this).attr('name').replace('rtmedia-options[', '').replace(']', '').replace(/_/g, ' '));
                 return_code = false;
@@ -69,21 +69,21 @@ jQuery(document).ready(function($) {
             }
 
         });
-	var general_videothumb = jQuery('input[name^="rtmedia-options[general_videothumbs]"]');
-	if( return_code && typeof general_videothumb != "undefined" ) {
-	    if( general_videothumb.val() <= 0 ) {
-		alert("Number of video thumbnails to be generated should be greater than 0 in image sizes settings. ");
-		return_code = false;
+        var general_videothumb = jQuery('input[name^="rtmedia-options[general_videothumbs]"]');
+        if (return_code && typeof general_videothumb != "undefined") {
+            if (general_videothumb.val() <= 0) {
+                alert("Number of video thumbnails to be generated should be greater than 0 in image sizes settings. ");
+                return_code = false;
                 return false;
-	    }
-	}
+            }
+        }
         if (!return_code) {
             e.preventDefault();
         }
 
     });
 
-    jQuery(document).on('click', "#bpm-services .encoding-try-now,#rtm-services .encoding-try-now", function(e) {
+    jQuery(document).on('click', "#bpm-services .encoding-try-now,#rtm-services .encoding-try-now", function (e) {
         e.preventDefault();
         if (confirm(rtmedia_admin_strings.are_you_sure)) {
             jQuery(this).after('<img style="margin: 0 0 0 10px" src="' + rtmedia_admin_url + 'images/wpspin_light.gif" />')
@@ -92,7 +92,7 @@ jQuery(document).ready(function($) {
             };
 
             // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-            jQuery.getJSON(ajaxurl, data, function(response) {
+            jQuery.getJSON(ajaxurl, data, function (response) {
                 if (response.error === undefined && response.apikey) {
                     var tempUrl = window.location.href;
                     var hash = window.location.hash;
@@ -107,7 +107,7 @@ jQuery(document).ready(function($) {
         }
     });
 
-    jQuery(document).on('click', '#api-key-submit', function(e) {
+    jQuery(document).on('click', '#api-key-submit', function (e) {
         e.preventDefault();
         jQuery(this).after('<img style="margin: 0 0 0 10px" src="' + rtmedia_admin_url + 'images/wpspin_light.gif" />')
         var data = {
@@ -116,7 +116,7 @@ jQuery(document).ready(function($) {
         };
 
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-        jQuery.getJSON(ajaxurl, data, function(response) {
+        jQuery.getJSON(ajaxurl, data, function (response) {
             if (response.error === undefined && response.apikey) {
                 var tempUrl = window.location.href;
                 var hash = window.location.hash;
@@ -134,7 +134,7 @@ jQuery(document).ready(function($) {
         });
     });
 
-    jQuery(document).on('click', '#disable-encoding', function(e) {
+    jQuery(document).on('click', '#disable-encoding', function (e) {
         e.preventDefault();
         if (confirm(rtmedia_admin_strings.disable_encoding)) {
             jQuery(this).after('<img style="margin: 0 0 0 10px" src="' + rtmedia_admin_url + 'images/wpspin_light.gif" />')
@@ -143,7 +143,7 @@ jQuery(document).ready(function($) {
             };
 
             // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-            jQuery.post(ajaxurl, data, function(response) {
+            jQuery.post(ajaxurl, data, function (response) {
                 if (response) {
                     jQuery('settings-error-encoding-disabled').remove();
                     jQuery('h2:first').after('<div class="updated" id="settings-encoding-successfully-disabled"><p>' + response + '</p></div>');
@@ -159,14 +159,14 @@ jQuery(document).ready(function($) {
         }
     });
 
-    jQuery('.bp-media-encoding-table').on('click', '.bpm-unsubscribe', function(e) {
+    jQuery('.bp-media-encoding-table').on('click', '.bpm-unsubscribe', function (e) {
         e.preventDefault();
         //        var note=prompt(bp_media_admin_strings.reason_for_unsubscribe);
         jQuery("#bpm-unsubscribe-dialog").dialog({
             dialogClass: "wp-dialog",
             modal: true,
             buttons: {
-                Unsubscribe: function() {
+                Unsubscribe: function () {
                     jQuery(this).dialog("close");
                     jQuery('.bpm-unsubscribe').after('<img style="margin: 0 0 0 10px" src="' + rtmedia_admin_url + 'images/wpspin_light.gif" />')
                     var data = {
@@ -177,7 +177,7 @@ jQuery(document).ready(function($) {
                     };
 
                     // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-                    jQuery.getJSON(ajaxurl, data, function(response) {
+                    jQuery.getJSON(ajaxurl, data, function (response) {
                         if (response.error === undefined && response.updated) {
                             jQuery('.bpm-unsubscribe').next().remove();
                             jQuery('.bpm-unsubscribe').after(response.form);
@@ -201,7 +201,7 @@ jQuery(document).ready(function($) {
     });
 
     function fireRequest(data) {
-        return jQuery.post(ajaxurl, data, function(response) {
+        return jQuery.post(ajaxurl, data, function (response) {
             if (response != 0) {
                 var redirect = false;
                 var progw = Math.ceil((((parseInt(response) * 20) + parseInt(data.values['finished'])) / parseInt(data.values['total'])) * 100);
@@ -216,7 +216,7 @@ jQuery(document).ready(function($) {
                 if (redirect) {
                     jQuery.post(ajaxurl, {
                         action: 'rtmedia_privacy_redirect'
-                    }, function(response) {
+                    }, function (response) {
                         window.location = settings_url;
                     });
                 }
@@ -226,19 +226,19 @@ jQuery(document).ready(function($) {
         });
     }
 
-    jQuery('#bpmedia-bpalbumimporter').on('change', '#bp-album-import-accept', function() {
+    jQuery('#bpmedia-bpalbumimporter').on('change', '#bp-album-import-accept', function () {
         jQuery('.bp-album-import-accept').toggleClass('i-accept');
         jQuery('.bp-album-importer-wizard').slideToggle();
     });
 
-    jQuery('#rtprivacyinstall').click(function(e) {
+    jQuery('#rtprivacyinstall').click(function (e) {
         e.preventDefault();
         $progress_parent = jQuery('#rtprivacyinstaller');
-        $progress_parent.find('.rtprivacytype').each(function() {
+        $progress_parent.find('.rtprivacytype').each(function () {
             $type = jQuery(this).attr('id');
             if ($type == 'total') {
                 $values = [];
-                jQuery(this).find('input').each(function() {
+                jQuery(this).find('input').each(function () {
 
                     $values [jQuery(this).attr('name')] = [jQuery(this).val()];
 
@@ -263,8 +263,8 @@ jQuery(document).ready(function($) {
                 }
                 var $startingpoint = jQuery.Deferred();
                 $startingpoint.resolve();
-                jQuery.each($data, function(i, v) {
-                    $startingpoint = $startingpoint.pipe(function() {
+                jQuery.each($data, function (i, v) {
+                    $startingpoint = $startingpoint.pipe(function () {
                         return fireRequest(v);
                     });
                 });
@@ -275,7 +275,7 @@ jQuery(document).ready(function($) {
     });
 
     function fireimportRequest(data) {
-        return jQuery.getJSON(ajaxurl, data, function(response) {
+        return jQuery.getJSON(ajaxurl, data, function (response) {
             favorites = false;
             if (response) {
                 var redirect = false;
@@ -304,7 +304,7 @@ jQuery(document).ready(function($) {
                     favorite_data = {
                         'action': 'rtmedia_rt_album_import_favorites'
                     }
-                    jQuery.post(ajaxurl, favorite_data, function(response) {
+                    jQuery.post(ajaxurl, favorite_data, function (response) {
                         if (response.favorites !== 0 || response.favorites !== '0') {
                             if (!jQuery('.bp-album-favorites').length)
                                 jQuery('.bp-album-comments').after('<br /><div class="bp-album-favorites"><strong>User\'s Favorites: <span class="finished">0</span> / <span class="total">' + response.users + '</span></strong><div id="rtprogressbar"><div style="width:0%"></div></div></div>');
@@ -331,8 +331,8 @@ jQuery(document).ready(function($) {
                             }
                             var $startingpoint = jQuery.Deferred();
                             $startingpoint.resolve();
-                            jQuery.each($favorites, function(i, v) {
-                                $startingpoint = $startingpoint.pipe(function() {
+                            jQuery.each($favorites, function (i, v) {
+                                $startingpoint = $startingpoint.pipe(function () {
                                     return fireimportfavoriteRequest(v);
                                 });
                             });
@@ -349,7 +349,7 @@ jQuery(document).ready(function($) {
     }
 
     function fireimportfavoriteRequest(data) {
-        return jQuery.post(ajaxurl, data, function(response) {
+        return jQuery.post(ajaxurl, data, function (response) {
             redirect = false;
             favorites_total = jQuery('#bpmedia-bpalbumimporter .bp-album-favorites span.total').html();
             favorites_finished = jQuery('#bpmedia-bpalbumimporter .bp-album-favorites span.finished').html();
@@ -370,30 +370,30 @@ jQuery(document).ready(function($) {
         window.location = document.URL;
     }
 
-    jQuery('#bpmedia-bpalbumimport-cleanup').click(function(e) {
+    jQuery('#bpmedia-bpalbumimport-cleanup').click(function (e) {
         e.preventDefault();
         jQuery.post(ajaxurl, {
             action: 'rtmedia_rt_album_cleanup'
-        }, function(response) {
+        }, function (response) {
             window.location = settings_rt_album_import_url;
         });
 
     });
 
-    jQuery('#bpmedia-bpalbumimporter').on('click', '#bpmedia-bpalbumimport', function(e) {
+    jQuery('#bpmedia-bpalbumimporter').on('click', '#bpmedia-bpalbumimport', function (e) {
         e.preventDefault();
         if (!jQuery('#bp-album-import-accept').prop('checked')) {
             jQuery('html, body').animate({
                 scrollTop: jQuery('#bp-album-import-accept').offset().top
             }, 500);
             var $el = jQuery('.bp-album-import-accept'),
-                    x = 500,
-                    originalColor = '#FFEBE8',
-                    i = 3; //counter
+                x = 500,
+                originalColor = '#FFEBE8',
+                i = 3; //counter
 
             (function loop() { //recurisve IIFE
                 $el.css("background-color", "#EE0000");
-                setTimeout(function() {
+                setTimeout(function () {
                     $el.css("background-color", originalColor);
                     if (--i)
                         setTimeout(loop, x); //restart loop
@@ -410,7 +410,7 @@ jQuery(document).ready(function($) {
 
         $progress_parent = jQuery('#bpmedia-bpalbumimport');
         $values = [];
-        jQuery(this).parent().find('input').each(function() {
+        jQuery(this).parent().find('input').each(function () {
             $values [jQuery(this).attr('name')] = [jQuery(this).val()];
 
         });
@@ -438,8 +438,8 @@ jQuery(document).ready(function($) {
         }
         var $startingpoint = jQuery.Deferred();
         $startingpoint.resolve();
-        jQuery.each($data, function(i, v) {
-            $startingpoint = $startingpoint.pipe(function() {
+        jQuery.each($data, function (i, v) {
+            $startingpoint = $startingpoint.pipe(function () {
                 return fireimportRequest(v);
             });
         });
@@ -447,16 +447,16 @@ jQuery(document).ready(function($) {
 
     });
 
-    jQuery('#bp-media-settings-boxes').on('click', '.interested', function() {
+    jQuery('#bp-media-settings-boxes').on('click', '.interested', function () {
         jQuery('.interested-container').removeClass('hidden');
         jQuery('.choice-free').attr('required', 'required');
     });
-    jQuery('#bp-media-settings-boxes').on('click', '.not-interested', function() {
+    jQuery('#bp-media-settings-boxes').on('click', '.not-interested', function () {
         jQuery('.interested-container').addClass('hidden');
         jQuery('.choice-free').removeAttr('required');
     });
 
-    jQuery('#video-transcoding-main-container').on('click', '.video-transcoding-survey', function(e) {
+    jQuery('#video-transcoding-main-container').on('click', '.video-transcoding-survey', function (e) {
         e.preventDefault();
         var data = {
             action: 'rtmedia_convert_videos_form',
@@ -465,19 +465,19 @@ jQuery(document).ready(function($) {
             choice: jQuery('input[name="choice"]:checked').val(),
             interested: jQuery('input[name="interested"]:checked').val()
         }
-        jQuery.post(ajaxurl, data, function(response) {
+        jQuery.post(ajaxurl, data, function (response) {
             jQuery('#video-transcoding-main-container').html('<p><strong>' + response + '</strong></p>');
         });
         return false;
     });
 
-    jQuery('#bpmedia-bpalbumimporter').on('click', '.deactivate-bp-album', function(e) {
+    jQuery('#bpmedia-bpalbumimporter').on('click', '.deactivate-bp-album', function (e) {
         e.preventDefault();
         $bpalbum = jQuery(this);
         var data = {
             action: 'rtmedia_rt_album_deactivate'
         }
-        jQuery.get(ajaxurl, data, function(response) {
+        jQuery.get(ajaxurl, data, function (response) {
             if (response)
                 location.reload();
             else
@@ -485,12 +485,12 @@ jQuery(document).ready(function($) {
         });
     });
 
-    jQuery('.updated').on('click', '.bpm-hide-encoding-notice', function() {
+    jQuery('.updated').on('click', '.bpm-hide-encoding-notice', function () {
         jQuery(this).after('<img style="margin: 0 0 0 10px" src="' + rtmedia_admin_url + 'images/wpspin_light.gif" />');
         var data = {
             action: 'rtmedia_hide_encoding_notice'
         }
-        jQuery.post(ajaxurl, data, function(response) {
+        jQuery.post(ajaxurl, data, function (response) {
             if (response) {
                 jQuery('.bpm-hide-encoding-notice').closest('.updated').remove();
             }
@@ -511,11 +511,11 @@ jQuery(document).ready(function($) {
         jQuery(".rtmedia-bp-activity-setting").prop("disabled", false);
         jQuery(".privacy-driven-disable label .rt-switch").bootstrapSwitch("setActive", true);
     } else {
-	   jQuery(".rtmedia-bp-activity-setting").prop("disabled", true);
-       jQuery(".privacy-driven-disable label .rt-switch").bootstrapSwitch("setActive", false);
+        jQuery(".rtmedia-bp-activity-setting").prop("disabled", true);
+        jQuery(".privacy-driven-disable label .rt-switch").bootstrapSwitch("setActive", false);
     }
 
-    jQuery('#rtmedia-privacy-enable').on("click", function(e) {
+    jQuery('#rtmedia-privacy-enable').on("click", function (e) {
         if (jQuery(this).is(":checked")) {
             jQuery(".privacy-driven-disable label input").prop("disabled", false);
             jQuery(".privacy-driven-disable label .rt-switch").bootstrapSwitch("setActive", true);
@@ -526,12 +526,12 @@ jQuery(document).ready(function($) {
             jQuery(".privacy-driven-disable").parent().parent().css("display", "none");
         }
     });
-    jQuery('#rtmedia-bp-enable-activity').on("click", function(e){
-	if (jQuery(this).is(":checked")) {
-	    jQuery(".rtmedia-bp-activity-setting").prop("disabled", false);
-	} else {
-	    jQuery(".rtmedia-bp-activity-setting").prop("disabled", true);
-	}
+    jQuery('#rtmedia-bp-enable-activity').on("click", function (e) {
+        if (jQuery(this).is(":checked")) {
+            jQuery(".rtmedia-bp-activity-setting").prop("disabled", false);
+        } else {
+            jQuery(".rtmedia-bp-activity-setting").prop("disabled", true);
+        }
     });
     var onData = '';
     var offData = '';
@@ -541,7 +541,7 @@ jQuery(document).ready(function($) {
         offData = 'data-off-label="' + rtmedia_off_label + '"';
     jQuery("[data-toggle='switch']").wrap('<div class="rt-switch" ' + onData + ' ' + offData + ' />').parent().bootstrapSwitch();
 
-    $(".rtmedia-tab-title").click(function() {
+    $(".rtmedia-tab-title").click(function () {
         hash = $(this).attr('href');
         window.location.hash = hash.substring(1, hash.length);
     });
@@ -561,102 +561,102 @@ jQuery(document).ready(function($) {
         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    jQuery('#submit-request').click(function(){
-	var flag = true;
-	var name = jQuery('#name').val();
-	var email = jQuery('#email').val();
-	var website = jQuery('#website').val();
-	var phone = jQuery('#phone').val();
-	var subject = jQuery('#subject').val();
-	var details = jQuery('#details').val();
-	var request_type = jQuery('input[name="request_type"]').val();
-	var request_id = jQuery('input[name="request_id"]').val();
-	var server_address = jQuery('input[name="server_address"]').val();
-	var ip_address = jQuery('input[name="ip_address"]').val();
-	var server_type = jQuery('input[name="server_type"]').val();
-	var user_agent = jQuery('input[name="user_agent"]').val();
-	var form_data = { name : name, email : email, website : website, phone : phone, subject : subject, details : details, request_id : request_id, request_type: 'premium_support', server_address : server_address, ip_address : ip_address, server_type : server_type, user_agent : user_agent};
-	if(request_type == "bug_report") {
-	    var wp_admin_username = jQuery('#wp_admin_username').val();
-	    if(wp_admin_username == "") {
-		alert("Please enter WP Admin Login.");
-		return false;
-	    }
-	    var wp_admin_pwd = jQuery('#wp_admin_pwd').val();
-	    if(wp_admin_pwd == "") {
-		alert("Please enter WP Admin password.");
-		return false;
-	    }
-	    var ssh_ftp_host = jQuery('#ssh_ftp_host').val();
-	    if(ssh_ftp_host == "") {
-		alert("Please enter SSH / FTP host.");
-		return false;
-	    }
-	    var ssh_ftp_username = jQuery('#ssh_ftp_username').val();
-	    if(ssh_ftp_username == "") {
-		alert("Please enter SSH / FTP login.");
-		return false;
-	    }
-	    var ssh_ftp_pwd = jQuery('#ssh_ftp_pwd').val();
-	    if(ssh_ftp_pwd == "") {
-		alert("Please enter SSH / FTP password.");
-		return false;
-	    }
-	    form_data = { name : name, email : email, website : website, phone : phone, subject : subject, details : details, request_id : request_id, request_type: 'premium_support', server_address : server_address, ip_address : ip_address, server_type : server_type, user_agent : user_agent, wp_admin_username : wp_admin_username, wp_admin_pwd : wp_admin_pwd, ssh_ftp_host : ssh_ftp_host, ssh_ftp_username : ssh_ftp_username, ssh_ftp_pwd : ssh_ftp_pwd };
-	}
-	for(formdata in form_data) {
-	    if(form_data[formdata] == "" && formdata != 'phone'  ) {
-		alert("Please enter " + formdata.replace("_", " ") + " field.");
-		return false;
-	    }
-	}
-	data = {
-		action: "rtmedia_submit_request",
-		form_data: form_data
-	    };
-	jQuery.post(ajaxurl,data,function(data){
-	    data = data.trim();
-	    if(data == "false") {
-		alert("Please fill all the fields.");
-		return false;
-	    }
-	    $('#rtmedia_service_contact_container').empty();
-	    $('#rtmedia_service_contact_container').append(data);
-	});
-	return false;
+    jQuery('#submit-request').click(function () {
+        var flag = true;
+        var name = jQuery('#name').val();
+        var email = jQuery('#email').val();
+        var website = jQuery('#website').val();
+        var phone = jQuery('#phone').val();
+        var subject = jQuery('#subject').val();
+        var details = jQuery('#details').val();
+        var request_type = jQuery('input[name="request_type"]').val();
+        var request_id = jQuery('input[name="request_id"]').val();
+        var server_address = jQuery('input[name="server_address"]').val();
+        var ip_address = jQuery('input[name="ip_address"]').val();
+        var server_type = jQuery('input[name="server_type"]').val();
+        var user_agent = jQuery('input[name="user_agent"]').val();
+        var form_data = { name: name, email: email, website: website, phone: phone, subject: subject, details: details, request_id: request_id, request_type: 'premium_support', server_address: server_address, ip_address: ip_address, server_type: server_type, user_agent: user_agent};
+        if (request_type == "bug_report") {
+            var wp_admin_username = jQuery('#wp_admin_username').val();
+            if (wp_admin_username == "") {
+                alert("Please enter WP Admin Login.");
+                return false;
+            }
+            var wp_admin_pwd = jQuery('#wp_admin_pwd').val();
+            if (wp_admin_pwd == "") {
+                alert("Please enter WP Admin password.");
+                return false;
+            }
+            var ssh_ftp_host = jQuery('#ssh_ftp_host').val();
+            if (ssh_ftp_host == "") {
+                alert("Please enter SSH / FTP host.");
+                return false;
+            }
+            var ssh_ftp_username = jQuery('#ssh_ftp_username').val();
+            if (ssh_ftp_username == "") {
+                alert("Please enter SSH / FTP login.");
+                return false;
+            }
+            var ssh_ftp_pwd = jQuery('#ssh_ftp_pwd').val();
+            if (ssh_ftp_pwd == "") {
+                alert("Please enter SSH / FTP password.");
+                return false;
+            }
+            form_data = { name: name, email: email, website: website, phone: phone, subject: subject, details: details, request_id: request_id, request_type: 'premium_support', server_address: server_address, ip_address: ip_address, server_type: server_type, user_agent: user_agent, wp_admin_username: wp_admin_username, wp_admin_pwd: wp_admin_pwd, ssh_ftp_host: ssh_ftp_host, ssh_ftp_username: ssh_ftp_username, ssh_ftp_pwd: ssh_ftp_pwd };
+        }
+        for (formdata in form_data) {
+            if (form_data[formdata] == "" && formdata != 'phone') {
+                alert("Please enter " + formdata.replace("_", " ") + " field.");
+                return false;
+            }
+        }
+        data = {
+            action: "rtmedia_submit_request",
+            form_data: form_data
+        };
+        jQuery.post(ajaxurl, data, function (data) {
+            data = data.trim();
+            if (data == "false") {
+                alert("Please fill all the fields.");
+                return false;
+            }
+            $('#rtmedia_service_contact_container').empty();
+            $('#rtmedia_service_contact_container').append(data);
+        });
+        return false;
     });
 
-    jQuery('#cancel-request').click(function(){
-	return false;
+    jQuery('#cancel-request').click(function () {
+        return false;
     });
 
-    $(window).hashchange(function(e, data) {
+    $(window).hashchange(function (e, data) {
         e.preventDefault();
         manageHash();
     });
-    if(jQuery(document).foundation !== undefined)
+    if (jQuery(document).foundation !== undefined)
         jQuery(document).foundation();
 
-    if(window.location.hash){
-	jQuery('#bp-media-settings-boxes dl.tabs dd a').each(function(){
-	    var hash = '#' + jQuery(this).attr('href').split('#')[1];
-	    if(hash == window.location.hash){
-		jQuery(this).click();
-	    }
-	});
+    if (window.location.hash) {
+        jQuery('#bp-media-settings-boxes dl.tabs dd a').each(function () {
+            var hash = '#' + jQuery(this).attr('href').split('#')[1];
+            if (hash == window.location.hash) {
+                jQuery(this).click();
+            }
+        });
     }
 });
 
 function rtmedia_addon_do_not_show() {
     var data = {
-	action: 'rtmedia_addon_popup_not_show_again'
+        action: 'rtmedia_addon_popup_not_show_again'
     };
-    jQuery.post(rtmedia_admin_ajax, data, function(response) {
-	jQuery('#TB_window').remove();
-	jQuery('#TB_overlay').remove();
+    jQuery.post(rtmedia_admin_ajax, data, function (response) {
+        jQuery('#TB_window').remove();
+        jQuery('#TB_overlay').remove();
     });
 }
 
-jQuery(window).load(function(){
+jQuery(window).load(function () {
     jQuery('.rtmedia-addon-thickbox').trigger('click');
 });

@@ -11,8 +11,7 @@ class RTMediaModel extends RTDBModel
 	/**
 	 * Constructor
 	 */
-	function __construct()
-	{
+	function __construct() {
 		parent::__construct( 'rtm_media', false, 10, true );
 		$this->meta_table_name = 'rt_rtm_media_meta';
 	}
@@ -24,8 +23,7 @@ class RTMediaModel extends RTDBModel
 	 *
 	 * @return type
 	 */
-	function __call( $name, $arguments )
-	{
+	function __call( $name, $arguments ) {
 		$result = parent::__call( $name, $arguments );
 		if ( ! $result[ 'result' ] ){
 			$result[ 'result' ] = $this->populate_results_fallback( $name, $arguments );
@@ -37,7 +35,8 @@ class RTMediaModel extends RTDBModel
 	/**
 	 * Get Media
 	 *
-	 * @global type $wpdb
+	 * @global type  $wpdb
+	 *
 	 * @param type   $columns
 	 * @param bool   $offset
 	 * @param bool   $per_page
@@ -46,8 +45,7 @@ class RTMediaModel extends RTDBModel
 	 *
 	 * @return type
 	 */
-	function get( $columns, $offset = false, $per_page = false, $order_by = 'media_id desc', $count_flag = false )
-	{
+	function get( $columns, $offset = false, $per_page = false, $order_by = 'media_id desc', $count_flag = false ) {
 		global $wpdb;
 		$select = 'SELECT ';
 		if ( $count_flag ){
@@ -132,8 +130,7 @@ class RTMediaModel extends RTDBModel
 	 *
 	 * @return type
 	 */
-	function populate_results_fallback( $name, $arguments )
-	{
+	function populate_results_fallback( $name, $arguments ) {
 		$result[ 'result' ] = false;
 		if ( 'get_by_media_id' == $name && isset ( $arguments[ 0 ] ) && $arguments[ 0 ] ){
 
@@ -170,8 +167,7 @@ class RTMediaModel extends RTDBModel
 	 *
 	 * @return type
 	 */
-	function get_media( $columns, $offset = false, $per_page = false, $order_by = 'media_id desc', $count_flag = false )
-	{
+	function get_media( $columns, $offset = false, $per_page = false, $order_by = 'media_id desc', $count_flag = false ) {
 		if ( is_multisite() ){
 			$order_by = 'blog_id' . ( ( $order_by ) ? ',' . $order_by : '' );
 		}
@@ -191,8 +187,7 @@ class RTMediaModel extends RTDBModel
 	 *
 	 * @return mixed
 	 */
-	function get_user_albums( $author_id, $offset, $per_page, $order_by = 'media_id desc' )
-	{
+	function get_user_albums( $author_id, $offset, $per_page, $order_by = 'media_id desc' ) {
 		global $wpdb;
 		if ( is_multisite() ) $order_by = 'blog_id' . ( ( $order_by ) ? ',' . $order_by : '' );
 
@@ -211,10 +206,10 @@ class RTMediaModel extends RTDBModel
 		$sql .= $where . $qorder_by;
 		if ( $offset !== false ){
 			if ( ! is_integer( $offset ) ) $offset = 0;
-			if ( intval( $offset ) < 0 ) $offset   = 0;
+			if ( intval( $offset ) < 0 ) $offset = 0;
 
 			if ( ! is_integer( $per_page ) ) $per_page = 1;
-			if ( intval( $per_page ) < 1 ) $per_page   = 1;
+			if ( intval( $per_page ) < 1 ) $per_page = 1;
 
 			$sql .= ' LIMIT ' . $offset . ',' . $per_page;
 		}
@@ -234,8 +229,7 @@ class RTMediaModel extends RTDBModel
 	 *
 	 * @return mixed
 	 */
-	function get_group_albums( $group_id, $offset, $per_page, $order_by = 'media_id desc' )
-	{
+	function get_group_albums( $group_id, $offset, $per_page, $order_by = 'media_id desc' ) {
 		global $wpdb;
 		if ( is_multisite() ) $order_by = 'blog_id' . ( ( $order_by ) ? ',' . $order_by : '' );
 		$sql = "SELECT * FROM {$this->table_name} WHERE id IN(SELECT DISTINCT (album_id) FROM {$this->table_name} WHERE context_id = $group_id AND album_id IS NOT NULL AND media_type != 'album' AND context = 'group') OR (media_type = 'album' AND context_id = $group_id AND context = 'group')";
@@ -247,10 +241,10 @@ class RTMediaModel extends RTDBModel
 
 		if ( $offset !== false ){
 			if ( ! is_integer( $offset ) ) $offset = 0;
-			if ( intval( $offset ) < 0 ) $offset   = 0;
+			if ( intval( $offset ) < 0 ) $offset = 0;
 
 			if ( ! is_integer( $per_page ) ) $per_page = 1;
-			if ( intval( $per_page ) < 1 ) $per_page   = 1;
+			if ( intval( $per_page ) < 1 ) $per_page = 1;
 
 			$sql .= ' LIMIT ' . $offset . ',' . $per_page;
 		}
@@ -267,8 +261,7 @@ class RTMediaModel extends RTDBModel
 	 *
 	 * @return bool
 	 */
-	function get_counts( $user_id = false, $where_query = false )
-	{
+	function get_counts( $user_id = false, $where_query = false ) {
 
 		if ( ! $user_id && ! $where_query ) return false;
 		global $wpdb, $rtmedia;
@@ -324,8 +317,7 @@ class RTMediaModel extends RTDBModel
 	 *
 	 * @return int
 	 */
-	function get_other_album_count( $profile_id, $context = 'profile' )
-	{
+	function get_other_album_count( $profile_id, $context = 'profile' ) {
 		$global = RTMediaAlbum::get_globals();
 		$sql    = "select distinct album_id from {$this->table_name} where 2=2 AND context = '{$context}' ";
 		if ( is_multisite() ){
@@ -333,10 +325,10 @@ class RTMediaModel extends RTDBModel
 		}
 		if ( is_array( $global ) && count( $global ) > 0 ){
 			$sql .= ' and album_id in (';
-			$sep  = '';
+			$sep = '';
 			foreach ( $global as $id ) {
 				$sql .= $sep . $id;
-				$sep  = ',';
+				$sep = ',';
 			}
 			$sql .= ')';
 		}

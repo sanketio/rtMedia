@@ -30,8 +30,7 @@ class RTMediaContext
 	 *
 	 * @return \RTMediaContext
 	 */
-	function __construct()
-	{
+	function __construct() {
 		$this->set_context();
 
 		return $this;
@@ -40,8 +39,7 @@ class RTMediaContext
 	/**
 	 *
 	 */
-	function set_context()
-	{
+	function set_context() {
 		if ( class_exists( 'BuddyPress' ) ){
 			$this->set_bp_context();
 		} else {
@@ -53,8 +51,7 @@ class RTMediaContext
 	 *
 	 * @global type $post
 	 */
-	function set_wp_context()
-	{
+	function set_wp_context() {
 		global $post;
 		global $bp;
 		if ( is_author() ){
@@ -74,8 +71,7 @@ class RTMediaContext
 	/**
 	 *
 	 */
-	function set_bp_context()
-	{
+	function set_bp_context() {
 		if ( bp_is_blog_page() && ! is_home() ){
 			$this->set_wp_context();
 		} else {
@@ -86,8 +82,7 @@ class RTMediaContext
 	/**
 	 *
 	 */
-	function set_bp_component_context()
-	{
+	function set_bp_component_context() {
 		if ( bp_displayed_user_id() && ! bp_is_group() ) $this->type = 'profile'; else if ( ! bp_displayed_user_id() && bp_is_group() ) $this->type = 'group'; else
 			$this->type = 'profile';
 		$this->id = $this->get_current_bp_component_id();
@@ -101,8 +96,7 @@ class RTMediaContext
 	 *
 	 * @return type
 	 */
-	function get_current_bp_component_id()
-	{
+	function get_current_bp_component_id() {
 		switch ( bp_current_component() ) {
 			case 'groups':
 				if ( function_exists( 'bp_get_current_group_id' ) ) return bp_get_current_group_id();

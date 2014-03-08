@@ -18,8 +18,7 @@ class RTMediaComment
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->rtmedia_comment_model = new RTMediaCommentModel();
 	}
 
@@ -30,8 +29,7 @@ class RTMediaComment
 	 *
 	 * @return string
 	 */
-	static function comment_nonce_generator( $echo = true )
-	{
+	static function comment_nonce_generator( $echo = true ) {
 		if ( $echo ){
 			wp_nonce_field( 'rtmedia_comment_nonce', 'rtmedia_comment_nonce' );
 		} else {
@@ -47,8 +45,7 @@ class RTMediaComment
 	 * @global type $current_user
 	 * @return type
 	 */
-	function get_current_id()
-	{
+	function get_current_id() {
 
 		global $current_user;
 		get_currentuserinfo();
@@ -62,8 +59,7 @@ class RTMediaComment
 	 * @global type $current_user
 	 * @return type
 	 */
-	function get_current_author()
-	{
+	function get_current_author() {
 
 		global $current_user;
 		get_currentuserinfo();
@@ -78,11 +74,10 @@ class RTMediaComment
 	 *
 	 * @return mixed
 	 */
-	function add( $attr )
-	{
+	function add( $attr ) {
 		do_action( 'rtmedia_before_add_comment', $attr );
 		$defaults = array( 'user_id' => $this->get_current_id(), 'comment_author' => $this->get_current_author(), 'comment_date' => current_time( 'mysql' ) );
-		$params = wp_parse_args( $attr, $defaults );
+		$params   = wp_parse_args( $attr, $defaults );
 
 		$id = $this->rtmedia_comment_model->insert( $params );
 		global $rtmedia_points_media_id;
@@ -99,8 +94,7 @@ class RTMediaComment
 	 *
 	 * @return bool|mixed
 	 */
-	function remove( $id )
-	{
+	function remove( $id ) {
 
 		do_action( 'rtmedia_before_remove_comment', $id );
 

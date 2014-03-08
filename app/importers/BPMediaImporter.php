@@ -22,8 +22,7 @@ class BPMediaImporter
 	/**
 	 * Constructor
 	 */
-	function __construct()
-	{
+	function __construct() {
 
 	}
 
@@ -34,8 +33,7 @@ class BPMediaImporter
 	 *
 	 * @return bool
 	 */
-	static function table_exists( $table )
-	{
+	static function table_exists( $table ) {
 		global $wpdb;
 
 		if ( $wpdb->query( "SHOW TABLES LIKE '" . $table . "'" ) == 1 ){
@@ -52,8 +50,7 @@ class BPMediaImporter
 	 *
 	 * @return int
 	 */
-	static function _active( $path )
-	{
+	static function _active( $path ) {
 		if ( ! function_exists( 'is_plugin_inactive' ) ){
 			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 		}
@@ -73,8 +70,7 @@ class BPMediaImporter
 	 *
 	 * @return mixed
 	 */
-	static function file_array( $filepath )
-	{
+	static function file_array( $filepath ) {
 
 		$path_info = pathinfo( $filepath );
 
@@ -94,8 +90,7 @@ class BPMediaImporter
 	 *
 	 * @return int|mixed
 	 */
-	static function make_copy( $filepath )
-	{
+	static function make_copy( $filepath ) {
 		$upload_dir = wp_upload_dir();
 		$path_info  = pathinfo( $filepath );
 		$tmp_dir    = trailingslashit( $upload_dir[ 'basedir' ] ) . 'bp-album-importer';
@@ -120,8 +115,7 @@ class BPMediaImporter
 	 *
 	 * @return mixed
 	 */
-	function create_album( $album_name = '', $author_id = 1 )
-	{
+	function create_album( $album_name = '', $author_id = 1 ) {
 
 		global $bp_media;
 
@@ -156,8 +150,7 @@ class BPMediaImporter
 	 *
 	 * @return int
 	 */
-	static function add_media( $album_id, $title = '', $description = '', $filepath = '', $privacy = 0, $author_id = false, $album_name = false )
-	{
+	static function add_media( $album_id, $title = '', $description = '', $filepath = '', $privacy = 0, $author_id = false, $album_name = false ) {
 
 
 		$files = BPMediaImporter::make_copy( $filepath );
@@ -187,8 +180,7 @@ class BPMediaImporter
 	 * @param $table
 	 * @param $directory
 	 */
-	static function cleanup( $table, $directory )
-	{
+	static function cleanup( $table, $directory ) {
 		global $wpdb;
 		$wpdb->query( "DROP TABLE IF EXISTS $table" );
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->base_prefix}bp_activity WHERE component = %s ", 'album' ) );
@@ -204,8 +196,7 @@ class BPMediaImporter
 	 *
 	 * @return bool
 	 */
-	static function delete( $path )
-	{
+	static function delete( $path ) {
 		if ( is_dir( $path ) === true ){
 			$files = array_diff( scandir( $path ), array( '.', '..' ) );
 

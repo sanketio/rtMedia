@@ -26,8 +26,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 	 * @param bool $user_id
 	 * @param bool $flag
 	 */
-	function __construct( $user_id = false, $flag = true )
-	{
+	function __construct( $user_id = false, $flag = true ) {
 		$args = array( 'action' => 'featured', 'label' => __( 'Set as Featured' ), 'plural' => '', 'undo_label' => __( 'Unset Featured', 'rtmedia' ), 'privacy' => 60, 'countable' => false, 'single' => true, 'repeatable' => false, 'undoable' => true, 'icon_class' => 'rtmicon-star' );
 
 
@@ -47,8 +46,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 	 *
 	 * @return bool|void
 	 */
-	function before_render()
-	{
+	function before_render() {
 		$this->get();
 		if ( ! ( isset( $this->settings[ $this->media->media_type ] ) && $this->settings[ $this->media->media_type ] ) ) return false;
 		if ( isset ( $this->action_query ) && isset ( $this->action_query->id ) && $this->action_query->id == $this->featured ){
@@ -61,8 +59,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 	 *
 	 * @param bool $media_id
 	 */
-	function set( $media_id = false )
-	{
+	function set( $media_id = false ) {
 		if ( $media_id === false ){
 			return;
 		}
@@ -70,8 +67,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 		update_user_meta( $this->user_id, 'rtmedia_featured_media', $media_id );
 	}
 
-	function get()
-	{
+	function get() {
 		if ( $this->user_id === false ){
 			if ( function_exists( 'bp_displayed_user_id' ) ) $this->user_id = bp_displayed_user_id();
 			if ( ! $this->user_id ) $this->user_id = get_current_user_id();
@@ -82,8 +78,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 		return $this->featured;
 	}
 
-	function settings()
-	{
+	function settings() {
 		global $rtmedia;
 		$this->settings[ 'photo' ]  = isset ( $rtmedia->options[ 'allowedTypes_photo_featured' ] ) ? $rtmedia->options[ 'allowedTypes_photo_featured' ] : 0;
 		$this->settings[ 'video' ]  = isset ( $rtmedia->options[ 'allowedTypes_video_featured' ] ) ? $rtmedia->options[ 'allowedTypes_video_featured' ] : 0;
@@ -100,8 +95,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 	 *
 	 * @return bool
 	 */
-	function valid_type( $type )
-	{
+	function valid_type( $type ) {
 		if ( isset ( $this->settings[ $type ] ) && $this->settings[ $type ] > 0 ){
 			return true;
 		}
@@ -109,8 +103,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 		return false;
 	}
 
-	function get_last_media()
-	{
+	function get_last_media() {
 
 	}
 
@@ -119,8 +112,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 	 *
 	 * @param $media_id
 	 */
-	function generate_featured_size( $media_id )
-	{
+	function generate_featured_size( $media_id ) {
 		$metadata = wp_get_attachment_metadata( $media_id );
 		$resized  = image_make_intermediate_size( get_attached_file( $media_id ), $this->settings[ 'width' ], $this->settings[ 'height' ], $this->settings[ 'crop' ] );
 		if ( $resized ){
@@ -136,8 +128,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 	 *
 	 * @return bool
 	 */
-	function media_exists( $id )
-	{
+	function media_exists( $id ) {
 		global $wpdb;
 		$post_exists = $wpdb->get_row( "SELECT * FROM $wpdb->posts WHERE id = '" . $id . "'", 'ARRAY_A' );
 		if ( $post_exists ) return true; else
@@ -149,8 +140,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 	 *
 	 * @return bool
 	 */
-	function content()
-	{
+	function content() {
 		$this->get();
 		$actions = $this->model->get( array( 'id' => $this->featured ) );
 		if ( ! $actions ) return false;
@@ -183,8 +173,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
 		return apply_filters( 'rtmedia_featured_media_content', $content );
 	}
 
-	function process()
-	{
+	function process() {
 		if ( ! isset ( $this->action_query->id ) ) return;
 		$return      = array();
 		$this->model = new RTMediaModel();
@@ -221,8 +210,7 @@ class RTMediaFeatured extends RTMediaUserInteraction
  *
  * @param bool $user_id
  */
-function rtmedia_featured( $user_id = false )
-{
+function rtmedia_featured( $user_id = false ) {
 	echo rtmedia_get_featured( $user_id );
 }
 
@@ -233,8 +221,7 @@ function rtmedia_featured( $user_id = false )
  *
  * @return bool
  */
-function rtmedia_get_featured( $user_id = false )
-{
+function rtmedia_get_featured( $user_id = false ) {
 	$featured = new RTMediaFeatured( $user_id, false );
 
 	return $featured->content();
@@ -247,8 +234,7 @@ if ( ! function_exists( 'bp_media_featured' ) ){
 	 *
 	 * @param bool $user_id
 	 */
-	function bp_media_featured( $user_id = false )
-	{
+	function bp_media_featured( $user_id = false ) {
 		echo rtmedia_get_featured( $user_id );
 	}
 
@@ -259,8 +245,7 @@ if ( ! function_exists( 'bp_media_featured' ) ){
 	 *
 	 * @return bool
 	 */
-	function bp_media_get_featured( $user_id = false )
-	{
+	function bp_media_get_featured( $user_id = false ) {
 		return rtmedia_get_featured( $user_id );
 	}
 

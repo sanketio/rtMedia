@@ -26,8 +26,7 @@ if ( ! class_exists( 'BPMediaLog' ) ){
 		 * @param string $context
 		 * @param string $log_file
 		 */
-		public function __construct( $msg, $context = '', $log_file = '' )
-		{
+		public function __construct( $msg, $context = '', $log_file = '' ) {
 			$log_msg = $this->log_msg( $msg, $context = '' );
 			if ( $log_file == '' ){
 				$log_file = RTMEDIA_PATH . 'log/rtmedia.log';
@@ -51,8 +50,7 @@ if ( ! class_exists( 'BPMediaLog' ) ){
 		 *
 		 * @return string
 		 */
-		function log_msg( $msg, $context = '' )
-		{
+		function log_msg( $msg, $context = '' ) {
 			$logmsg = gmdate( 'Y-m-d H:i:s' ) . " | ";
 			if ( $context ){
 				$logmsg .= $context . " | ";
@@ -81,8 +79,7 @@ if ( ! class_exists( 'BPMediaLog' ) ){
 		 *
 		 * @return boolean
 		 */
-		public function log( $logmsg, $file )
-		{
+		public function log( $logmsg, $file ) {
 			$fp = fopen( RTMEDIA_PATH . 'plugin.log', 'a+' );
 			if ( $fp ){
 				fwrite( $fp, "\n" . $logmsg );

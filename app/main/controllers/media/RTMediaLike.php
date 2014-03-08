@@ -15,8 +15,7 @@ class RTMediaLike extends RTMediaUserInteraction
 	/**
 	 * Constructor
 	 */
-	function __construct()
-	{
+	function __construct() {
 		$args = array( 'action' => 'like', 'label' => __( 'Like', 'rtmedia' ), 'plural' => __( 'Likes', 'rtmedia' ), 'undo_label' => __( 'Unlike', 'rtmedia' ), 'privacy' => 20, 'countable' => true, 'single' => false, 'repeatable' => false, 'undoable' => true, 'icon_class' => 'rtmicon-thumbs-up' );
 		parent::__construct( $args );
 		remove_filter( 'rtmedia_action_buttons_before_delete', array( $this, 'button_filter' ) );
@@ -25,8 +24,7 @@ class RTMediaLike extends RTMediaUserInteraction
 
 	}
 
-	function like_button_filter()
-	{
+	function like_button_filter() {
 		if ( empty( $this->media ) ){
 			$this->init();
 		}
@@ -40,8 +38,7 @@ class RTMediaLike extends RTMediaUserInteraction
 	 *
 	 * @return int
 	 */
-	function process()
-	{
+	function process() {
 		$actions = $this->model->get( array( 'id' => $this->action_query->id ) );
 
 
@@ -63,7 +60,7 @@ class RTMediaLike extends RTMediaUserInteraction
 			}
 			$update_data   = array( 'value' => $value );
 			$where_columns = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action, );
-			$update = $rtmediainteraction->update( $update_data, $where_columns );
+			$update        = $rtmediainteraction->update( $update_data, $where_columns );
 		} else {
 			$value          = '1';
 			$columns        = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action, 'value' => $value );
@@ -108,8 +105,7 @@ class RTMediaLike extends RTMediaUserInteraction
 	 *
 	 * @return array|void
 	 */
-	function button_filter( $buttons )
-	{
+	function button_filter( $buttons ) {
 
 		if ( empty( $this->media ) ){
 			$this->init();
@@ -125,8 +121,7 @@ class RTMediaLike extends RTMediaUserInteraction
 	 *
 	 * @return bool
 	 */
-	function is_like_migrated()
-	{
+	function is_like_migrated() {
 		$rtmediainteraction = new RTMediaInteractionModel();
 		$user_id            = $this->interactor;
 		$media_id           = $this->action_query->id;
@@ -140,8 +135,7 @@ class RTMediaLike extends RTMediaUserInteraction
 	 *
 	 * @return bool
 	 */
-	function get_like_value()
-	{
+	function get_like_value() {
 		$rtmediainteraction = new RTMediaInteractionModel();
 		$user_id            = $this->interactor;
 		$media_id           = $this->action_query->id;
@@ -166,16 +160,15 @@ class RTMediaLike extends RTMediaUserInteraction
 	 *
 	 * @return type
 	 */
-	function migrate_likes( $like_media )
-	{
+	function migrate_likes( $like_media ) {
 		$rtmediainteraction = new RTMediaInteractionModel();
 		$user_id            = $this->interactor;
 		$media_id           = $this->action_query->id;
 		$action             = $this->action;
 		$value              = '1';
 		$columns            = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action, 'value' => $value );
-		$insert_id  = $rtmediainteraction->insert( $columns );
-		$like_media = trim( str_replace( ',' . $this->action_query->id . ',', ',', ',' . $like_media . ',' ), ',' );
+		$insert_id          = $rtmediainteraction->insert( $columns );
+		$like_media         = trim( str_replace( ',' . $this->action_query->id . ',', ',', ',' . $like_media . ',' ), ',' );
 		update_user_meta( $this->interactor, 'rtmedia_liked_media', $like_media );
 
 		return $insert_id;
@@ -186,8 +179,7 @@ class RTMediaLike extends RTMediaUserInteraction
 	 *
 	 * @return bool
 	 */
-	function is_liked()
-	{
+	function is_liked() {
 		$like_media = get_user_meta( $this->interactor, 'rtmedia_liked_media', true );
 		if ( $this->is_like_migrated() ){
 			return $this->get_like_value();
@@ -210,8 +202,7 @@ class RTMediaLike extends RTMediaUserInteraction
 	 *
 	 * @return bool|void
 	 */
-	function before_render()
-	{
+	function before_render() {
 		$enable_like = true;
 		$enable_like = apply_filters( 'rtmedia_check_enable_disable_like', $enable_like );
 		if ( ! $enable_like ) return false;

@@ -16,8 +16,7 @@ class RTMediaFriends
 	/**
 	 *
 	 */
-	function __construct()
-	{
+	function __construct() {
 		if ( ! class_exists( 'BuddyPress' ) ) return;
 		if ( ! bp_is_active( 'friend' ) ) return;
 		add_action( 'friends_friendship_accepted', array( $this, 'refresh_friends_cache' ) );
@@ -31,8 +30,7 @@ class RTMediaFriends
 	 *
 	 * @return array
 	 */
-	function get_friends_cache( $user )
-	{
+	function get_friends_cache( $user ) {
 
 		if ( ! class_exists( 'BuddyPress' ) ) return array();
 		if ( ! bp_is_active( 'friends' ) ) return array();
@@ -53,8 +51,7 @@ class RTMediaFriends
 	 *
 	 * @return mixed
 	 */
-	function refresh_friends_cache( $user )
-	{
+	function refresh_friends_cache( $user ) {
 		if ( ! class_exists( 'BuddyPress' ) ) return;
 		if ( ! bp_is_active( 'friends' ) ) return;
 		$friends = friends_get_friend_user_ids( $user );

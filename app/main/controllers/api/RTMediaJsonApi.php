@@ -13,8 +13,7 @@ class RTMediaJsonApi
 	/**
 	 * Constructor
 	 */
-	function __construct()
-	{
+	function __construct() {
 		if ( ! class_exists( 'RTMediaApiLogin' ) || ! class_exists( 'RTMediaJsonApiFunctions' ) ){
 			return;
 		}
@@ -23,8 +22,7 @@ class RTMediaJsonApi
 		add_action( 'wp_ajax_rtmedia_api', array( $this, 'rtmedia_api_process_request' ) );
 	}
 
-	function rtmedia_api_process_request()
-	{
+	function rtmedia_api_process_request() {
 		$rtmedia_enable_json_api = false;
 		if ( function_exists( 'rtmedia_get_site_option' ) ){
 			$rtmedia_options = rtmedia_get_site_option( 'rtmedia-options' );
@@ -122,8 +120,7 @@ class RTMediaJsonApi
 	 *
 	 * @return array|bool|string
 	 */
-	function rtmedia_api_response_object( $status, $status_code, $message, $data = false )
-	{
+	function rtmedia_api_response_object( $status, $status_code, $message, $data = false ) {
 		if ( $status === '' || empty( $status_code ) || empty( $message ) ){
 			return false;
 			exit;
@@ -155,8 +152,7 @@ class RTMediaJsonApi
 	/**
 	 * Takes username and password, if succesful returns a access token
 	 */
-	function rtmedia_api_process_wp_login_request()
-	{
+	function rtmedia_api_process_wp_login_request() {
 		//Login Errors and Messages
 		$ec_user_pass_missing  = 200001;
 		$msg_user_pass_missing = __( 'username/password empty', 'rtmedia' );
@@ -205,8 +201,7 @@ class RTMediaJsonApi
 	 * register a user through api request
 	 * requires signup_* => display_name, username, password, confirm password, location,
 	 */
-	function rtmedia_api_process_wp_register_request()
-	{
+	function rtmedia_api_process_wp_register_request() {
 		//Registration errors and messages
 		$ec_register_fields_missing  = 300001;
 		$msg_register_fields_missing = __( 'fields empty', 'rtmedia' );
@@ -276,8 +271,7 @@ class RTMediaJsonApi
 	 *
 	 * @global type $wpdb
 	 */
-	function rtmedia_api_process_wp_forgot_password_request()
-	{
+	function rtmedia_api_process_wp_forgot_password_request() {
 		global $wpdb;
 		//Registration errors and messages
 		$ec_email_missing  = 500001;
@@ -321,7 +315,7 @@ class RTMediaJsonApi
 		$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
 
 		//create email message
-		$message  = __( 'Someone has asked to reset the password for the following site and username.' ) . "\r\n\r\n";
+		$message = __( 'Someone has asked to reset the password for the following site and username.' ) . "\r\n\r\n";
 		$message .= get_option( 'siteurl' ) . "\r\n\r\n";
 		$message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
 		$message .= __( 'To reset your password visit the following address, otherwise just ignore this email and nothing will happen.' ) . "\r\n\r\n";
@@ -338,8 +332,7 @@ class RTMediaJsonApi
 	 *
 	 * @global type $wpdb
 	 */
-	function rtmedia_api_process_bp_get_activities_request()
-	{
+	function rtmedia_api_process_bp_get_activities_request() {
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		//Feed Errors
 		$ec_latest_feed  = 700001;
@@ -372,8 +365,7 @@ class RTMediaJsonApi
 	 * @global int  $this ->ec_invalid_media_id
 	 * @global type $this ->msg_invalid_media_id
 	 */
-	function rtmedia_api_process_add_rtmedia_comment_request()
-	{
+	function rtmedia_api_process_add_rtmedia_comment_request() {
 
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		$this->rtmediajsonapifunction->rtmedia_api_media_activity_id_missing();
@@ -420,8 +412,7 @@ class RTMediaJsonApi
 	 * @global int  $this ->ec_invalid_media_id
 	 * @global type $this ->msg_invalid_media_id
 	 */
-	function rtmedia_api_process_like_media_request()
-	{
+	function rtmedia_api_process_like_media_request() {
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		$this->rtmediajsonapifunction->rtmedia_api_media_activity_id_missing();
 
@@ -435,19 +426,19 @@ class RTMediaJsonApi
 		extract( $_POST );
 
 		if ( class_exists( 'RTMediaInteractionModel' ) ):
-				$rtmediainteraction = new RTMediaInteractionModel();
+			$rtmediainteraction = new RTMediaInteractionModel();
 
-				if ( class_exists( 'RTMediaLike' ) ) $rtmedialike = new RTMediaLike();
+			if ( class_exists( 'RTMediaLike' ) ) $rtmedialike = new RTMediaLike();
 
-				$action = 'like';
-				// Like or Unlike
+			$action = 'like';
+			// Like or Unlike
 			if ( ! rtmedia_media_id( $media_id ) ){
 				echo $this->rtmedia_api_response_object( 'FALSE', $this->ec_invalid_media_id, $this->msg_invalid_media_id );
 				exit;
 			}
 
-				$like_count_old = get_rtmedia_like( rtmedia_media_id( $media_id ) );
-				$check_action   = $rtmediainteraction->check( $this->user_id, $media_id, $action );
+			$like_count_old = get_rtmedia_like( rtmedia_media_id( $media_id ) );
+			$check_action   = $rtmediainteraction->check( $this->user_id, $media_id, $action );
 			if ( $check_action ){
 				$results    = $rtmediainteraction->get_row( $this->user_id, $media_id, $action );
 				$row        = $results[ 0 ];
@@ -461,39 +452,39 @@ class RTMediaJsonApi
 				}
 				$update_data   = array( 'value' => $value );
 				$where_columns = array( 'user_id' => $this->user_id, 'media_id' => $media_id, 'action' => $action, );
-				$update = $rtmediainteraction->update( $update_data, $where_columns );
+				$update        = $rtmediainteraction->update( $update_data, $where_columns );
 			} else {
 				$value     = '1';
 				$columns   = array( 'user_id' => $this->user_id, 'media_id' => $media_id, 'action' => $action, 'value' => $value );
 				$insert_id = $rtmediainteraction->insert( $columns );
 				$increase  = true;
 			}
-		if ( $increase ){
-			$like_count_old ++;
-		} elseif ( ! $increase ) {
-			$like_count_old --;
-		}
-		if ( $like_count_old < 0 ){
-			$like_count_old = 0;
-		}
-		$data = array( 'like_count' => $like_count_old );
-		if ( ! empty( $insert_id ) ){
-			$rtmedialike->model->update( array( 'likes' => $like_count_old ), array( 'id' => $media_id ) );
-			echo $this->rtmedia_api_response_object( 'TRUE', $ec_liked_media, $msg_liked_media, $data );
-			exit;
-		} elseif ( ! empty( $update ) ) {
-			$rtmedialike->model->update( array( 'likes' => $like_count_old ), array( 'id' => $media_id ) );
-			if ( $value == 1 ){
+			if ( $increase ){
+				$like_count_old ++;
+			} elseif ( ! $increase ) {
+				$like_count_old --;
+			}
+			if ( $like_count_old < 0 ){
+				$like_count_old = 0;
+			}
+			$data = array( 'like_count' => $like_count_old );
+			if ( ! empty( $insert_id ) ){
+				$rtmedialike->model->update( array( 'likes' => $like_count_old ), array( 'id' => $media_id ) );
 				echo $this->rtmedia_api_response_object( 'TRUE', $ec_liked_media, $msg_liked_media, $data );
 				exit;
-			} elseif ( $value == 0 ) {
-				echo $this->rtmedia_api_response_object( 'TRUE', $ec_already_liked, $msg_already_liked, $data );
+			} elseif ( ! empty( $update ) ) {
+				$rtmedialike->model->update( array( 'likes' => $like_count_old ), array( 'id' => $media_id ) );
+				if ( $value == 1 ){
+					echo $this->rtmedia_api_response_object( 'TRUE', $ec_liked_media, $msg_liked_media, $data );
+					exit;
+				} elseif ( $value == 0 ) {
+					echo $this->rtmedia_api_response_object( 'TRUE', $ec_already_liked, $msg_already_liked, $data );
+					exit;
+				}
+			} else {
+				echo $this->rtmedia_api_response_object( 'FALSE', $this->ec_server_error, $this->msg_server_error );
 				exit;
 			}
-		} else {
-			echo $this->rtmedia_api_response_object( 'FALSE', $this->ec_server_error, $this->msg_server_error );
-			exit;
-		}
 		endif;
 	}
 
@@ -502,8 +493,7 @@ class RTMediaJsonApi
 	 *
 	 * @global type $wpdb
 	 */
-	function rtmedia_api_process_get_rtmedia_comments_request()
-	{
+	function rtmedia_api_process_get_rtmedia_comments_request() {
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		//Errors Fetching comment
 		$ec_no_comments  = 800003;
@@ -551,8 +541,7 @@ class RTMediaJsonApi
 	 *
 	 * @global type $wpdb
 	 */
-	function rtmedia_api_process_get_likes_rtmedia_request()
-	{
+	function rtmedia_api_process_get_likes_rtmedia_request() {
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		$this->rtmediajsonapifunction->rtmedia_api_media_activity_id_missing();
 		global $wpdb;
@@ -591,8 +580,7 @@ class RTMediaJsonApi
 	/**
 	 * Delete comment by activity id or media id
 	 */
-	function rtmedia_api_process_remove_comment_request()
-	{
+	function rtmedia_api_process_remove_comment_request() {
 		global $wpdb;
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		$this->rtmediajsonapifunction->rtmedia_api_media_activity_id_missing();
@@ -644,8 +632,7 @@ class RTMediaJsonApi
 		}
 	}
 
-	function rtmedia_api_process_bp_get_profile_request()
-	{
+	function rtmedia_api_process_bp_get_profile_request() {
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		//Errors
 		$ec_no_fields  = 400001;
@@ -726,8 +713,7 @@ class RTMediaJsonApi
 		exit;
 	}
 
-	function rtmedia_api_process_follow_request()
-	{
+	function rtmedia_api_process_follow_request() {
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		$ec_empty_follow_id  = 400003;
 		$msg_empty_follow_id = __( 'follow user id missing', 'rtmedia' );
@@ -761,8 +747,7 @@ class RTMediaJsonApi
 		}
 	}
 
-	function rtmedia_api_process_unfollow_request()
-	{
+	function rtmedia_api_process_unfollow_request() {
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 
 		$ec_empty_unfollow_id  = 400006;
@@ -798,8 +783,7 @@ class RTMediaJsonApi
 		}
 	}
 
-	function rtmedia_api_process_update_profile_request()
-	{
+	function rtmedia_api_process_update_profile_request() {
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		$ec_empty_name_location  = 120001;
 		$msg_empty_name_location = __( 'name/location empty', 'rtmedia' );
@@ -828,8 +812,7 @@ class RTMediaJsonApi
 		exit;
 	}
 
-	function rtmedia_api_process_update_avatar_request()
-	{
+	function rtmedia_api_process_update_avatar_request() {
 
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		$ec_no_file  = 130001;
@@ -855,8 +838,7 @@ class RTMediaJsonApi
 		}
 	}
 
-	function rtmedia_api_process_rtmedia_upload_media_request()
-	{
+	function rtmedia_api_process_rtmedia_upload_media_request() {
 
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		//Error Codes for new look
@@ -995,8 +977,7 @@ class RTMediaJsonApi
 		}
 	}
 
-	function rtmedia_api_process_rtmedia_gallery_request()
-	{
+	function rtmedia_api_process_rtmedia_gallery_request() {
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		//Errors
 		$ec_media  = 160002;
@@ -1073,8 +1054,7 @@ class RTMediaJsonApi
 		}
 	}
 
-	function rtmedia_api_process_rtmedia_get_media_details_request()
-	{
+	function rtmedia_api_process_rtmedia_get_media_details_request() {
 
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		$this->rtmediajsonapifunction->rtmedia_api_media_activity_id_missing();
@@ -1106,8 +1086,7 @@ class RTMediaJsonApi
 		}
 	}
 
-	function rtmedia_api_process_logout_request()
-	{
+	function rtmedia_api_process_logout_request() {
 		$this->rtmediajsonapifunction->rtmedia_api_verfiy_token();
 		extract( $_POST );
 		//Errors
@@ -1132,8 +1111,7 @@ class RTMediaJsonApi
 	 *
 	 * @return mixed
 	 */
-	function api_new_media_upload_dir( $args )
-	{
+	function api_new_media_upload_dir( $args ) {
 		if ( ! empty( $args ) || ! is_array( $args ) || empty( $_POST[ 'token' ] ) ){
 			foreach ( $args as $key => $arg ) {
 				$replacestring = 'uploads/rtMedia/users/' . $this->rtmediajsonapifunction->rtmedia_api_get_user_id_from_token( $_POST[ 'token' ] );
