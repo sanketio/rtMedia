@@ -10,33 +10,78 @@
  *
  * @author Udit Desai <udit.desai@rtcamp.com>
  */
-class RTMediaCommentModel {
+class RTMediaCommentModel
+{
 
-	public function __construct() {
+	/**
+	 * Construct
+	 */
+	public function __construct()
+	{
 		//initialization
 	}
 
-	function insert($attr) {
-		return wp_insert_comment($attr);
+	/**
+	 * Insert comment
+	 *
+	 * @param $attr
+	 *
+	 * @return mixed
+	 */
+	function insert( $attr )
+	{
+		return wp_insert_comment( $attr );
 	}
 
-	function update($attr) {
+	/**
+	 * Update comemnt
+	 *
+	 * @param $attr
+	 *
+	 * @return mixed
+	 */
+	function update( $attr )
+	{
 
-		return wp_update_comment($attr, ARRAY_A);
+		return wp_update_comment( $attr, ARRAY_A );
 	}
 
-	function get($where) {
+	/**
+	 * Get comments
+	 *
+	 * @param $where
+	 *
+	 * @return mixed
+	 */
+	function get( $where )
+	{
 
-		return get_comments($where);
+		return get_comments( $where );
 	}
 
-	function get_by_id($id) {
+	/**
+	 * Get comment by id
+	 *
+	 * @param $id
+	 *
+	 * @return mixed
+	 */
+	function get_by_id( $id )
+	{
 
-		return get_comment($id);
+		return get_comment( $id );
 	}
 
-	function delete($id) {
+	/**
+	 * Delete comment
+	 *
+	 * @param $id
+	 *
+	 * @return mixed
+	 */
+	function delete( $id )
+	{
 
-		return wp_delete_comment($id, true);
+		return wp_delete_comment( $id, true );
 	}
 }

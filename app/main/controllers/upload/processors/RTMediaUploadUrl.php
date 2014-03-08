@@ -10,6 +10,7 @@
  *
  * @author joshua
  */
-class RTMediaUploadUrl {
-    //put your code here
+class RTMediaUploadUrl
+{
+	//put your code here
 }

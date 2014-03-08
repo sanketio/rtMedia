@@ -10,12 +10,14 @@
  *
  * @author saurabh
  */
-class BPMediaBPActivityPlusImporter extends BPMediaImporter {
+class BPMediaBPActivityPlusImporter extends BPMediaImporter
+{
 
 	/**
-	 *
+	 * Constructor
 	 */
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 
 	}

@@ -7,19 +7,22 @@
  *
  * @author Udit Desai <udit.desai@rtcamp.com>
  */
-class RTMediaUploadHelper {
+class RTMediaUploadHelper
+{
 
 	/**
 	 *
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 
 	}
 
 	/**
 	 *
 	 */
-	static function file_upload() {
+	static function file_upload()
+	{
 
 		$end_point = new RTMediaUploadEndpoint();
 		$end_point->template_redirect();

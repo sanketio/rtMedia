@@ -3,12 +3,21 @@
 /**
  * @author Umesh Kumar<umeshsingla05@gmail.com>
  */
-if(!class_exists('RTDBModel')){
-    return;
+if ( ! class_exists( 'RTDBModel' ) ){
+	return;
 }
-class RTMediaApiLogin extends RTDBModel {
 
-    function __construct () {
-        parent::__construct ( 'rtm_api' );
-    }
+/**
+ * Class RTMediaApiLogin
+ */
+class RTMediaApiLogin extends RTDBModel
+{
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		parent::__construct( 'rtm_api' );
+	}
 }
