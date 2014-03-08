@@ -46,7 +46,7 @@
 	<?php } else { ?>
 		<p>
 			<?php
-			$message = __( "Sorry !! There's no media found for the request !!", "rtmedia" );
+			$message = __( 'Sorry !! There\'s no media found for the request !!', 'rtmedia' );
 			echo apply_filters( 'rtmedia_no_media_found_message_filter', $message );
 			?>
 		</p>

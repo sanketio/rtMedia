@@ -80,7 +80,7 @@ class RTMediaJsonApiFunctions
 		if ( class_exists( 'RTMediaApiLogin' ) ){
 			$rtmediaapilogin = new RTMediaApiLogin();
 			$columns         = array( 'token' => $token );
-			$token_data      = $rtmediaapilogin->get( $columns );
+			$token_data = $rtmediaapilogin->get( $columns );
 			if ( empty( $token_data ) || $token_data[ 0 ]->status === 'FALSE' ){
 				return false;
 			}
@@ -312,7 +312,7 @@ class RTMediaJsonApiFunctions
 	function rtmedia_api_media_liked_by_user( $media_id ) {
 		$rtmediainteractionmodel = new RTMediaInteractionModel();
 		$media_like_cols         = array( 'media_id' => $media_id, 'action' => 'like', 'value' => 1 );
-		$likers                  = $rtmediainteractionmodel->get( $media_like_cols, false, false, 'action_date' );
+		$likers = $rtmediainteractionmodel->get( $media_like_cols, false, false, 'action_date' );
 
 		return $likers;
 	}
@@ -328,8 +328,8 @@ class RTMediaJsonApiFunctions
 		if ( empty( $album_id ) ) return false;
 		$rtmediamodel = new RTMediaModel();
 		$args         = array( 'album_id' => $album_id );
-		$media_list   = $rtmediamodel->get( $args );
-		$media_data   = array();
+		$media_list = $rtmediamodel->get( $args );
+		$media_data = array();
 		if ( ! empty( $media_list ) && is_array( $media_list ) ){
 			foreach ( $media_list as $media ) {
 				$media_data[ ] = array( 'id' => $media->id, 'media_title' => $media->media_title, 'media_url' => get_rtmedia_permalink( $media->media_id ), 'media_author' => $media->media_author, 'cover' => rtmedia_image( 'rt_media_thumbnail', $media->media_id, false ) );

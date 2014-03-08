@@ -209,7 +209,7 @@ class RTMedia
 		$image_sizes[ 'thumbnail' ] = array( 'width' => $this->options[ 'defaultSizes_photo_thumbnail_width' ], 'height' => $this->options[ 'defaultSizes_photo_thumbnail_height' ], 'crop' => ( $this->options[ 'defaultSizes_photo_thumbnail_crop' ] == '0' ) ? false : true );
 		$image_sizes[ 'activity' ]  = array( 'width' => $this->options[ 'defaultSizes_photo_medium_width' ], 'height' => $this->options[ 'defaultSizes_photo_medium_height' ], 'crop' => ( $this->options[ 'defaultSizes_photo_medium_crop' ] == '0' ) ? false : true );
 		$image_sizes[ 'single' ]    = array( 'width' => $this->options[ 'defaultSizes_photo_large_width' ], 'height' => $this->options[ 'defaultSizes_photo_large_height' ], 'crop' => ( $this->options[ 'defaultSizes_photo_large_crop' ] == '0' ) ? false : true );
-		$image_sizes[ 'featured' ]  = array( 'width' => $this->options[ 'defaultSizes_featured_default_width' ], 'height' => $this->options[ 'defaultSizes_featured_default_height' ], 'crop' => ( $this->options[ 'defaultSizes_featured_default_crop' ] == '0' ) ? false : true );
+		$image_sizes[ 'featured' ] = array( 'width' => $this->options[ 'defaultSizes_featured_default_width' ], 'height' => $this->options[ 'defaultSizes_featured_default_height' ], 'crop' => ( $this->options[ 'defaultSizes_featured_default_crop' ] == '0' ) ? false : true );
 
 		return $image_sizes;
 	}
@@ -281,9 +281,9 @@ class RTMedia
 		foreach ( $allowed_types as $key => &$type ) {
 
 			if ( ! isset( $type[ 'name' ] ) || // check if a name is set
-				 empty( $type[ 'name' ] ) || //commented this section for playlist // !isset($type['extn']) || // check if file extensions are set
-				 //commented this section for playlist  // empty($type['extn']) ||
-				 strstr( $type[ 'name' ], ' ' ) || strstr( $type[ 'name' ], '_' )
+				empty( $type[ 'name' ] ) || //commented this section for playlist // !isset($type['extn']) || // check if file extensions are set
+				//commented this section for playlist  // empty($type['extn']) ||
+				strstr( $type[ 'name' ], ' ' ) || strstr( $type[ 'name' ], '_' )
 			){
 				unset( $allowed_types[ $key ] ); // if not unset this type
 				continue;

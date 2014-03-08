@@ -60,7 +60,7 @@ class RTMediaLike extends RTMediaUserInteraction
 			}
 			$update_data   = array( 'value' => $value );
 			$where_columns = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action, );
-			$update        = $rtmediainteraction->update( $update_data, $where_columns );
+			$update = $rtmediainteraction->update( $update_data, $where_columns );
 		} else {
 			$value          = '1';
 			$columns        = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action, 'value' => $value );
@@ -167,8 +167,8 @@ class RTMediaLike extends RTMediaUserInteraction
 		$action             = $this->action;
 		$value              = '1';
 		$columns            = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action, 'value' => $value );
-		$insert_id          = $rtmediainteraction->insert( $columns );
-		$like_media         = trim( str_replace( ',' . $this->action_query->id . ',', ',', ',' . $like_media . ',' ), ',' );
+		$insert_id  = $rtmediainteraction->insert( $columns );
+		$like_media = trim( str_replace( ',' . $this->action_query->id . ',', ',', ',' . $like_media . ',' ), ',' );
 		update_user_meta( $this->interactor, 'rtmedia_liked_media', $like_media );
 
 		return $insert_id;

@@ -108,7 +108,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problem
 
 				<?php global $rtmedia;
 				$options = $rtmedia->options;
-				if ( isset( $options[ 'general_enableAlbums' ] ) && $options[ 'general_enableAlbums' ] == 1 ){ // album is enabled
+			if ( isset( $options[ 'general_enableAlbums' ] ) && $options[ 'general_enableAlbums' ] == 1 ){ // album is enabled
 					?>
 
 					<h4><?php _e( 'Album Creation Control', 'rtmedia' ); ?></h4>
@@ -131,7 +131,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) : // Recommended, to prevent problem
 						</label>
 					</div>
 					<hr>
-				<?php } ?>
+			<?php } ?>
 
 				<?php do_action( 'rtmedia_playlist_creation_settings_groups_edit' ); ?>
 			</div>

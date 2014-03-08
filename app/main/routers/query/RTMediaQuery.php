@@ -45,10 +45,10 @@ class RTMediaQuery
 	public $actions = array( 'edit' => array( 'Edit', false ), 'delete' => array( 'Delete', false ), 'comment' => array( 'Comment', true ), 'delete-comment' => array( 'Comment Deleted', false ) );
 	public $media = '';
 	public $media_count = 0;
-	public $current_media = - 1;
+	public $current_media     = - 1;
 	public $in_the_media_loop = false;
-	public $format = false;
-	public $shortcode_global = false;
+	public $format            = false;
+	public $shortcode_global  = false;
 
 	/**
 	 * Initialise the query
@@ -511,7 +511,7 @@ class RTMediaQuery
 			if ( class_exists( 'BuddyPress' ) ){
 				if ( bp_is_active( 'friends' ) ){
 					$friends = $this->friendship->get_friends_cache( $user );
-					$where .= ' OR ({$table_name}.privacy=40 AND {$table_name}.media_author IN (' . implode( ',', $friends ) . '))';
+					$where  .= ' OR ({$table_name}.privacy=40 AND {$table_name}.media_author IN (' . implode( ',', $friends ) . '))';
 				}
 			}
 		}

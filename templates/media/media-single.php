@@ -7,7 +7,7 @@
 		if ( have_rtmedia() ) : rtmedia();
 			?>
 			<div id="rtmedia-single-media-container"
-				 class="rtmedia-single-media columns <?php echo ( $rt_ajax_request ) ? "large-8" : "large-12"; ?>">
+				 class="rtmedia-single-media columns <?php echo ( $rt_ajax_request ) ? 'large-8' : 'large-12'; ?>">
 				<?php if ( ! $rt_ajax_request ){ ?>
 
 					<span class="rtmedia-media-title">
@@ -45,11 +45,11 @@
 					</div>
 				<?php } ?>
 			</div>
-			<div class="rtmedia-single-meta columns <?php echo ( $rt_ajax_request ) ? "large-4" : "large-12"; ?>">
+			<div class="rtmedia-single-meta columns <?php echo ( $rt_ajax_request ) ? 'large-4' : 'large-12'; ?>">
 
 				<?php if ( $rt_ajax_request ){ ?>
 
-					<div class="rtm-single-meta-contents<?php if ( is_user_logged_in() ) echo " logged-in"; ?>">
+					<div class="rtm-single-meta-contents<?php if ( is_user_logged_in() ) echo ' logged-in'; ?>">
 						<div>
 							<div class="userprofile">
 								<?php rtmedia_author_profile_pic( true ); ?>
@@ -135,10 +135,9 @@
 					<?php } ?>
 				<?php } ?>
 			</div>
-
-		<?php else: ?>
+		<?php else : ?>
 			<p><?php
-				$message = __( "Sorry !! There's no media found for the request !!", "rtmedia" );
+				$message = __( 'Sorry !! There\'s no media found for the request !!', 'rtmedia' );
 				echo apply_filters( 'rtmedia_no_media_found_message_filter', $message );
 				?>
 			</p>

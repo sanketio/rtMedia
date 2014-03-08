@@ -315,7 +315,7 @@ class RTMediaJsonApi
 		$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
 
 		//create email message
-		$message = __( 'Someone has asked to reset the password for the following site and username.' ) . "\r\n\r\n";
+		$message  = __( 'Someone has asked to reset the password for the following site and username.' ) . "\r\n\r\n";
 		$message .= get_option( 'siteurl' ) . "\r\n\r\n";
 		$message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
 		$message .= __( 'To reset your password visit the following address, otherwise just ignore this email and nothing will happen.' ) . "\r\n\r\n";
@@ -426,19 +426,19 @@ class RTMediaJsonApi
 		extract( $_POST );
 
 		if ( class_exists( 'RTMediaInteractionModel' ) ):
-			$rtmediainteraction = new RTMediaInteractionModel();
+					$rtmediainteraction = new RTMediaInteractionModel();
 
 			if ( class_exists( 'RTMediaLike' ) ) $rtmedialike = new RTMediaLike();
 
-			$action = 'like';
-			// Like or Unlike
+				$action = 'like';
+				// Like or Unlike
 			if ( ! rtmedia_media_id( $media_id ) ){
 				echo $this->rtmedia_api_response_object( 'FALSE', $this->ec_invalid_media_id, $this->msg_invalid_media_id );
 				exit;
 			}
 
-			$like_count_old = get_rtmedia_like( rtmedia_media_id( $media_id ) );
-			$check_action   = $rtmediainteraction->check( $this->user_id, $media_id, $action );
+				$like_count_old = get_rtmedia_like( rtmedia_media_id( $media_id ) );
+				$check_action   = $rtmediainteraction->check( $this->user_id, $media_id, $action );
 			if ( $check_action ){
 				$results    = $rtmediainteraction->get_row( $this->user_id, $media_id, $action );
 				$row        = $results[ 0 ];
@@ -452,39 +452,39 @@ class RTMediaJsonApi
 				}
 				$update_data   = array( 'value' => $value );
 				$where_columns = array( 'user_id' => $this->user_id, 'media_id' => $media_id, 'action' => $action, );
-				$update        = $rtmediainteraction->update( $update_data, $where_columns );
+				$update = $rtmediainteraction->update( $update_data, $where_columns );
 			} else {
 				$value     = '1';
 				$columns   = array( 'user_id' => $this->user_id, 'media_id' => $media_id, 'action' => $action, 'value' => $value );
 				$insert_id = $rtmediainteraction->insert( $columns );
 				$increase  = true;
 			}
-			if ( $increase ){
-				$like_count_old ++;
-			} elseif ( ! $increase ) {
-				$like_count_old --;
-			}
-			if ( $like_count_old < 0 ){
-				$like_count_old = 0;
-			}
-			$data = array( 'like_count' => $like_count_old );
-			if ( ! empty( $insert_id ) ){
-				$rtmedialike->model->update( array( 'likes' => $like_count_old ), array( 'id' => $media_id ) );
+		if ( $increase ){
+			$like_count_old ++;
+		} elseif ( ! $increase ) {
+			$like_count_old --;
+		}
+		if ( $like_count_old < 0 ){
+			$like_count_old = 0;
+		}
+		$data = array( 'like_count' => $like_count_old );
+		if ( ! empty( $insert_id ) ){
+			$rtmedialike->model->update( array( 'likes' => $like_count_old ), array( 'id' => $media_id ) );
+			echo $this->rtmedia_api_response_object( 'TRUE', $ec_liked_media, $msg_liked_media, $data );
+			exit;
+		} elseif ( ! empty( $update ) ) {
+			$rtmedialike->model->update( array( 'likes' => $like_count_old ), array( 'id' => $media_id ) );
+			if ( $value == 1 ){
 				echo $this->rtmedia_api_response_object( 'TRUE', $ec_liked_media, $msg_liked_media, $data );
 				exit;
-			} elseif ( ! empty( $update ) ) {
-				$rtmedialike->model->update( array( 'likes' => $like_count_old ), array( 'id' => $media_id ) );
-				if ( $value == 1 ){
-					echo $this->rtmedia_api_response_object( 'TRUE', $ec_liked_media, $msg_liked_media, $data );
-					exit;
-				} elseif ( $value == 0 ) {
-					echo $this->rtmedia_api_response_object( 'TRUE', $ec_already_liked, $msg_already_liked, $data );
-					exit;
-				}
-			} else {
-				echo $this->rtmedia_api_response_object( 'FALSE', $this->ec_server_error, $this->msg_server_error );
+			} elseif ( $value == 0 ) {
+				echo $this->rtmedia_api_response_object( 'TRUE', $ec_already_liked, $msg_already_liked, $data );
 				exit;
 			}
+		} else {
+			echo $this->rtmedia_api_response_object( 'FALSE', $this->ec_server_error, $this->msg_server_error );
+			exit;
+		}
 		endif;
 	}
 

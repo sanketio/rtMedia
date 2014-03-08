@@ -354,7 +354,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 			$flag    = true;
 			if ( ( $pending_rtmedia_migrate === false || $pending_rtmedia_migrate == 0 ) ){
 				$content .= __( 'There is no media found to migrate.', 'rtmedia' );
-				$flag = false;
+				$flag     = false;
 			}
 			$content = apply_filters( 'rtmedia_migration_content_filter', $content );
 			if ( $flag ){
@@ -394,7 +394,7 @@ if ( ! class_exists( 'RTMediaSupport' ) ){
 
 			if ( $form == 'premium_support' ){
 				if ( ! defined( 'RTMEDIA_PRO_VERSION' ) ){
-					$content = '<p>' . __( 'If your site has some issues due to BuddyPress Media and you want one on one support then you can create a support topic on the <a target="_blank" href="http://rtcamp.com/groups/buddypress-media/forum/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media">rtCamp Support Forum</a>.', 'rtmedia' ) . '</p>';
+					$content  = '<p>' . __( 'If your site has some issues due to BuddyPress Media and you want one on one support then you can create a support topic on the <a target="_blank" href="http://rtcamp.com/groups/buddypress-media/forum/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media">rtCamp Support Forum</a>.', 'rtmedia' ) . '</p>';
 					$content .= '<p>' . __( 'If you have any suggestions, enhancements or bug reports, then you can open a new issue on <a target="_blank" href="https://github.com/rtCamp/buddypress-media/issues/new">GitHub</a>.', 'rtmedia' ) . '</p>';
 
 					echo $content;

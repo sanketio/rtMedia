@@ -8,12 +8,17 @@
 class RTMediaEncoding
 {
 
-	protected $api_url = 'http://api.rtcamp.com/';
+	protected $api_url         = 'http://api.rtcamp.com/';
 	protected $sandbox_testing = 0;
-	protected $merchant_id = 'paypal@rtcamp.com';
-	public $uploaded = array();
-	public $api_key = false;
+	protected $merchant_id     = 'paypal@rtcamp.com';
+	public $uploaded           = array();
+	public $api_key            = false;
 
+	/**
+	 * Constructor
+	 *
+	 * @param bool $no_init
+	 */
 	public function __construct( $no_init = false ) {
 		$this->api_key = get_site_option( 'rtmedia-encoding-api-key' );
 		if ( $no_init ) return;
@@ -57,27 +62,26 @@ class RTMediaEncoding
 	}
 
 	/**
-	 *
-	 * @param type   $media_ids
-	 * @param type   $file_object
-	 * @param type   $uploaded
-	 * @param string $autoformat thumbnails for genrating thumbs only
+	 * @param      $media_ids
+	 * @param      $file_object
+	 * @param      $uploaded
+	 * @param bool $autoformat
 	 */
 	function encoding( $media_ids, $file_object, $uploaded, $autoformat = true ) {
 		foreach ( $file_object as $key => $single ) {
-			$type_arry        = explode( ".", $single[ 'url' ] );
+			$type_arry        = explode( '.', $single[ 'url' ] );
 			$type             = strtolower( $type_arry[ sizeof( $type_arry ) - 1 ] );
-			$not_allowed_type = array( "mp3" );
+			$not_allowed_type = array( 'mp3' );
 			if ( preg_match( '/video|audio/i', $single[ 'type' ], $type_array ) && ! in_array( $single[ 'type' ], array( 'audio/mp3' ) ) && ! in_array( $type, $not_allowed_type ) ){
 				$options             = rtmedia_get_site_option( 'rtmedia-options' );
 				$options_vedio_thumb = $options[ 'general_videothumbs' ];
-				if ( $options_vedio_thumb == "" ) $options_vedio_thumb = 3;
+				if ( $options_vedio_thumb == '' ) $options_vedio_thumb = 3;
 
 				/**  fORMAT **/
-				if ( $single[ 'type' ] == 'video/mp4' || $type == "mp4" ) $autoformat = "thumbnails";
+				if ( $single[ 'type' ] == 'video/mp4' || $type == 'mp4' ) $autoformat = 'thumbnails';
 
 				$query_args   = array(
-					'url' => urlencode( $single[ 'url' ] ), 'callbackurl' => urlencode( trailingslashit( home_url() ) . "index.php" ), 'force' => 0, 'size' => filesize( $single[ 'file' ] ), 'formats' => ( $autoformat === true ) ? ( ( $type_array[ 0 ] == 'video' ) ? 'mp4' : 'mp3' ) : $autoformat, 'thumbs' => $options_vedio_thumb, 'rt_id' => $media_ids[ $key ]
+					'url' => urlencode( $single[ 'url' ] ), 'callbackurl' => urlencode( trailingslashit( home_url() ) . 'index.php' ), 'force' => 0, 'size' => filesize( $single[ 'file' ] ), 'formats' => ( $autoformat === true ) ? ( ( $type_array[ 0 ] == 'video' ) ? 'mp4' : 'mp3' ) : $autoformat, 'thumbs' => $options_vedio_thumb, 'rt_id' => $media_ids[ $key ],
 				);
 				$encoding_url = $this->api_url . 'job/new/';
 				$upload_url   = add_query_arg( $query_args, $encoding_url . $this->api_key );
@@ -103,6 +107,14 @@ class RTMediaEncoding
 		}
 	}
 
+	/**
+	 * By pass video audio
+	 *
+	 * @param $flag
+	 * @param $file
+	 *
+	 * @return bool
+	 */
 	public function bypass_video_audio( $flag, $file ) {
 		if ( isset( $file[ 'type' ] ) ){
 			$fileinfo = explode( '/', $file[ 'type' ] );
@@ -112,6 +124,13 @@ class RTMediaEncoding
 		return $flag;
 	}
 
+	/**
+	 * check valid key
+	 *
+	 * @param $key
+	 *
+	 * @return bool
+	 */
 	public function is_valid_key( $key ) {
 		$validate_url    = trailingslashit( $this->api_url ) . 'api/validate/' . $key;
 		$validation_page = wp_remote_get( $validate_url, array( 'timeout' => 20 ) );
@@ -125,6 +144,13 @@ class RTMediaEncoding
 		return $status;
 	}
 
+	/**
+	 * Update message
+	 *
+	 * @param $key
+	 *
+	 * @return mixed|null
+	 */
 	public function update_usage( $key ) {
 		$usage_url  = trailingslashit( $this->api_url ) . 'api/usage/' . $key;
 		$usage_page = wp_remote_get( $usage_url, array( 'timeout' => 20 ) );
@@ -135,6 +161,11 @@ class RTMediaEncoding
 		return $usage_info;
 	}
 
+	/**
+	 * Usage limit nearing
+	 *
+	 * @param $usage_details
+	 */
 	public function nearing_usage_limit( $usage_details ) {
 		$subject = __( 'rtMedia Encoding: Nearing quota limit.', 'rtmedia' );
 		$message = __( '<p>You are nearing the quota limit for your rtMedia encoding service.</p><p>Following are the details:</p><p><strong>Used:</strong> %s</p><p><strong>Remaining</strong>: %s</p><p><strong>Total:</strong> %s</p>', 'rtmedia' );
@@ -182,6 +213,13 @@ class RTMediaEncoding
 		}
 	}
 
+	/**
+	 * Allowed types
+	 *
+	 * @param $types
+	 *
+	 * @return mixed
+	 */
 	public function allowed_types( $types ) {
 		if ( isset( $types[ 0 ] ) && isset( $types[ 0 ][ 'extensions' ] ) ){
 			if ( is_rtmedia_upload_video_enabled() ) $types[ 0 ][ 'extensions' ] .= ',mov,m4v,m2v,avi,mpg,flv,wmv,mkv,webm,ogv,mxf,asf,vob,mts,qt,mpeg,x-msvideo'; //Allow all types of file to be uploded
@@ -191,11 +229,18 @@ class RTMediaEncoding
 		return $types;
 	}
 
+	/**
+	 * Allowed types admin settings
+	 *
+	 * @param $types
+	 *
+	 * @return mixed
+	 */
 	public function allowed_types_admin_settings( $types ) {
-		$allowed_video_string       = implode( ",", $types[ 'video' ][ 'extn' ] );
-		$allowed_audio_string       = implode( ",", $types[ 'music' ][ 'extn' ] );
-		$allowed_video              = explode( ",", $allowed_video_string . ',mov,m4v,m2v,avi,mpg,flv,wmv,mkv,webm,ogv,mxf,asf,vob,mts,qt,mpeg,x-msvideo' );
-		$allowed_audio              = explode( ",", $allowed_audio_string . ',wma,ogg,wav,m4a' );
+		$allowed_video_string       = implode( ',', $types[ 'video' ][ 'extn' ] );
+		$allowed_audio_string       = implode( ',', $types[ 'music' ][ 'extn' ] );
+		$allowed_video              = explode( ',', $allowed_video_string . ',mov,m4v,m2v,avi,mpg,flv,wmv,mkv,webm,ogv,mxf,asf,vob,mts,qt,mpeg,x-msvideo' );
+		$allowed_audio              = explode( ',', $allowed_audio_string . ',wma,ogg,wav,m4a' );
 		$types[ 'video' ][ 'extn' ] = $allowed_video;
 		$types[ 'music' ][ 'extn' ] = $allowed_audio;
 
@@ -209,6 +254,13 @@ class RTMediaEncoding
 		</div><?php
 	}
 
+	/**
+	 * @param string $name
+	 * @param string $price
+	 * @param bool   $force
+	 *
+	 * @return string
+	 */
 	public function encoding_subscription_form( $name = 'No Name', $price = '0', $force = false ) {
 		if ( $this->api_key ) $this->update_usage( $this->api_key );
 		$action      = $this->sandbox_testing ? 'https://sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
@@ -216,7 +268,7 @@ class RTMediaEncoding
 
 		$usage_details = get_site_option( 'rtmedia-encoding-usage' );
 		if ( isset( $usage_details[ $this->api_key ]->plan->name ) && ( strtolower( $usage_details[ $this->api_key ]->plan->name ) == strtolower( $name ) ) && $usage_details[ $this->api_key ]->sub_status && ! $force ){
-			$form = '<button data-plan="' . $name . '" data-price="' . $price . '" type="submit" class="button bpm-unsubscribe">' . __( 'Unsubscribe', 'rtmedia' ) . '</button>';
+			$form  = '<button data-plan="' . $name . '" data-price="' . $price . '" type="submit" class="button bpm-unsubscribe">' . __( 'Unsubscribe', 'rtmedia' ) . '</button>';
 			$form .= '<div id="bpm-unsubscribe-dialog" title="Unsubscribe">
   <p>' . __( 'Just to improve our service we would like to know the reason for you to leave us.' ) . '</p>
   <p><textarea rows="3" cols="36" id="bpm-unsubscribe-note"></textarea></p>
@@ -376,7 +428,13 @@ class RTMediaEncoding
 		</table><br/><?php
 	}
 
-
+	/**
+	 * Add media thumbnails
+	 *
+	 * @param $post_id
+	 *
+	 * @return bool
+	 */
 	public function add_media_thumbnails( $post_id ) {
 		//global $rtmedia_ffmpeg;
 		$post_info              = get_post( $post_id );
@@ -388,13 +446,13 @@ class RTMediaEncoding
 		$post_thumbs_array      = maybe_unserialize( $post_thumbs );
 		$largest_thumb_size     = 0;
 		$model                  = new RTMediaModel();
-		$media                  = $model->get( array( "media_id" => $post_id ) );
+		$media                  = $model->get( array( 'media_id' => $post_id ) );
 		$media_id               = $media[ 0 ]->id;
 		$largest_thumb          = false;
 		$upload_thumbnail_array = array();
 		//var_dump($post_thumbs_array['thumbs']);
 		foreach ( $post_thumbs_array[ 'thumbs' ] as $thumbs => $thumbnail ) {
-			//	    error_log("Thumb:" + var_export($post_thumbs_array['thumbs'][$thumbnail]));
+			//	    error_log('Thumb:' + var_export($post_thumbs_array['thumbs'][$thumbnail]));
 			//	}
 			//        for ($i = 1; $i <= sizeof($post_thumbs_array['thumbs']); $i++) {
 			//            $thumbnail = 'thumb_' . $i;
@@ -404,7 +462,7 @@ class RTMediaEncoding
 			$thumbinfo                 = pathinfo( $thumbnail );
 			$temp_name                 = $thumbinfo[ 'basename' ];
 			$temp_name                 = urldecode( $temp_name );
-			$temp_name_array           = explode( "/", $temp_name );
+			$temp_name_array           = explode( '/', $temp_name );
 			$temp_name                 = $temp_name_array[ sizeof( $temp_name_array ) - 1 ];
 			$thumbinfo[ 'basename' ]   = $temp_name;
 			$thumb_upload_info         = wp_upload_bits( $thumbinfo[ 'basename' ], null, $thumbresource[ 'body' ] );
@@ -461,7 +519,7 @@ class RTMediaEncoding
 			$model        = new RTDBModel( 'rtm_media_meta', false, 10, true );
 			$meta_details = $model->get( array( 'meta_value' => $_REQUEST[ 'job_id' ], 'meta_key' => 'rtmedia-encoding-job-id' ) );
 			if ( ! isset( $meta_details[ 0 ] ) ){
-				$id = intval( $_REQUEST[ "rt_id" ] );
+				$id = intval( $_REQUEST[ 'rt_id' ] );
 			} else {
 				$id = $meta_details[ 0 ]->media_id;
 			}
@@ -474,9 +532,9 @@ class RTMediaEncoding
 				update_post_meta( $attachment_id, 'rtmedia_encode_response', $_POST );
 				$cover_art = $this->add_media_thumbnails( $attachment_id );
 				if ( $_POST[ 'format' ] == 'thumbnails' ) die();
-				$this->uploaded[ "context" ]      = $media[ 0 ]->context;
-				$this->uploaded[ "context_id" ]   = $media[ 0 ]->context_id;
-				$this->uploaded[ "media_author" ] = $media[ 0 ]->media_author;
+				$this->uploaded[ 'context' ]      = $media[ 0 ]->context;
+				$this->uploaded[ 'context_id' ]   = $media[ 0 ]->context_id;
+				$this->uploaded[ 'media_author' ] = $media[ 0 ]->media_author;
 				$attachemnt_post                  = get_post( $attachment_id );
 				$download_url                     = urldecode( urldecode( $_REQUEST[ 'download_url' ] ) );
 				//error_log($download_url);
@@ -529,11 +587,11 @@ class RTMediaEncoding
 
 			if ( $flag && $mail ){
 				$download_link = add_query_arg( array( 'job_id' => $_GET[ 'job_id' ], 'download_url' => $_GET[ 'download_url' ] ), home_url() );
-				$subject       = __( 'rtMedia Encoding: Download Failed', 'rtmedia' );
-				$message       = sprintf( __( '<p><a href="%s">Media</a> was successfully encoded but there was an error while downloading:</p>
+				$subject = __( 'rtMedia Encoding: Download Failed', 'rtmedia' );
+				$message = sprintf( __( '<p><a href="%s">Media</a> was successfully encoded but there was an error while downloading:</p>
                         <p><code>%s</code></p>
                         <p>You can <a href="%s">retry the download</a>.</p>', 'rtmedia' ), get_edit_post_link( $attachment_id ), $flag, $download_link );
-				$users         = get_users( array( 'role' => 'administrator' ) );
+				$users   = get_users( array( 'role' => 'administrator' ) );
 				if ( $users ){
 					foreach ( $users as $user ) $admin_email_ids[ ] = $user->user_email;
 					add_filter( 'wp_mail_content_type', create_function( '', 'return "text/html";' ) );
@@ -543,7 +601,7 @@ class RTMediaEncoding
 			} elseif ( $flag ) {
 				_e( $flag );
 			} else {
-				_e( "Done", 'rtmedia' );
+				_e( 'Done', 'rtmedia' );
 			}
 			die();
 		}
@@ -610,20 +668,27 @@ class RTMediaEncoding
 		die();
 	}
 
+	/**
+	 * Upload directory
+	 *
+	 * @param $upload_dir
+	 *
+	 * @return mixed
+	 */
 	function upload_dir( $upload_dir ) {
 		global $rtmedia_interaction, $rt_media_media;
-		if ( isset( $this->uploaded[ "context" ] ) && isset( $this->uploaded[ "context_id" ] ) ){
-			if ( $this->uploaded[ "context" ] != 'group' ){
+		if ( isset( $this->uploaded[ 'context' ] ) && isset( $this->uploaded[ 'context_id' ] ) ){
+			if ( $this->uploaded[ 'context' ] != 'group' ){
 				$rtmedia_upload_prefix = 'users/';
-				$id                    = $this->uploaded[ "media_author" ];
+				$id                    = $this->uploaded[ 'media_author' ];
 			} else {
 				$rtmedia_upload_prefix = 'groups/';
-				$id                    = $this->uploaded[ "context_id" ];
+				$id                    = $this->uploaded[ 'context_id' ];
 			}
 		} else {
 			if ( $rtmedia_interaction->context->type != 'group' ){
 				$rtmedia_upload_prefix = 'users/';
-				$id                    = $this->uploaded[ "media_author" ];
+				$id                    = $this->uploaded[ 'media_author' ];
 			} else {
 				$rtmedia_upload_prefix = 'groups/';
 				$id                    = $rtmedia_interaction->context->id;
@@ -641,9 +706,15 @@ class RTMediaEncoding
 		return $upload_dir;
 	}
 
+	/**
+	 * Re encoding
+	 *
+	 * @param      $attachment
+	 * @param bool $autoformat
+	 */
 	public function reencoding( $attachment, $autoformat = true ) {
 		$rtmedia_model = new RTMediaModel();
-		$media_array   = $rtmedia_model->get( array( "media_id" => $attachment ) );
+		$media_array   = $rtmedia_model->get( array( 'media_id' => $attachment ) );
 		$media_id      = $media_array[ 0 ]->id;
 		$attached_file = get_post_meta( $attachment, '_wp_attached_file' );
 		$upload_path   = trim( get_option( 'upload_path' ) );
@@ -657,14 +728,14 @@ class RTMediaEncoding
 		}
 		$file             = trailingslashit( $dir ) . $attached_file[ 0 ];
 		$url              = wp_get_attachment_url( $attachment );
-		$file_name_array  = explode( "/", $url );
+		$file_name_array  = explode( '/', $url );
 		$file_name        = $file_name_array[ sizeof( $file_name_array ) - 1 ];
 		$file_object      = array();
 		$media_type       = get_post_field( 'post_mime_type', $attachment );
-		$media_type_array = explode( "/", $media_type );
-		if ( $media_type_array[ 0 ] == "video" ){
+		$media_type_array = explode( '/', $media_type );
+		if ( $media_type_array[ 0 ] == 'video' ){
 			$file_object[ ] = array(
-				"file" => $file, "url" => $url, "name" => $file_name, "type" => $media_type
+				'file' => $file, 'url' => $url, 'name' => $file_name, 'type' => $media_type,
 			);
 			$this->encoding( array( $media_id ), $file_object, array(), $autoformat );
 		}

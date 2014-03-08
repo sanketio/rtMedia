@@ -24,7 +24,7 @@ class RTMediaFormHandler
 		$defaults = array(
 			'key' => '', 'desc' => '', 'default' => '', 'show_desc' => false, 'selects' => array(),
 		);
-		$args     = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
 
 		if ( ! empty( $key ) ){
@@ -52,7 +52,7 @@ class RTMediaFormHandler
 		global $rtmedia;
 		$options  = $rtmedia->options;
 		$defaults = array( 'id' => '', 'key' => '', 'desc' => '', 'show_desc' => false );
-		$args     = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
 
 		if ( ! isset( $value ) ){
@@ -88,7 +88,7 @@ class RTMediaFormHandler
 		global $rtmedia;
 		$options  = $rtmedia->options;
 		$defaults = array( 'key' => '', 'desc' => '', 'show_desc' => false );
-		$args     = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
 
 		if ( ! isset( $value ) ){
@@ -120,7 +120,7 @@ class RTMediaFormHandler
 		global $rtmedia;
 		$options  = $rtmedia->options;
 		$defaults = array( 'key' => '', 'radios' => array(), 'default' => '', 'show_desc' => false );
-		$args     = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
 
 		if ( 2 > count( $radios ) ){
@@ -160,7 +160,7 @@ class RTMediaFormHandler
 		global $rtmedia;
 		$options  = $rtmedia->options;
 		$defaults = array( 'key' => '', 'desc' => '' );
-		$args     = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
 
 		if ( ! isset( $value ) ){
@@ -188,7 +188,7 @@ class RTMediaFormHandler
 		global $rtmedia;
 		$options  = $rtmedia->options;
 		$defaults = array( 'key' => '', 'desc' => '' );
-		$args     = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
 
 		if ( ! isset( $value ) ){
@@ -747,42 +747,18 @@ class RTMediaFormHandler
 		return $render;
 	}
 
-public static function buddypress_content()
-{
-	global $rtmedia;
-	$options = self::extract_settings( 'buddypress', $rtmedia->options );
-	?>
-<div class="postbox metabox-holder">
-	<h3 class="hndle"><span>Integration With BuddyPress Features</span></h3>
-	<?php
-	$render_data = self::buddypress_render_options( $options );
-
-	echo '<div class="large-12">';
-	foreach ( $render_data as $option ) {
+	public static function buddypress_content()
+	{
+		global $rtmedia;
+		$options = self::extract_settings( 'buddypress', $rtmedia->options );
 		?>
-		<div class="row section">
-			<div class="columns large-9">
-				<?php echo $option[ 'title' ]; ?>
-			</div>
-			<div class="columns large-3">
-				<?php call_user_func( $option[ 'callback' ], $option[ 'args' ] ); ?>
-				<span data-tooltip class="has-tip"
-					  title="<?php echo ( isset( $option[ 'args' ][ 'desc' ] ) ) ? $option[ 'args' ][ 'desc' ] : 'NA'; ?>"><i
-						class="rtmicon-info-circle"></i></span>
-			</div>
-		</div>
-	<?php
-	}
-	echo '</div>';
-	echo '</div>';
-	?>
 	<div class="postbox metabox-holder">
-		<h3 class="hndle"><span>Album Settings</span></h3>
+		<h3 class="hndle"><span>Integration With BuddyPress Features</span></h3>
 		<?php
-		$options = $rtmedia->options;
-		$render_options = array( 'general_enableAlbums' => array( 'title' => __( 'Organize media into albums', 'rtmedia' ), 'callback' => array( 'RTMediaFormHandler', 'checkbox' ), 'args' => array( 'id' => 'rtmedia-album-enable', 'key' => 'general_enableAlbums', 'value' => $options[ 'general_enableAlbums' ], 'desc' => __( 'This will add \'album\' tab to BuddyPress profile and group depending on ^above^ settings.', 'rtmedia' ) ) ), );
-		$render_options = apply_filters( 'rtmedia_album_control_setting', $render_options, $options );
-		foreach ( $render_options as $tab => $option ) {
+		$render_data = self::buddypress_render_options( $options );
+
+		echo '<div class="large-12">';
+		foreach ( $render_data as $option ) {
 			?>
 			<div class="row section">
 				<div class="columns large-9">
@@ -797,11 +773,35 @@ public static function buddypress_content()
 			</div>
 		<?php
 		}
+		echo '</div>';
+		echo '</div>';
 		?>
-	</div>
-	<?php
-	do_action( 'rtmedia_buddypress_setting_content' );
-}
+		<div class="postbox metabox-holder">
+			<h3 class="hndle"><span>Album Settings</span></h3>
+			<?php
+			$options = $rtmedia->options;
+			$render_options = array( 'general_enableAlbums' => array( 'title' => __( 'Organize media into albums', 'rtmedia' ), 'callback' => array( 'RTMediaFormHandler', 'checkbox' ), 'args' => array( 'id' => 'rtmedia-album-enable', 'key' => 'general_enableAlbums', 'value' => $options[ 'general_enableAlbums' ], 'desc' => __( 'This will add \'album\' tab to BuddyPress profile and group depending on ^above^ settings.', 'rtmedia' ) ) ), );
+			$render_options = apply_filters( 'rtmedia_album_control_setting', $render_options, $options );
+			foreach ( $render_options as $tab => $option ) {
+				?>
+				<div class="row section">
+					<div class="columns large-9">
+						<?php echo $option[ 'title' ]; ?>
+					</div>
+					<div class="columns large-3">
+						<?php call_user_func( $option[ 'callback' ], $option[ 'args' ] ); ?>
+						<span data-tooltip class="has-tip"
+							  title="<?php echo ( isset( $option[ 'args' ][ 'desc' ] ) ) ? $option[ 'args' ][ 'desc' ] : 'NA'; ?>"><i
+								class="rtmicon-info-circle"></i></span>
+					</div>
+				</div>
+			<?php
+			}
+			?>
+		</div>
+		<?php
+		do_action( 'rtmedia_buddypress_setting_content' );
+	}
 
 	/**
 	 * rtForm settings tab content

@@ -206,10 +206,10 @@ class RTMediaModel extends RTDBModel
 		$sql .= $where . $qorder_by;
 		if ( $offset !== false ){
 			if ( ! is_integer( $offset ) ) $offset = 0;
-			if ( intval( $offset ) < 0 ) $offset = 0;
+			if ( intval( $offset ) < 0 ) $offset   = 0;
 
 			if ( ! is_integer( $per_page ) ) $per_page = 1;
-			if ( intval( $per_page ) < 1 ) $per_page = 1;
+			if ( intval( $per_page ) < 1 ) $per_page   = 1;
 
 			$sql .= ' LIMIT ' . $offset . ',' . $per_page;
 		}
@@ -241,10 +241,10 @@ class RTMediaModel extends RTDBModel
 
 		if ( $offset !== false ){
 			if ( ! is_integer( $offset ) ) $offset = 0;
-			if ( intval( $offset ) < 0 ) $offset = 0;
+			if ( intval( $offset ) < 0 ) $offset   = 0;
 
 			if ( ! is_integer( $per_page ) ) $per_page = 1;
-			if ( intval( $per_page ) < 1 ) $per_page = 1;
+			if ( intval( $per_page ) < 1 ) $per_page   = 1;
 
 			$sql .= ' LIMIT ' . $offset . ',' . $per_page;
 		}
@@ -325,10 +325,10 @@ class RTMediaModel extends RTDBModel
 		}
 		if ( is_array( $global ) && count( $global ) > 0 ){
 			$sql .= ' and album_id in (';
-			$sep = '';
+			$sep  = '';
 			foreach ( $global as $id ) {
 				$sql .= $sep . $id;
-				$sep = ',';
+				$sep  = ',';
 			}
 			$sql .= ')';
 		}

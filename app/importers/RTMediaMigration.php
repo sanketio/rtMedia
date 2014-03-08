@@ -213,7 +213,7 @@ class RTMediaMigration
 		if ( $flag ) return $media_count - 1;
 		$state = intval( rtmedia_get_site_option( 'rtmedia-migration', '0' ) );
 		if ( $state == 5 ){
-			$album_count = intval( $_SESSION[ 'migration_user_album' ] );
+			$album_count  = intval( $_SESSION[ 'migration_user_album' ] );
 			$album_count += ( isset ( $_SESSION[ 'migration_group_album' ] ) ) ? intval( $_SESSION[ 'migration_group_album' ] ) : 0;
 		} else {
 			if ( $state > 0 ){
@@ -224,11 +224,11 @@ class RTMediaMigration
 					$pending_count .= ' or ID in (select meta_value FROM {$bp_prefix}bp_groups_groupmeta where meta_key ="bp_media_default_album")';
 				}
 				$pending_count .= ')';
-				$pending_count = $wpdb->get_var( $pending_count );
+				$pending_count  = $wpdb->get_var( $pending_count );
 
-				$album_count = intval( $_SESSION[ 'migration_user_album' ] );
+				$album_count  = intval( $_SESSION[ 'migration_user_album' ] );
 				$album_count += ( isset ( $_SESSION[ 'migration_group_album' ] ) ) ? intval( $_SESSION[ 'migration_group_album' ] ) : 0;
-				$album_count = $album_count - intval( $pending_count );
+				$album_count  = $album_count - intval( $pending_count );
 			} else {
 				$album_count = 0;
 			}

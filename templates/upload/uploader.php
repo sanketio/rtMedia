@@ -21,7 +21,7 @@
 			} else {
 				echo '<div class="rtm-file-input-container"> <p class="rtmedia-file-upload-p"> <input type="file" name="rtmedia_file" class="rtm-simple-file-input" id="rtmedia_simple_file_input" /> </p> </div>';
 			}
-			do_action( "rtmedia_add_upload_content" );
+			do_action( 'rtmedia_add_upload_content' );
 
 			if ( isset( $attr[ 'rtmedia_upload_without_form' ] ) && $attr[ 'rtmedia_upload_without_form' ] == true ){
 				echo '</div>';

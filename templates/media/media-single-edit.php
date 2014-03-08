@@ -60,11 +60,11 @@
 
 			?>
 
-			<p><?php echo __( "Sorry !! You do not have rights to edit this media", "rtmedia" ); ?></p>
+			<p><?php echo __( 'Sorry !! You do not have rights to edit this media', 'rtmedia' ); ?></p>
 
 		<?php } ?>
 
-	<?php else: ?>
-		<p><?php echo __( "Sorry !! There's no media found for the request !!", "rtmedia" ); ?></p>
-	<?php endif; ?>
+	<?php else : ?>
+		<p><?php echo __( 'Sorry !! There\'s no media found for the request !!', 'rtmedia' ); ?></p>
+	<?php endif ; ?>
 </div>

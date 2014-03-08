@@ -180,7 +180,7 @@ class RTMediaInteraction
 						foreach ( $rtmedia_query->album as $single_album ) {
 							if ( intval( $single_album->id ) == intval( $rtmedia_query->media_query[ 'album_id' ] ) ){
 								$title .= $sep . ucfirst( $single_album->media_title );
-								$sep = $oldSep;
+								$sep    = $oldSep;
 							}
 						}
 					}
@@ -188,40 +188,40 @@ class RTMediaInteraction
 			} else {
 				if ( isset ( $rtmedia_query->media ) && count( $rtmedia_query->media ) > 0 ){
 					$title .= $sep . ucfirst( $rtmedia_query->media[ 0 ]->media_title );
-					$sep = $oldSep;
+					$sep    = $oldSep;
 				}
 				$title .= $sep . ucfirst( $rtmedia_query->query[ 'media_type' ] );
-				$sep = $oldSep;
+				$sep    = $oldSep;
 			}
 		} else {
 			if ( isset ( $rtmedia_query->action_query ) && isset ( $rtmedia_query->action_query->media_type ) ){
 				$title .= $sep . ucfirst( $rtmedia_query->action_query->media_type );
-				$sep = $oldSep;
+				$sep    = $oldSep;
 			}
 		}
 		if ( function_exists( 'bp_is_group' ) ){
 			if ( bp_is_group() or bp_is_group_forum() or bp_is_group_forum_topic() ){
 				if ( bp_is_group_forum_topic() ){
 					$title .= $sep . bp_get_the_topic_title();
-					$sep = $oldSep;
+					$sep    = $oldSep;
 				}
 				$title .= $sep . bp_get_current_group_name();
-				$sep = $oldSep;
+				$sep    = $oldSep;
 			}
 		}
 		if ( function_exists( 'bp_get_displayed_user_fullname' ) && bp_displayed_user_id() != 0 ){
 			$title .= $sep . bp_get_displayed_user_fullname();
-			$sep = $oldSep;
+			$sep    = $oldSep;
 		} else {
 			$user_info = get_userdata( get_current_user_id() );
 			if ( isset( $user_info->data->display_name ) ){
 				$title .= $sep . $user_info->data->display_name;
-				$sep = $oldSep;
+				$sep    = $oldSep;
 			}
 		}
 
 		$title .= $sep . RTMEDIA_MEDIA_LABEL;
-		$sep = $oldSep;
+		$sep    = $oldSep;
 		if ( isset( $this->context->type ) ){
 			switch ( $this->context->type ) {
 				case 'group':

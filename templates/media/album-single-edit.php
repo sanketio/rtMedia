@@ -36,7 +36,7 @@ $rtmedia_media = $media[ 0 ];
 						<label
 							for="media_title"><?php _e( 'Title : ', 'rtmedia' ); ?></label><?php rtmedia_title_input(); ?>
 					</div>
-					<?php do_action( "rtmedia_add_album_privacy", 'album-edit' ); ?>
+					<?php do_action( 'rtmedia_add_album_privacy', 'album-edit' ); ?>
 
 					<div class="rtmedia-editor-description">
 						<label for='description'><?php _e( 'Description: ', 'rtmedia' ) ?></label>

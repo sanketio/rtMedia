@@ -259,8 +259,8 @@ function rtmedia_media( $size_flag = true, $echo = true, $media_size = 'rt_media
 			$src  = wp_get_attachment_image_src( $rtmedia_media->media_id, $media_size );
 			$html = "<img src='" . $src[ 0 ] . "' alt='" . $rtmedia_media->post_name . "' />";
 		} elseif ( $rtmedia_media->media_type == 'video' ) {
-			$size = ' width=\'' . $rtmedia->options[ 'defaultSizes_video_singlePlayer_width' ] . '\' height=\'"' . $rtmedia->options[ 'defaultSizes_video_singlePlayer_height' ] . '\' ';
-			$html = '<div id="rtm-mejs-video-container" style="width:' . $rtmedia->options[ 'defaultSizes_video_singlePlayer_width' ] . 'px;max-width:96%">';
+			$size  = ' width=\'' . $rtmedia->options[ 'defaultSizes_video_singlePlayer_width' ] . '\' height=\'"' . $rtmedia->options[ 'defaultSizes_video_singlePlayer_height' ] . '\' ';
+			$html  = '<div id="rtm-mejs-video-container" style="width:' . $rtmedia->options[ 'defaultSizes_video_singlePlayer_width' ] . 'px;max-width:96%">';
 			$html .= '<video src="' . wp_get_attachment_url( $rtmedia_media->media_id ) . '" ' . $size . ' type="video/mp4" class="wp-video-shortcode" id="bp_media_video_' . $rtmedia_media->id . '" controls="controls" preload="true"></video>';
 			$html .= '</div>';
 		} elseif ( $rtmedia_media->media_type == 'music' ) {
@@ -675,7 +675,7 @@ function rtmedia_comments( $echo = true ) {
 }
 
 function rmedia_single_comment( $comment ) {
-	$html = '';
+	$html  = '';
 	$html .= '<li class="rtmedia-comment">';
 	if ( $comment[ 'user_id' ] ){
 		$user_name   = "<a href='" . get_rtmedia_user_link( $comment[ 'user_id' ] ) . "' title='" . rtmedia_get_author_name( $comment[ 'user_id' ] ) . "'>" . rtmedia_get_author_name( $comment[ 'user_id' ] ) . '</a>';
@@ -1132,7 +1132,7 @@ function rtmedia_delete_form( $echo = true ) {
 
 	if ( rtmedia_delete_allowed() ){
 
-		$html = '<form method="post" action="' . get_rtmedia_permalink( rtmedia_id() ) . 'delete/">';
+		$html  = '<form method="post" action="' . get_rtmedia_permalink( rtmedia_id() ) . 'delete/">';
 		$html .= '<input type="hidden" name="id" id="id" value="' . rtmedia_id() . '">';
 		$html .= '<input type="hidden" name="request_action" id="request_action" value="delete">';
 		if ( $echo ){
@@ -1278,7 +1278,7 @@ function rtmedia_group_album_list( $selected_album_id = false ) { //by default, 
 	$global_albums = rtmedia_global_albums();
 
 	$album_objects = $model->get_media( array( 'context' => $rtmedia_query->media_query[ 'context' ], 'context_id' => $rtmedia_query->media_query[ 'context_id' ], 'media_type' => 'album' ), false, false );
-	$option_group  = '';
+	$option_group = '';
 	if ( $album_objects ){
 		foreach ( $album_objects as $album ) {
 			$selected = '';
@@ -1362,7 +1362,7 @@ function rtmedia_create_album( $options ) {
 	if ( $display === true ){
 
 		add_action( 'rtmedia_before_media_gallery', 'rtmedia_create_album_modal' );
-		$options[ ] = "<a href='#rtmedia-create-album-modal' class='rtmedia-reveal-modal rtmedia-modal-link'  title='" . __( 'Create New Album', 'rtmedia' ) . "'><i class='rtmicon-plus-circle'></i>" . __( 'Add Album' ) . "</a>";
+		$options[ ] = '<a href="#rtmedia-create-album-modal" class="rtmedia-reveal-modal rtmedia-modal-link"  title="' . __( 'Create New Album', 'rtmedia' ) . '"><i class="rtmicon-plus-circle"></i>' . __( 'Add Album' ) . '</a>';
 
 		return $options;
 
@@ -1460,7 +1460,7 @@ function rtmedia_album_edit( $options ) {
 	if ( isset ( $rtmedia_query->media_query ) && isset( $rtmedia_query->media_query[ 'album_id' ] ) && ! in_array( $rtmedia_query->media_query[ 'album_id' ], rtmedia_get_site_option( 'rtmedia-global-albums' ) ) ){
 		//if ( isset ( $rtmedia_query->media_query[ 'media_author' ] ) && get_current_user_id () == $rtmedia_query->media_query[ 'media_author' ] ) {
 		if ( rtmedia_is_album_editable() || is_rt_admin() ){
-			$options[ ] = "<a href='edit/' class='rtmedia-edit' title='" . __( 'Edit Album', 'rtmedia' ) . "' ><i class='rtmicon-edit'></i>" . __( 'Edit Album' ) . "</a>";
+			$options[ ] = '<a href="edit/" class="rtmedia-edit" title="' . __( 'Edit Album', 'rtmedia' ) . '" ><i class="rtmicon-edit"></i>' . __( 'Edit Album' ) . '</a>';
 			$options[ ] = '<form method="post" class="album-delete-form rtmedia-inline" action="delete/">' . wp_nonce_field( 'rtmedia_delete_album_' . $rtmedia_query->media_query[ 'album_id' ], 'rtmedia_delete_album_nonce' ) . '<button type="submit" name="album-delete" class="icon-button rtmedia-delete-album" title="' . __( 'Delete Album', 'rtmedia' ) . '"><i class="rtmicon-trash-o"></i>Delete Album</button></form>';
 
 			if ( is_rtmedia_group_album() ) $album_list = rtmedia_group_album_list(); else
@@ -1543,7 +1543,7 @@ function rtmedia_edit_media_privacy_ui() {
 	$privacymodel = new RTMediaPrivacy();
 	$privacy      = $privacymodel->select_privacy_ui( $echo = false );
 	if ( $privacy ){
-		return "<div class='rtmedia-edit-privacy'><label for='privacy'>" . __( 'Privacy : ', 'rtmedia' ) . "</label>" . $privacy . "</div>";
+		return '<div class="rtmedia-edit-privacy"><label for="privacy">' . __( 'Privacy : ', 'rtmedia' ) . '</label>' . $privacy . '</div>';
 	}
 }
 
@@ -1995,8 +1995,8 @@ function  rtmedia_content_before_media() {
 //get the mediaprivacy symbol
 function get_rtmedia_privacy_symbol( $rtmedia_id = false ) {
 	$mediamodel = new RTMediaModel();
-	$actions    = $mediamodel->get( array( 'id' => rtmedia_id( $rtmedia_id ) ) );
-	$privacy    = '';
+	$actions = $mediamodel->get( array( 'id' => rtmedia_id( $rtmedia_id ) ) );
+	$privacy = '';
 	if ( isset( $actions[ 0 ]->privacy ) && $actions[ 0 ]->privacy != '' ){
 		$title = $icon = '';
 
@@ -2164,12 +2164,12 @@ function update_group_media_privacy( $group_id ) {
 			global $wpdb;
 			if ( $group->status != 'public' ){
 				// when group settings are updated and is private/hidden, set media privacy to 20
-				$update_sql = "UPDATE $model->table_name SET privacy = '20' where context='group' AND context_id=" . $group_id . " AND privacy <> 80 ";
+				$update_sql = 'UPDATE $model->table_name SET privacy = "20" where context="group" AND context_id=' . $group_id . ' AND privacy <> 80 ';
 
 			} else {
 
 				// when group settings are updated and is private/hidden, set media privacy to 0
-				$update_sql = "UPDATE $model->table_name SET privacy = '0' where context='group' AND context_id=" . $group_id . " AND privacy <> 80 ";
+				$update_sql = 'UPDATE $model->table_name SET privacy = "0" where context="group" AND context_id=' . $group_id . ' AND privacy <> 80 ';
 			}
 			//update the medias
 			$wpdb->query( $update_sql );

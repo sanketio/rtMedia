@@ -79,7 +79,7 @@ class RTMediaViewCount extends RTMediaUserInteraction
 			$curr_value    = $row->value;
 			$update_data   = array( 'value' => ++$curr_value );
 			$where_columns = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action );
-			$update        = $rtmediainteraction->update( $update_data, $where_columns );
+			$update = $rtmediainteraction->update( $update_data, $where_columns );
 		} else {
 			$columns   = array( 'user_id' => $user_id, 'media_id' => $media_id, 'action' => $action, 'value' => '1' );
 			$insert_id = $rtmediainteraction->insert( $columns );

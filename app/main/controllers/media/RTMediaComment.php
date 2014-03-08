@@ -77,7 +77,7 @@ class RTMediaComment
 	function add( $attr ) {
 		do_action( 'rtmedia_before_add_comment', $attr );
 		$defaults = array( 'user_id' => $this->get_current_id(), 'comment_author' => $this->get_current_author(), 'comment_date' => current_time( 'mysql' ) );
-		$params   = wp_parse_args( $attr, $defaults );
+		$params = wp_parse_args( $attr, $defaults );
 
 		$id = $this->rtmedia_comment_model->insert( $params );
 		global $rtmedia_points_media_id;

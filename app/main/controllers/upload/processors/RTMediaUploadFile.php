@@ -10,7 +10,7 @@ class RTMediaUploadFile
 {
 
 	var $files;
-	var $fake = false;
+	var $fake     = false;
 	var $uploaded = false;
 
 	/**

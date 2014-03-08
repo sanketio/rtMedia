@@ -27,7 +27,7 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 		public function coming_soon_div() {
 			return '<div class="coming-soon coming-soon-l"></div>
 				<a class="coming-soon coming-soon-r" href="' . $this->enquiry_link . '" target="_blank">' //<a></a>
-				   . '</a>';
+				. '</a>';
 		}
 
 		/**
@@ -136,7 +136,7 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 					'title' => __( 'rtMedia FFMPEG Add-on', 'rtmedia' ), 'img_src' => $img_src . 'rtmedia-ffmpeg-240x184.png', 'price' => '$199', 'demo_link' => 'http://demo.rtcamp.com/bpm-media/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media', 'buy_now' => 'http://rtcamp.com/store/?utm_source=dashboard&utm_medium=plugin&utm_campaign=buddypress-media&add-to-cart=13677',
 				),
 			);
-			$addons  = apply_filters( 'rtmedia_addons', $addons );
+			$addons = apply_filters( 'rtmedia_addons', $addons );
 
 			foreach ( $addons as $key => $value ) {
 
@@ -184,7 +184,7 @@ if ( ! class_exists( 'RTMediaAddon' ) ){
 			global $rtmedia;
 
 			$defaults = array( 'title' => '', 'img_src' => '', 'product_link' => '', 'desc' => '', 'price' => '', 'demo_link' => '', 'buy_now' => '', 'coming_soon' => false, );
-			$args     = wp_parse_args( $args, $defaults );
+			$args = wp_parse_args( $args, $defaults );
 			extract( $args );
 
 			$coming_soon ? ' coming-soon' : '';

@@ -266,7 +266,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 					<p class="sub"><?php _e( 'Usage Stats', 'rtmedia' ); ?></p>
 					<table>
 						<tbody> <?php
-						$sql = "select count(*) from {$wpdb->users}";
+						$sql     = "select count(*) from {$wpdb->users}";
 						$results = $wpdb->get_var( $sql );
 						?>
 						<tr>
@@ -274,7 +274,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 							<td class="t"><?php _e( 'Total ', 'rtmedia' ) ?></td>
 						</tr>
 						<?php
-						$sql = "select count(distinct media_author) from {$rtMedia_model->table_name}";
+						$sql     = "select count(distinct media_author) from {$rtMedia_model->table_name}";
 						$results = $wpdb->get_var( $sql );
 						?>
 						<tr>
@@ -282,7 +282,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 							<td class="t"><?php _e( 'With Media', 'rtmedia' ) ?></td>
 						</tr>
 						<?php
-						$sql = "select count(*) from $wpdb->comments where comment_post_ID in (select media_id from {$rtMedia_model->table_name})";
+						$sql     = "select count(*) from $wpdb->comments where comment_post_ID in (select media_id from {$rtMedia_model->table_name})";
 						$results = $wpdb->get_var( $sql );
 						?>
 						<tr>
@@ -290,7 +290,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 							<td class="t"><?php _e( 'Comments ', 'rtmedia' ) ?></td>
 						</tr>
 						<?php
-						$sql = "select sum(likes) from {$rtMedia_model->table_name}";
+						$sql     = "select sum(likes) from {$rtMedia_model->table_name}";
 						$results = $wpdb->get_var( $sql );
 						?>
 						<tr>
@@ -1242,7 +1242,7 @@ if ( ! class_exists( 'RTMediaAdmin' ) ){
 				$rtmedia_model = new RTMediaModel();
 				$model         = new RTMediaModel();
 				$media         = $model->get( array( 'media_id' => $post[ 'ID' ] ) );
-				$media_id      = $media[ 0 ]->id;
+				$media_id = $media[ 0 ]->id;
 				$rtmedia_model->update( array( 'cover_art' => $post[ 'rtmedia-thumbnail' ] ), array( 'media_id' => $post[ 'ID' ] ) );
 				update_activity_after_thumb_set( $media_id );
 			}

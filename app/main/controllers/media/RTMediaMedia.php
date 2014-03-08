@@ -314,7 +314,7 @@ class RTMediaMedia
 		} else {
 			/* update album_id, context, context_id and privacy in rtMedia context */
 			$album_data = $this->model->get( array( 'media_id' => $media_id ) );
-			$data       = array( 'album_id' => $album_id, 'context' => $album_data->context, 'context_id' => $album_data->context_id, 'privacy' => $album_data->privacy );
+			$data = array( 'album_id' => $album_id, 'context' => $album_data->context, 'context_id' => $album_data->context_id, 'privacy' => $album_data->privacy );
 
 			return $this->update( $media_id, $data );
 		}

@@ -188,8 +188,9 @@ if ( ! class_exists( 'rtForm' ) ){
 				if ( $element == 'rtSelect' ){
 					$html .= 'multiple = "multiple"';
 				}
-			} else
+			} else {
 				$html .= isset( $name ) ? $name : $element;
+			}
 			$html .= '"';
 
 			return $html;
@@ -293,7 +294,7 @@ if ( ! class_exists( 'rtForm' ) ){
 			/* name attrbute according to multiple flag */
 			$multiple = ( isset( $attributes[ 'multiple' ] ) && $attributes[ 'multiple' ] ) ? true : false;
 			$name     = ( isset( $attributes[ 'name' ] ) ) ? $attributes[ 'name' ] : $element;
-			$html .= $this->generate_element_name( $element, $multiple, $name ) . ' ';
+			$html    .= $this->generate_element_name( $element, $multiple, $name ) . ' ';
 
 			/*
 			 *  list down all the classes provided along with the default class of rtForms.
@@ -637,7 +638,7 @@ if ( ! class_exists( 'rtForm' ) ){
 			$element = 'rtTextarea';
 			if ( is_array( $attributes ) ){
 
-				$html = '<textarea ';
+				$html  = '<textarea ';
 				$html .= $this->processAttributes( $element, $attributes );
 				$html .= '>';
 
@@ -718,7 +719,7 @@ if ( ! class_exists( 'rtForm' ) ){
 			$element = 'rtRadio';
 			$html    = '';
 
-			$meta = $this->parse_multiple_options( $element, $attributes );
+			$meta  = $this->parse_multiple_options( $element, $attributes );
 			$html .= $this->container_enclosed_elements( $element, $meta[ 'attrib' ], $meta[ 'rtForm_options' ] );
 
 			if ( isset( $attributes[ 'show_desc' ] ) && $attributes[ 'show_desc' ] ) $html .= $this->generate_element_desc( $attributes );
@@ -763,7 +764,7 @@ if ( ! class_exists( 'rtForm' ) ){
 			$element = 'rtCheckbox';
 			$html    = '';
 
-			$meta = $this->parse_multiple_options( $element, $attributes );
+			$meta  = $this->parse_multiple_options( $element, $attributes );
 			$html .= $this->container_enclosed_elements( $element, $meta[ 'attrib' ], $meta[ 'rtForm_options' ] );
 
 			if ( isset( $attributes[ 'show_desc' ] ) && $attributes[ 'show_desc' ] ) $html .= $this->generate_element_desc( $attributes );
@@ -850,7 +851,7 @@ if ( ! class_exists( 'rtForm' ) ){
 
 				$html .= '>';
 
-				$meta = $this->parse_multiple_options( $element, $attributes );
+				$meta  = $this->parse_multiple_options( $element, $attributes );
 				$html .= $this->container_enclosed_elements( $element, $meta[ 'attrib' ], $meta[ 'rtForm_options' ] );
 
 				$html .= '</select>';

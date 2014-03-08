@@ -2,7 +2,7 @@
 /** That's all, stop editing from here **/
 global $rtmedia_backbone;
 $rtmedia_backbone = array(
-	'backbone' => false, 'is_album' => false, 'is_edit_allowed' => false
+	'backbone' => false, 'is_album' => false, 'is_edit_allowed' => false,
 );
 if ( isset( $_POST[ 'backbone' ] ) ) $rtmedia_backbone[ 'backbone' ] = $_POST[ 'backbone' ];
 if ( isset( $_POST[ 'is_album' ] ) ) $rtmedia_backbone[ 'is_album' ] = $_POST[ 'is_album' ][ 0 ];
