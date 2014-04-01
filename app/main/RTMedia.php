@@ -83,18 +83,22 @@ class RTMedia
      * @global int $bp_media_counter Media counter
      */
     public function __construct() {
+		// include helper classes
+		include(RTMEDIA_PATH . 'lib/wp-helpers/wp-helpers.php');
         /**
          *
          * Buddypress Media Auto Upgradation
          */
-	add_action('rt_db_upgrade', array($this, 'fix_parent_id'));
-        add_action('rt_db_upgrade', array($this, 'fix_privacy'));
-        add_action('rt_db_upgrade', array($this, 'fix_group_media_privacy'));
-        add_action('rt_db_upgrade', array($this, 'fix_db_collation'));
+		add_action('rt_db_update_finished', array($this, 'fix_parent_id'));
+        add_action('rt_db_update_finished', array($this, 'fix_privacy'));
+        add_action('rt_db_update_finished', array($this, 'fix_group_media_privacy'));
+        add_action('rt_db_update_finished', array($this, 'fix_db_collation'));
         $this->update_db();
-		remove_action('rt_db_upgrade', array($this, 'fix_privacy'));
-		remove_action('rt_db_upgrade', array($this, 'fix_group_media_privacy'));
-		remove_action('rt_db_upgrade', array($this, 'fix_db_collation'));
+		remove_action('rt_db_update_finished', array($this, 'fix_parent_id'));
+		remove_action('rt_db_update_finished', array($this, 'fix_privacy'));
+		remove_action('rt_db_update_finished', array($this, 'fix_group_media_privacy'));
+		remove_action('rt_db_update_finished', array($this, 'fix_db_collation'));
+
         $this->default_thumbnail = apply_filters('rtmedia_default_thumbnail', RTMEDIA_URL . 'assets/thumb_default.png');
         add_action('init', array($this, 'check_global_album'));
         add_action('plugins_loaded', array($this, 'init'), 20);
@@ -103,11 +107,10 @@ class RTMedia
         add_action('wp_enqueue_scripts', array('RTMediaGalleryShortcode', 'register_scripts'));
         add_action('wp_enqueue_scripts', array(&$this, 'enqueue_scripts_styles'), 999);
         include(RTMEDIA_PATH . 'app/main/controllers/template/rt-template-functions.php');
-        include(RTMEDIA_PATH . 'lib/wp-helpers/wp-helpers.php');
         add_filter('intermediate_image_sizes_advanced', array($this, 'filter_image_sizes_details'));
         add_filter('intermediate_image_sizes', array($this, 'filter_image_sizes'));
         add_filter("site_option_upload_filetypes",array(&$this, "filter_allow_mime_type_mu"),1,1);
-	add_filter( 'image_size_names_choose', array($this,'rtmedia_custom_image_sizes_choose' ));
+		add_filter( 'image_size_names_choose', array($this,'rtmedia_custom_image_sizes_choose' ));
     }
     function filter_allow_mime_type_mu($options){
         $allowed_types = array();
