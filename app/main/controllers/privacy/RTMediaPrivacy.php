@@ -24,255 +24,275 @@ class RTMediaPrivacy {
             //add_action ( 'rtmedia_add_edit_fields' , array ( $this , 'edit_media_privacy_ui' ),2 ) ;
             add_action ( 'bp_init' , array( $this , 'add_nav' ) ) ;
             add_action ( 'bp_template_content' , array( $this , 'content' ) ) ;
-            add_filter ( 'bp_activity_get_user_join_filter' , array( $this , 'activity_privacy' ), 10, 6 ) ;
-            add_filter ( 'bp_use_legacy_activity_query' , array( $this , 'enable_buddypress_privacy' ), 10, 3 ) ;
-            add_filter ( 'bp_activity_has_more_items' , array( $this , 'enable_buddypress_load_more' ), 10, 1 ) ;
+//            add_filter ( 'bp_activity_get_user_join_filter' , array( $this , 'activity_privacy' ), 10, 6 ) ;
+//            add_filter ( 'bp_use_legacy_activity_query' , array( $this , 'enable_buddypress_privacy' ), 10, 3 ) ;
+//            add_filter ( 'bp_activity_has_more_items' , array( $this , 'enable_buddypress_load_more' ), 10, 1 ) ;
+            add_filter ( 'bp_activity_paged_activities_sql', array( $this , 'rtmedia_activity_privacy' ), 10, 2 ) ;
         }
     }
 
-	function enable_buddypress_load_more( $has_more_items ){
-		global $activities_template;
-		return true;
-	}
+//	function enable_buddypress_load_more( $has_more_items ){
+//		global $activities_template;
+//        
+//		return true;
+//	}
 
-	function enable_buddypress_privacy( $flag, $method, $func_args ) {
-		global $rtmedia;
-		$option = $rtmedia->options;
-		if( isset( $option['privacy_enabled'] ) && $option['privacy_enabled'] != '0' ) {
-			if( $method == "BP_Activity_Activity::get" ) {
-				$flag = true;
-			}
-		}
-		return $flag;
-	}
+//	function enable_buddypress_privacy( $flag, $method, $func_args ) {
+//		global $rtmedia;
+//        
+//		$option = $rtmedia->options;
+//		
+//        if( isset( $option[ 'privacy_enabled' ] ) && $option[ 'privacy_enabled' ] != '0' ) {
+//			if( $method == "BP_Activity_Activity::get" ) {
+//				$flag = true;
+//			}
+//		}
+//        
+//		return $flag;
+//	}
 
-    function edit_media_privacy_ui($echo = true) {
+    function edit_media_privacy_ui( $echo = true ) {
         $privacy = "";
-        $privacy = $this->select_privacy_ui ($echo = false);
-        if( $privacy != ""){
-            if($echo)
+        $privacy = $this->select_privacy_ui( $echo = false );
+        
+        if( $privacy != "" ) {
+            if( $echo ) {
                 echo "<div class='rtmedia-edit-privacy'><label for='privacy'>Privacy : </label>" . $privacy . "</div>";
-            else
+            } else {
                 return "<div class='rtmedia-edit-privacy'><label for='privacy'>Privacy : </label>" . $privacy . "</div>";
+            }
         }
     }
 
-    function uploader_privacy_ui ( $attr ) {
-        if ( ! isset ( $attr[ 'privacy' ] ) ) {
-                $this -> select_privacy_ui () ;
+    function uploader_privacy_ui( $attr ) {
+        if ( !isset ( $attr[ 'privacy' ] ) ) {
+            $this->select_privacy_ui();
         }
     }
 
-    function select_privacy_ui ( $echo = true, $select_id = false ) {
-        global $rtmedia ;
+    function select_privacy_ui( $echo = true, $select_id = false ) {
+        if( !is_rtmedia_privacy_enable() )
+            return false;
 
-        if ( ! is_rtmedia_privacy_enable () )
-            return false ;
+        if ( !is_rtmedia_privacy_user_overide() )
+            return false;
 
-        if ( ! is_rtmedia_privacy_user_overide () )
-            return false ;
-
-        global $rtmedia_media ;
-        $default = 0 ;
-        if ( isset ( $rtmedia_media -> privacy ) )
+        global $rtmedia, $rtmedia_media;
+        
+        $default = 0;
+        
+        if ( isset( $rtmedia_media->privacy ) ) {
             $default = $rtmedia_media -> privacy ;
-        else {
-            $default = get_user_meta ( get_current_user_id () , 'rtmedia-default-privacy' , true ) ;
-            if ( ! $default ) {
-                $default = get_rtmedia_default_privacy () ;
+        } else {
+            $default = get_user_meta( get_current_user_id(), 'rtmedia-default-privacy', true );
+            
+            if( !$default ) {
+                $default = get_rtmedia_default_privacy();
             }
         }
 
-
-        $form           = new rtForm() ;
+        $form           = new rtForm();
         $attributes     = array (
-            'name'  => 'privacy' ,
-            'class' => array ( 'privacy' )
-                ) ;
-	if($select_id && $select_id != "") {
-	    $attributes['id'] = $select_id;
-	}
-        global $rtmedia ;
-        $privacy_levels = $rtmedia -> privacy_settings[ 'levels' ] ;
-        if ( class_exists ( 'BuddyPress' ) ) {
-            if ( ! bp_is_active ( 'friends' ) ) {
-                unset ( $privacy_levels[ 40 ] ) ;
+            'name'  => 'privacy',
+            'class' => array( 'privacy' )
+        );
+        
+        if( $select_id && $select_id != "" ) {
+            $attributes[ 'id' ] = $select_id;
+        }
+        
+        $privacy_levels = $rtmedia->privacy_settings[ 'levels' ];
+        
+        if( class_exists( 'BuddyPress' ) ) {
+            if( !bp_is_active( 'friends' ) ) {
+                unset( $privacy_levels[ 40 ] );
             }
+        } else {
+            unset( $privacy_levels[ 40 ] );
         }
-        else {
-            unset ( $privacy_levels[ 40 ] ) ;
-        }
-        foreach ( $privacy_levels as $key => $value ) {
-            $privacy                           = explode ( ' - ' , $value ) ;
+        
+        foreach( $privacy_levels as $key => $value ) {
+            $privacy                           = explode( ' - ', $value );
             $attributes[ 'rtForm_options' ][ ] = array (
-                $privacy[ 0 ] => $key ,
-                'selected'    => ($key == $default) ? 1 : 0
-                    ) ;
+                $privacy[ 0 ] => $key,
+                'selected'    => ( $key == $default ) ? 1 : 0
+            );
         }
 
-        if ( $echo )
-            echo $form -> get_select ( $attributes ) ;
-        else
-            return $form -> get_select ( $attributes ) ;
-    }
-
-    public
-            function system_default () {
-        return 0 ;
-    }
-
-    public
-            function site_default () {
-        global $rtmedia ;
-
-        return rtmedia_get_site_option ( 'privacy_settings' ) ;
-    }
-
-    public
-            function user_default () {
-        return ;
-    }
-
-    public
-            function get_default () {
-        $default_privacy = $this -> user_default () ;
-
-        if ( $default_privacy === false ) {
-            $default_privacy = $this -> site_default () ;
-        }
-
-        if ( ! $default_privacy === false ) {
-            $default_privacy = $this -> system_default () ;
+        if( $echo ) {
+            echo $form->get_select( $attributes );
+        } else {
+            return $form->get_select( $attributes );
         }
     }
 
-    static
-            function is_enabled () {
-        global $bp_media ;
-        $options = $bp_media -> options ;
-        if ( ! array_key_exists ( 'privacy_enabled' , $options ) ) {
+    public function system_default() {
+        return 0;
+    }
+
+    public function site_default() {
+        global $rtmedia;
+
+        return rtmedia_get_site_option( 'privacy_settings' );
+    }
+
+    public function user_default() {
+        return;
+    }
+
+    public function get_default() {
+        $default_privacy = $this->user_default();
+
+        if( $default_privacy === false ) {
+            $default_privacy = $this->site_default();
+        }
+
+        if( !$default_privacy === false ) {
+            $default_privacy = $this->system_default();
+        }
+    }
+
+    static function is_enabled() {
+        global $bp_media;
+        
+        $options = $bp_media->options;
+        
+        if( !array_key_exists( 'privacy_enabled', $options ) ) {
             return false ;
-        }
-        else {
-            if ( $options[ 'privacy_enabled' ] != true ) {
+        } else {
+            if( $options[ 'privacy_enabled' ] != true ) {
                 return false ;
             }
         }
+        
         return true ;
     }
 
-    static
-            function save_user_default ( $level = 0 , $user_id = false ) {
-        if ( $user_id == false ) {
+    static function save_user_default( $level = 0, $user_id = false ) {
+        if( $user_id == false ) {
             global $bp ;
-            $user_id = $bp -> loggedin_user -> id ;
+            
+            $user_id = $bp->loggedin_user->id;
         }
-        return update_user_meta ( $user_id , 'bp_media_privacy' , $level ) ;
+        
+        return update_user_meta( $user_id, 'bp_media_privacy', $level );
     }
 
-    static function get_user_default ( $user_id = false ) {
-        if ( $user_id == false ) {
-            global $bp ;
-            $user_id = $bp -> loggedin_user -> id ;
+    static function get_user_default( $user_id = false ) {
+        if( $user_id == false ) {
+            global $bp;
+            
+            $user_id = $bp->loggedin_user->id;
         }
-        $user_privacy = get_user_meta ( $user_id , 'bp_media_privacy' , true ) ;
-        if ( $user_privacy === false ) {
-
-        }
+        
+        $user_privacy = get_user_meta( $user_id, 'bp_media_privacy', true );
+        
         return $user_privacy ;
     }
 
-    static
-            function required_access ( $object_id = false ) {
-        if ( BPMediaPrivacy::is_enabled () == false )
-            return ;
-        if ( $object_id == false )
-            return ;
-        $privacy        = BPMediaPrivacy::get_privacy ( $object_id ) ;
-        $parent         = get_post_field ( 'post_parent' , $object_id , 'raw' ) ;
-        $parent_privacy = BPMediaPrivacy::get_privacy ( $parent ) ;
+    static function required_access( $object_id = false ) {
+        if( BPMediaPrivacy::is_enabled() == false ) {
+            return;
+        }
+        
+        if( $object_id == false ) {
+            return;
+        }
+        
+        $privacy        = BPMediaPrivacy::get_privacy( $object_id );
+        $parent         = get_post_field( 'post_parent', $object_id, 'raw' );
+        $parent_privacy = BPMediaPrivacy::get_privacy( $parent );
 
-        if ( $privacy === false ) {
-            if ( $parent_privacy !== false ) {
-                $privacy = $parent_privacy ;
-            }
-            else {
-                $privacy = BPMediaPrivacy::default_privacy () ;
+        if( $privacy === false ) {
+            if( $parent_privacy !== false ) {
+                $privacy = $parent_privacy;
+            } else {
+                $privacy = BPMediaPrivacy::default_privacy();
             }
         }
+        
         return $privacy ;
     }
 
-    function add_nav () {
-
-        if ( bp_displayed_user_domain () ) {
-            $user_domain = bp_displayed_user_domain () ;
-        }
-        elseif ( bp_loggedin_user_domain () ) {
-            $user_domain = bp_loggedin_user_domain () ;
-        }
-        else {
+    function add_nav() {
+        if( bp_displayed_user_domain () ) {
+            $user_domain = bp_displayed_user_domain() ;
+        } else if( bp_loggedin_user_domain() ) {
+            $user_domain = bp_loggedin_user_domain() ;
+        } else {
             return ;
         }
 
-        if ( ! is_rtmedia_profile_media_enable () ) {
+        if( !is_rtmedia_profile_media_enable() ) {
             return ;
         }
-		if ( ! is_rtmedia_privacy_enable () ) {
+        
+		if( !is_rtmedia_privacy_enable() ) {
             return ;
         }
-        if ( ! is_rtmedia_privacy_user_overide () ) {
+        
+        if( !is_rtmedia_privacy_user_overide() ) {
             return ;
         }
 
-        $settings_link = trailingslashit ( $user_domain . 'settings' ) ;
+        $settings_link = trailingslashit( $user_domain . 'settings' ) ;
 
-        $defaults = array (
-            'name'            => $this -> title () , // Display name for the nav item
-            'slug'            => 'privacy' , // URL slug for the nav item
-            'parent_slug'     => 'settings' , // URL slug of the parent nav item
-            'parent_url'      => $settings_link , // URL of the parent item
-            'item_css_id'     => 'rtmedia-privacy-settings' , // The CSS ID to apply to the HTML of the nav item
-            'user_has_access' => true , // Can the logged in user see this nav item?
-            'site_admin_only' => false , // Can only site admins see this nav item?
-            'position'        => 80 , // Index of where this nav item should be positioned
-            'screen_function' => array ( $this , 'settings_ui' ) , // The name of the function to run when clicked
-            'link'            => ''     // The link for the subnav item; optional, not usually required.
-                ) ;
-        bp_core_new_subnav_item ( $defaults ) ;
+        $defaults = array(
+            'name'            => $this->title(), // Display name for the nav item
+            'slug'            => 'privacy', // URL slug for the nav item
+            'parent_slug'     => 'settings', // URL slug of the parent nav item
+            'parent_url'      => $settings_link, // URL of the parent item
+            'item_css_id'     => 'rtmedia-privacy-settings', // The CSS ID to apply to the HTML of the nav item
+            'user_has_access' => true, // Can the logged in user see this nav item?
+            'site_admin_only' => false, // Can only site admins see this nav item?
+            'position'        => 80, // Index of where this nav item should be positioned
+            'screen_function' => array( $this, 'settings_ui' ), // The name of the function to run when clicked
+            'link'            => '' // The link for the subnav item; optional, not usually required.
+        );
+        
+        bp_core_new_subnav_item( $defaults );
     }
 
-    function settings_ui () {
-        if ( bp_action_variables () ) {
-            bp_do_404 () ;
+    function settings_ui() {
+        if( bp_action_variables() ) {
+            bp_do_404() ;
             return ;
         }
-
 
         // Load the template
-        bp_core_load_template ( apply_filters ( 'bp_settings_screen_delete_account' , 'members/single/plugins' ) ) ;
+        bp_core_load_template( apply_filters( 'bp_settings_screen_delete_account', 'members/single/plugins' ) ) ;
     }
 
-    function content () {
-        if ( buddypress () -> current_action != 'privacy' )
+    function content() {
+        if( buddypress()->current_action != 'privacy' ) {
             return ;
+        }
 
-        if ( isset ( $_POST[ "rtmedia-default-privacy" ] ) ) {
-            update_user_meta ( get_current_user_id () , 'rtmedia-default-privacy' , $_POST[ "rtmedia-default-privacy" ] ) ;
+        if( isset( $_POST[ "rtmedia-default-privacy" ] ) ) {
+            update_user_meta( get_current_user_id(), 'rtmedia-default-privacy', $_POST[ "rtmedia-default-privacy" ] ) ;
         }
-        $default_privacy = get_user_meta ( get_current_user_id () , 'rtmedia-default-privacy' , true ) ;
-        if ( $default_privacy === false ) {
-            $default_privacy = get_rtmedia_default_privacy () ;
+        
+        $default_privacy = get_user_meta( get_current_user_id(), 'rtmedia-default-privacy', true );
+        
+        if( $default_privacy === false ) {
+            $default_privacy = get_rtmedia_default_privacy();
         }
+        
         global $rtmedia ;
         ?>
         <form method='post'>
             <div class="rtm_bp_default_privacy">
                 <div class="section">
-                    <div class="columns large-2"><h2><?php _e( "Default Privacy" , "rtmedia" ) ; ?></h2></div>
+                    <div class="columns large-2">
+                        <h2><?php _e( "Default Privacy", "rtmedia" ) ; ?></h2>
+                    </div>
                     <div class="columns large-5">
-                        <?php foreach ( $rtmedia -> privacy_settings[ 'levels' ] as $level => $data ) { ?>
-                            <label><input type='radio' value='<?php echo $level ; ?>' name ='rtmedia-default-privacy' <?php echo ($default_privacy == $level) ? "checked" : "" ; ?> /> <?php _e ( $data ) ; ?></label><br/>
+                        <?php foreach( $rtmedia->privacy_settings[ 'levels' ] as $level => $data ) { ?>
+                            <label>
+                                <input type='radio' value='<?php echo $level ; ?>' name='rtmedia-default-privacy' <?php echo ( $default_privacy == $level ) ? "checked" : "" ; ?> />
+                                <?php _e( $data ); ?>
+                            </label>
+                            <br/>
                         <?php } ?>
                     </div>
                 </div>
@@ -285,88 +305,183 @@ class RTMediaPrivacy {
         <?php
     }
 
-    function title () {
+    function title() {
         return __( 'Privacy', 'rtmedia' ) ;
     }
-
-    function activity_privacy ( $sql , $select_sql , $from_sql , $where_sql , $sort , $pag_sql = '' ) {
-        if( is_rt_admin() )
-              return $sql;
-
-        $sql           = '' ;
-        $where         = '' ;
-        global $bp , $wpdb ;
-        $rtmedia_model = new RTMediaModel() ;
-
-		if ( is_user_logged_in () ) {
-			$user = get_current_user_id () ;
-		}
-		else {
+    
+//    function activity_privacy ( $sql , $select_sql , $from_sql , $where_sql , $sort , $pag_sql = '' ) {
+//        if( is_rt_admin() )
+//              return $sql;
+//
+//        $sql           = '' ;
+//        $where         = '' ;
+//        global $bp , $wpdb ;
+//        $rtmedia_model = new RTMediaModel() ;
+//
+//		if ( is_user_logged_in () ) {
+//			$user = get_current_user_id () ;
+//		}
+//		else {
+//			$user = 0 ;
+//		}
+//
+//		$activity_upgrade_done = rtmedia_get_site_option( 'rtmedia_activity_done_upgrade' );
+//
+//		// admin has upgraded rtmedia activity so we can use rt_rtm_activity table for rtmedia related activity filters
+//		if( $activity_upgrade_done ){
+//			$rtmedia_activity_model = new RTMediaActivityModel();
+//			$where .= " (ra.privacy is NULL OR ra.privacy <= 0) " ;
+//			if ( $user ) {
+//				$where .= "OR ((ra.privacy=20)" ;
+//				$where .= " OR (a.user_id={$user} AND ra.privacy >= 40)" ;
+//				if ( class_exists ( 'BuddyPress' ) ) {
+//					if ( bp_is_active ( 'friends' ) ) {
+//						$friendship = new RTMediaFriends() ;
+//						$friends    = $friendship -> get_friends_cache ( $user ) ;
+//						if ( isset($friends) && ! empty ( $friends ) != "" ){
+//							$where .= " OR (ra.privacy=40 AND a.user_id IN ('" . implode ( "','" , $friends ) . "'))" ;
+//						}
+//					}
+//				}
+//				$where .= ')' ;
+//			}
+//			if ( function_exists ( "bp_core_get_table_prefix" ) ){
+//				$bp_prefix = bp_core_get_table_prefix () ;
+//			}
+//			else{
+//				$bp_prefix = "" ;
+//			}
+//			if ( strpos ( $select_sql , "SELECT DISTINCT" ) === false ){
+//				$select_sql = str_replace ( "SELECT" , "SELECT DISTINCT" , $select_sql ) ;
+//			}
+//			$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID LEFT JOIN {$rtmedia_model->table_name} m ON ( a.id = m.activity_id AND m.blog_id = '".  get_current_blog_id()."' ) LEFT JOIN {$rtmedia_activity_model->table_name} ra ON ( a.id = ra.activity_id and ra.blog_id = '".  get_current_blog_id()."' ) ";
+//			$where_sql = $where_sql . " AND (NOT EXISTS (SELECT m.activity_id FROM {$bp_prefix}bp_activity_meta m WHERE m.meta_key='rtmedia_privacy' AND m.activity_id=a.id) OR ( {$where} ) )";
+//			$newsql = "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}";
+//		} else {
+//			$where .= " (m.max_privacy is NULL OR m.max_privacy <= 0) " ;
+//			if ( $user ) {
+//				$where .= "OR ((m.max_privacy=20)" ;
+//				$where .= " OR (a.user_id={$user} AND m.max_privacy >= 40)" ;
+//				if ( class_exists ( 'BuddyPress' ) ) {
+//					if ( bp_is_active ( 'friends' ) ) {
+//						$friendship = new RTMediaFriends() ;
+//						$friends    = $friendship -> get_friends_cache ( $user ) ;
+//						if ( isset($friends) && ! empty ( $friends ) != "" ){
+//							$where .= " OR (m.max_privacy=40 AND a.user_id IN ('" . implode ( "','" , $friends ) . "'))" ;
+//						}
+//					}
+//				}
+//				$where .= ')' ;
+//			}
+//			if ( function_exists ( "bp_core_get_table_prefix" ) ){
+//				$bp_prefix = bp_core_get_table_prefix () ;
+//			}
+//			else{
+//				$bp_prefix = "" ;
+//			}
+//			if ( strpos ( $select_sql , "SELECT DISTINCT" ) === false ){
+//				$select_sql = str_replace ( "SELECT" , "SELECT DISTINCT" , $select_sql ) ;
+//			}
+//			$media_table = "SELECT *, max( privacy ) as max_privacy from {$rtmedia_model->table_name} group by activity_id";
+//			$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID LEFT JOIN ( $media_table ) m ON ( a.id = m.activity_id AND m.blog_id = '".  get_current_blog_id()."' ) ";
+//			$where_sql = $where_sql . " AND (NOT EXISTS (SELECT m.activity_id FROM {$bp_prefix}bp_activity_meta m WHERE m.meta_key='rtmedia_privacy' AND m.activity_id=a.id) OR ( {$where} ) )";
+//			$newsql = "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}";
+//		}
+//        return $newsql;
+//    }
+    
+    function rtmedia_activity_privacy( $activity_ids_sql, $func_args ) {
+        if( is_rt_admin() ) {
+            return $activity_ids_sql;
+        }
+        
+        $where = '';
+        $select_sql = 'SELECT DISTINCT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name';
+        $where_sql = 'WHERE a.is_spam = 0 AND a.hide_sitewide = 0 AND a.type NOT IN (\'activity_comment\', \'last_activity\')';
+        $sort = 'DESC';
+        $pag_sql = '';
+        
+        global $bp, $wpdb;
+        
+        $rtmedia_model = new RTMediaModel();
+        
+        if( is_user_logged_in() ) {
+			$user = get_current_user_id() ;
+		} else {
 			$user = 0 ;
 		}
-
-		$activity_upgrade_done = rtmedia_get_site_option( 'rtmedia_activity_done_upgrade' );
+        
+        $activity_upgrade_done = rtmedia_get_site_option( 'rtmedia_activity_done_upgrade' );
 
 		// admin has upgraded rtmedia activity so we can use rt_rtm_activity table for rtmedia related activity filters
-		if( $activity_upgrade_done ){
-			$rtmedia_activity_model = new RTMediaActivityModel();
-			$where .= " (ra.privacy is NULL OR ra.privacy <= 0) " ;
-			if ( $user ) {
-				$where .= "OR ((ra.privacy=20)" ;
-				$where .= " OR (a.user_id={$user} AND ra.privacy >= 40)" ;
-				if ( class_exists ( 'BuddyPress' ) ) {
-					if ( bp_is_active ( 'friends' ) ) {
-						$friendship = new RTMediaFriends() ;
-						$friends    = $friendship -> get_friends_cache ( $user ) ;
-						if ( isset($friends) && ! empty ( $friends ) != "" ){
-							$where .= " OR (ra.privacy=40 AND a.user_id IN ('" . implode ( "','" , $friends ) . "'))" ;
+		if( $activity_upgrade_done ) {
+            $rtmedia_activity_model = new RTMediaActivityModel();
+            
+            $where .= " (ra.privacy is NULL OR ra.privacy <= 0) ";
+            
+            if( $user ) {
+				$where .= "OR ((ra.privacy = 20)";
+				$where .= " OR (a.user_id = {$user} AND ra.privacy >= 40)";
+                
+				if( class_exists ( 'BuddyPress' ) ) {
+					if( bp_is_active ( 'friends' ) ) {
+						$friendship = new RTMediaFriends();
+						$friends = $friendship->get_friends_cache( $user );
+						if( isset( $friends ) && !empty( $friends ) != "" ) {
+							$where .= " OR (ra.privacy = 40 AND a.user_id IN ('" . implode ( "','", $friends ) . "'))";
 						}
 					}
 				}
-				$where .= ')' ;
+                
+				$where .= ')';
 			}
-			if ( function_exists ( "bp_core_get_table_prefix" ) ){
-				$bp_prefix = bp_core_get_table_prefix () ;
+            
+            if( function_exists( "bp_core_get_table_prefix" ) ) {
+				$bp_prefix = bp_core_get_table_prefix();
+			} else {
+				$bp_prefix = "";
 			}
-			else{
-				$bp_prefix = "" ;
-			}
-			if ( strpos ( $select_sql , "SELECT DISTINCT" ) === false ){
-				$select_sql = str_replace ( "SELECT" , "SELECT DISTINCT" , $select_sql ) ;
-			}
-			$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID LEFT JOIN {$rtmedia_model->table_name} m ON ( a.id = m.activity_id AND m.blog_id = '".  get_current_blog_id()."' ) LEFT JOIN {$rtmedia_activity_model->table_name} ra ON ( a.id = ra.activity_id and ra.blog_id = '".  get_current_blog_id()."' ) ";
-			$where_sql = $where_sql . " AND (NOT EXISTS (SELECT m.activity_id FROM {$bp_prefix}bp_activity_meta m WHERE m.meta_key='rtmedia_privacy' AND m.activity_id=a.id) OR ( {$where} ) )";
-			$newsql = "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}";
-		} else {
-			$where .= " (m.max_privacy is NULL OR m.max_privacy <= 0) " ;
-			if ( $user ) {
-				$where .= "OR ((m.max_privacy=20)" ;
-				$where .= " OR (a.user_id={$user} AND m.max_privacy >= 40)" ;
-				if ( class_exists ( 'BuddyPress' ) ) {
-					if ( bp_is_active ( 'friends' ) ) {
-						$friendship = new RTMediaFriends() ;
-						$friends    = $friendship -> get_friends_cache ( $user ) ;
-						if ( isset($friends) && ! empty ( $friends ) != "" ){
-							$where .= " OR (m.max_privacy=40 AND a.user_id IN ('" . implode ( "','" , $friends ) . "'))" ;
+            
+            $from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID LEFT JOIN {$rtmedia_model->table_name} m ON ( a.id = m.activity_id AND m.blog_id = '" . get_current_blog_id() . "' ) LEFT JOIN {$rtmedia_activity_model->table_name} ra ON ( a.id = ra.activity_id and ra.blog_id = '" . get_current_blog_id() . "' ) ";
+            
+            $where_sql = $where_sql . " AND (NOT EXISTS (SELECT m.activity_id FROM {$bp_prefix}bp_activity_meta m WHERE m.meta_key = 'rtmedia_privacy' AND m.activity_id = a.id) OR ( {$where} ) )";
+            
+            $newsql = "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}";
+        } else {
+            $where .= " (m.max_privacy is NULL OR m.max_privacy <= 0) ";
+            
+			if( $user ) {
+				$where .= "OR ((m.max_privacy = 20)";
+				$where .= " OR (a.user_id = {$user} AND m.max_privacy >= 40)";
+                
+				if( class_exists( 'BuddyPress' ) ) {
+					if( bp_is_active( 'friends' ) ) {
+						$friendship = new RTMediaFriends();
+						$friends = $friendship->get_friends_cache( $user );
+						if( isset( $friends ) && !empty( $friends ) != "" ) {
+							$where .= " OR (m.max_privacy=40 AND a.user_id IN ('" . implode ( "','" , $friends ) . "'))";
 						}
 					}
 				}
+                
 				$where .= ')' ;
 			}
-			if ( function_exists ( "bp_core_get_table_prefix" ) ){
-				$bp_prefix = bp_core_get_table_prefix () ;
+            
+			if( function_exists( "bp_core_get_table_prefix" ) ) {
+				$bp_prefix = bp_core_get_table_prefix();
+			} else {
+				$bp_prefix = "";
 			}
-			else{
-				$bp_prefix = "" ;
-			}
-			if ( strpos ( $select_sql , "SELECT DISTINCT" ) === false ){
-				$select_sql = str_replace ( "SELECT" , "SELECT DISTINCT" , $select_sql ) ;
-			}
+            
 			$media_table = "SELECT *, max( privacy ) as max_privacy from {$rtmedia_model->table_name} group by activity_id";
-			$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID LEFT JOIN ( $media_table ) m ON ( a.id = m.activity_id AND m.blog_id = '".  get_current_blog_id()."' ) ";
-			$where_sql = $where_sql . " AND (NOT EXISTS (SELECT m.activity_id FROM {$bp_prefix}bp_activity_meta m WHERE m.meta_key='rtmedia_privacy' AND m.activity_id=a.id) OR ( {$where} ) )";
+            
+			$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID LEFT JOIN ( $media_table ) m ON ( a.id = m.activity_id AND m.blog_id = '" . get_current_blog_id() . "' ) ";
+            
+			$where_sql = $where_sql . " AND (NOT EXISTS (SELECT m.activity_id FROM {$bp_prefix}bp_activity_meta m WHERE m.meta_key = 'rtmedia_privacy' AND m.activity_id = a.id) OR ( {$where} ) )";
+            
 			$newsql = "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}";
-		}
+        }
+        
         return $newsql;
     }
 
